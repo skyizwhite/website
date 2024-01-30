@@ -2,7 +2,7 @@
   (:use #:cl)
   (:import-from #:jingle)
   (:import-from #:markup)
-  (:import-from #:hp/components/layout
+  (:import-from #:hp/ui/layout
                 #:layout)
   (:import-from #:hp/utils
                 #:render-html

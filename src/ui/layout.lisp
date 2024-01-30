@@ -1,8 +1,8 @@
-(defpackage #:hp/components/layout
+(defpackage #:hp/ui/layout
   (:use #:cl)
   (:import-from #:markup)
   (:export #:layout))
-(in-package #:hp/components/layout)
+(in-package #:hp/ui/layout)
 
 (markup:enable-reader)
 
