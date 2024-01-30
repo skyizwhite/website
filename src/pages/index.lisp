@@ -1,44 +1,42 @@
 (defpackage #:hp/pages/index
   (:use #:cl)
-  (:import-from #:jingle)
-  (:import-from #:markup)
-  (:import-from #:hp/ui/layout
-                #:layout)
-  (:import-from #:hp/utils
-                #:render-html
-                #:register-routes)
+  (:local-nicknames (#:jg #:jingle))
+  (:local-nicknames (#:mk #:markup))
+  (:local-nicknames (#:ui #:hp/ui/*))
+  (:local-nicknames (#:utils #:hp/utils/*))
   (:export #:*index-app*))
 (in-package #:hp/pages/index)
 
-(markup:enable-reader)
+(mk:enable-reader)
 
 (defparameter *counter* 0)
 
-(markup:deftag counter (&key value)
-  <div id="counter">,(progn value)</div>)
+(mk:deftag counter (&key id value)
+  <div id=id >,(progn value)</div>)
 
 (defun index-page (params)
   (declare (ignore params))
-  (render-html
-    <layout>
-      <counter value=*counter* /> 
-      <button hx-target="#counter" hx-post="/decrease"> - </button>
-      <button hx-target="#counter" hx-post="/increase"> + </button>
-    </layout>))
+  (jg:with-html-response
+    (mk:write-html
+     <ui:layout>
+       <counter id="counter" value=*counter* /> 
+       <button hx-target="#counter" hx-post="/decrease"> - </button>
+       <button hx-target="#counter" hx-post="/increase"> + </button>
+     </ui:layout>)))
 
 (defun increase (params)
   (declare (ignore params))
-  (render-html
-    <counter value=(incf *counter*) />))
+  (jg:with-html-response
+    (mk:write-html <counter id="counter" value=(incf *counter*) />)))
 
 (defun decrease (params)
   (declare (ignore params))
-  (render-html
-    <counter value=(decf *counter*) />))
+  (jg:with-html-response
+    (mk:write-html <counter id= "counter" value=(decf *counter*) />)))
 
-(defparameter *index-app* (jingle:make-app))
+(defparameter *index-app* (jg:make-app))
 
-(register-routes
+(utils:register-routes
  *index-app*
  `((:method :GET  :path "/"         :handler ,#'index-page)
    (:method :POST :path "/increase" :handler ,#'increase)

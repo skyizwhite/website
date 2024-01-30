@@ -3,8 +3,7 @@
   (:use #:cl)
   (:import-from #:clack)
   (:import-from #:lack)
-  (:import-from #:hp/pages/**/*
-                #:*index-app*)
+  (:local-nicknames (#:pages #:hp/pages/**/*))
   (:export #:start-app
            #:stop-app))
 (in-package :hp)
@@ -13,7 +12,7 @@
 
 (defun start-app ()
   (unless *handler*
-    (setf *handler* (clack:clackup (lack:builder *index-app*)
+    (setf *handler* (clack:clackup (lack:builder pages:*index-app*)
                                    :address "localhost"
                                    :port 3000))))
 

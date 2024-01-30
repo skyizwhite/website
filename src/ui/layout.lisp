@@ -1,12 +1,12 @@
 (defpackage #:hp/ui/layout
   (:use #:cl)
-  (:import-from #:markup)
+  (:local-nicknames (#:mk #:markup))
   (:export #:layout))
 (in-package #:hp/ui/layout)
 
 (markup:enable-reader)
 
-(markup:deftag layout (children)
+(mk:deftag layout (children)
   <html>
     <head>
       <title>skyizwhite.dev</title>
