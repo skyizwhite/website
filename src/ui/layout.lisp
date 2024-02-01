@@ -10,7 +10,7 @@
   <html>
     <head>
       <title>skyizwhite.dev</title>
-      <script src="https://unpkg.com/htmx.org@1.3.1"></script>
+      <script src="/static/htmx.min.js" ></script>
     </head>
     <body>,@(progn children)</body>
   </html>)

@@ -12,9 +12,16 @@
 
 (defun start-app ()
   (unless *handler*
-    (setf *handler* (clack:clackup (lack:builder pages:*index-app*)
-                                   :address "localhost"
-                                   :port 3000))))
+    (setf *handler*
+          (clack:clackup (lack:builder
+                          (:static
+                           :path "/static/"
+                           :root (asdf:system-relative-pathname
+                                  :hp
+                                  "static/"))
+                          pages:*index-app*)
+                         :address "localhost"
+                         :port 3000))))
 
 (defun stop-app ()
   (when *handler*
