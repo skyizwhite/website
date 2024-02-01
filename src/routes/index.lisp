@@ -13,7 +13,9 @@
 
 (mk:deftag page ()
   <ui:layout>
-    <h1>Hello HTMX from Common Lisp!</h1>
+    <section class="h-full flex justify-center items-center">
+      <h1 class="text-4xl text-amber-500" >Hello HTMX from Common Lisp!</h1>
+    </section>
   </ui:layout>)
 
 ;;; Controller

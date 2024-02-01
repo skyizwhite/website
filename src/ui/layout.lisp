@@ -11,6 +11,12 @@
     <head>
       <title>skyizwhite.dev</title>
       <script src="/static/htmx.min.js" ></script>
+      <link href="/static/tailwind.css" rel="stylesheet">
+      <style>
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+      </style>
     </head>
-    <body>,@(progn children)</body>
+    <body class="h-[100svh]" >,@(progn children)</body>
   </html>)
