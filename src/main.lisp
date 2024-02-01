@@ -2,29 +2,24 @@
   (:nicknames #:hp/main)
   (:use #:cl)
   (:import-from #:clack)
-  (:import-from #:lack)
-  (:local-nicknames (#:pages #:hp/pages/**/*))
-  (:export #:start-app
-           #:stop-app))
+  (:import-from #:hp/app
+                #:*app*)
+  (:export #:start-server
+           #:stop-server))
 (in-package :hp)
 
-(defparameter *handler* nil)
+(defparameter *server* nil)
 
-(defun start-app ()
-  (unless *handler*
-    (setf *handler*
-          (clack:clackup (lack:builder
-                          (:static
-                           :path "/static/"
-                           :root (asdf:system-relative-pathname
-                                  :hp
-                                  "static/"))
-                          pages:*index-app*)
-                         :address "localhost"
-                         :port 3000))))
+(defun start-server ()
+  (if *server*
+      (format t "Server is already running.~%")
+      (setf *server* (clack:clackup *app*
+                                    :address "localhost"
+                                    :port 3000))))
 
-(defun stop-app ()
-  (when *handler*
-    (clack:stop *handler*)
-    (setf *handler* nil)
-    t))
+(defun stop-server ()
+  (if *server*
+      (prog1 
+          (clack:stop *server*)
+        (setf *server* nil))
+      (format t "No servers running.~%")))
