@@ -1,3 +1,4 @@
 .qlot
 node_modules
 static/tailwind.css
+.vscode/alive

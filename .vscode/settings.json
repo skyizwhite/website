@@ -1,0 +1,20 @@
+{
+    "editor.formatOnType": true,
+    "[lisp]": {
+        "editor.wordSeparators": "`|;:'\",()"
+    },
+    "alive.lsp.startCommand": [
+        "qlot",
+        "exec",
+        "ros",
+        "run",
+        "--eval",
+        "(ql:quickload '(:cl-json :bordeaux-threads :usocket :flexi-streams))",
+        "--eval",
+        "(require :asdf)",
+        "--eval",
+        "(asdf:load-system :alive-lsp)",
+        "--eval",
+        "(alive/server:start)",
+    ],
+}
