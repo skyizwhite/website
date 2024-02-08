@@ -1,6 +1,6 @@
 (defpackage #:hp/routes/index
   (:use #:cl)
-  (:local-nicknames (#:f #:flute))
+  (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:ui #:hp/ui/*))
   (:local-nicknames (#:utils #:hp/utils/*))
@@ -9,21 +9,19 @@
 
 ;;; View
 
-(f:define-element page ()
-  (f:h
+(pi:define-element page ()
+  (pi:h
     (ui:layout
-     (section 
-      :class "h-full flex justify-center items-center"
-      (h1 
-       :class "text-4xl text-amber-500"
-       "Hello HTMX from Common Lisp!")))))
+      (section :class "h-full flex justify-center items-center"
+        (h1 :class "text-4xl text-amber-500"
+          "Hello HTMX from Common Lisp!")))))
 
 ;;; Controller
 
 (defun index (params)
   (declare (ignore params))
   (jg:with-html-response
-    (f:element-string (page))))
+    (pi:element-string (page))))
 
 (defparameter *index-app* (jg:make-app))
 

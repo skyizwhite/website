@@ -30,7 +30,7 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2023-10-21"))
-("flute" .
+("piccolo" .
  (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/skyizwhite/flute.git")
-  :version "git-a4bf72232f5de50b826d618f7b6ae0e75494e6f3"))
+  :initargs (:remote-url "https://github.com/skyizwhite/piccolo.git")
+  :version "git-8f4a7c4907f2115f98ceb6dd111ac77f75d1be04"))

@@ -1,16 +1,16 @@
 (defpackage #:hp/ui/layout
   (:use #:cl)
-  (:local-nicknames (#:f #:flute))
+  (:local-nicknames (#:pi #:piccolo))
   (:export #:layout))
 (in-package #:hp/ui/layout)
 
-(f:define-element layout ()
-  (f:h
+(pi:define-element layout ()
+  (pi:h
     (html
-     (head
-      (title "skyizwhite.dev")
-      (script :src "/static/htmx.min.js")
-      (link :href "/static/main.css" :rel "stylesheet")
-      (link :href "/static/tailwind.css" :rel "stylesheet"))
-     (body :class "h-[100svh]"
-           f:children))))
+      (head
+        (title "skyizwhite.dev")
+        (script :src "/static/htmx.min.js")
+        (link :href "/static/main.css" :rel "stylesheet")
+        (link :href "/static/tailwind.css" :rel "stylesheet"))
+      (body :class "h-[100svh]"
+        pi:children))))
