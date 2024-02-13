@@ -1,4 +1,4 @@
-(defpackage #:hp/ui/layout
+(uiop:define-package #:hp/ui/layout
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:export #:layout))

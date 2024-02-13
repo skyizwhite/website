@@ -1,4 +1,4 @@
-(defpackage #:hp-tests/example
+(uiop:define-package #:hp-tests/example
   (:use #:cl
         #:fiveam))
 (in-package #:hp-tests/example)

@@ -3,19 +3,25 @@
   (:local-nicknames (#:jg #:jingle))
   (:import-from #:lack)
   (:local-nicknames (#:utils #:hp/utils/*))
-  (:export #:*app*))
+  (:export #:*app*
+           #:update-routes))
 (in-package #:hp/app)
 
+(defparameter *raw-app* (jg:make-app))
+
+(defun update-routes ()
+  (utils:enable-file-based-routing *raw-app*
+                                   :dir "src/routes"
+                                   :system "hp"
+                                   :system-pathname "src"))
+
+(update-routes)
+
 (defparameter *app*
-  (let ((app (jg:make-app)))
-    (utils:enable-file-based-routing app
-                                     :dir "src/routes"
-                                     :system "hp"
-                                     :system-pathname "src")
-    (lack:builder (:static
-                   :path "/static/"
-                   :root (asdf:system-relative-pathname :hp "static/"))
-                  app)))
+  (lack:builder (:static
+                 :path "/static/"
+                 :root (asdf:system-relative-pathname :hp "static/"))
+                *raw-app*))
 
 ; for clackup cmd
 *app*

@@ -1,11 +1,13 @@
-(defpackage :hp
+(uiop:define-package :hp
   (:nicknames #:hp/main)
   (:use #:cl)
   (:import-from #:clack)
   (:import-from #:hp/app
-                #:*app*)
+                #:*app*
+                #:update-routes)
   (:export #:start-server
-           #:stop-server))
+           #:stop-server
+           #:update-routes))
 (in-package :hp)
 
 (defparameter *server* nil)

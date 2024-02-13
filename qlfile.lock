@@ -33,7 +33,7 @@
 ("piccolo" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/piccolo.git")
-  :version "git-8f4a7c4907f2115f98ceb6dd111ac77f75d1be04"))
+  :version "git-1b617f75393df820cb1ba0546ced07d2fb1d02c3"))
 ("cl-ppcre" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)

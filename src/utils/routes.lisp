@@ -1,4 +1,4 @@
-(defpackage #:hp/utils/routes
+(uiop:define-package #:hp/utils/routes
   (:use #:cl)
   (:local-nicknames (#:alx #:alexandria))
   (:local-nicknames (#:re #:cl-ppcre))
@@ -14,8 +14,14 @@
       "/"
       (re:regex-replace "/index" url "")))
 
+(defun replace-dynamic-annotation (url)
+  (re:regex-replace "=" url ":"))
+
+(defun format-url (url)
+  (replace-dynamic-annotation (remove-index url)))
+
 (defun pathname->url (pathname dir)
-  (remove-index
+  (format-url
    (re:regex-replace (concatenate 'string
                                   (namestring (uiop/os:getcwd))
                                   dir)
@@ -57,7 +63,7 @@
       :for url :in urls
       :for pkg :in packages
       :do (loop
-            :for method in *http-request-methods*
+            :for method :in *http-request-methods*
             :do (let ((handler (find-symbol (string (alx:symbolicate 'on- method)) pkg)))
                   (when handler
                     (setf (jg:route app url :method method) handler)))))))
