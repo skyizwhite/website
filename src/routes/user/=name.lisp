@@ -2,7 +2,7 @@
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:jg #:jingle))
-  (:local-nicknames (#:ui #:hp/ui/*))
+  (:local-nicknames (#:cmp #:hp/components/*))
   (:export #:on-get))
 (in-package #:hp/routes/user/=name)
 
@@ -10,7 +10,7 @@
 
 (pi:define-element page (name)
   (pi:h
-    (ui:layout
+    (cmp:layout
       (section :class "h-full flex justify-center items-center"
         (p :class "text-primary text-4xl"
           "Hello, " name "!")))))

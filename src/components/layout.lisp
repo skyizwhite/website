@@ -1,8 +1,8 @@
-(uiop:define-package #:hp/ui/layout
+(uiop:define-package #:hp/components/layout
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:export #:layout))
-(in-package #:hp/ui/layout)
+(in-package #:hp/components/layout)
 
 (pi:define-element layout ()
   (pi:h
