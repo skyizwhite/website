@@ -34,7 +34,7 @@
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/piccolo.git")
   :version "git-1b617f75393df820cb1ba0546ced07d2fb1d02c3"))
-("cl-ppcre" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
+("ningle-fbr" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
+  :version "git-366f2d80516548f620822ef7b0ab511300774728"))

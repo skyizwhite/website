@@ -6,4 +6,4 @@ ql lack
 ql clack
 ql cl-jingle
 git piccolo https://github.com/skyizwhite/piccolo.git
-ql cl-ppcre
+git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
