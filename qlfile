@@ -1,4 +1,3 @@
-git alive-lsp https://github.com/nobody-famous/alive-lsp.git
 ql wild-package-inferred-system
 ql fiveam
 ql alexandria

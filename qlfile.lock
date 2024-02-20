@@ -2,10 +2,6 @@
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
   :version "2023-10-21"))
-("alive-lsp" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/nobody-famous/alive-lsp.git")
-  :version "git-56c01fb34dd7ba9d0dab0e6e9bfba7529bbd7001"))
 ("wild-package-inferred-system" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -33,7 +29,7 @@
 ("piccolo" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/piccolo.git")
-  :version "git-1b617f75393df820cb1ba0546ced07d2fb1d02c3"))
+  :version "git-929b93960db7d2fd600a5109dfa0004d0c64c34c"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
