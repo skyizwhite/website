@@ -9,10 +9,8 @@
     (html
       (head
         (title "skyizwhite.dev")
-        (script :src "/static/vendor/htmx.min.js")
-        (script :defer t :src "/static/vendor/alpine.min.js")
-        (link :href "/static/style/main.css" :rel "stylesheet")
-        (link :href "/static/style/tailwind.css" :rel "stylesheet"))
+        (script :type "module" :src "http://localhost:5173/@vite/client")
+        (script :type "module" :src "http://localhost:5173/src/js/main.js"))
       (body :class "h-[100svh] w-screen"
         (main :class "h-full"
           pi:children)))))

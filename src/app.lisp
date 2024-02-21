@@ -19,8 +19,8 @@
 
 (defparameter *app*
   (lack:builder (:static
-                 :path "/static/"
-                 :root (asdf:system-relative-pathname :hp "static/"))
+                 :path "/dist/assets/"
+                 :root (asdf:system-relative-pathname :hp "assets/"))
                 *raw-app*))
 
 ; for clackup cmd
