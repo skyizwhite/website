@@ -2,7 +2,7 @@
 export default {
     content: [
         "./src/routes/**/*.lisp",
-        "./src/ui/**/*.lisp"
+        "./src/components/**/*.lisp"
     ],
     plugins: [require("daisyui")],
 };

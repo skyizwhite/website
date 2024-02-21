@@ -2,7 +2,7 @@ install: ## Install dependencies
 	@qlot install ; npm i
 
 css: ## Scan and build tailwindcss
-	@npx tailwindcss -o ./static/tailwind.css --watch
+	@npx tailwindcss -o ./static/style/tailwind.css --watch
 
 help: ## Show options
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
