@@ -2,12 +2,19 @@
   (:use #:cl)
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:fbr #:ningle-fbr))
+  (:local-nicknames (#:pi #:piccolo))
+  (:local-nicknames (#:cmp #:hp/components/*))
   (:import-from #:lack)
   (:export #:*app*
            #:update-routes))
 (in-package #:hp/app)
 
 (defparameter *raw-app* (jg:make-app))
+
+(defmethod jg:not-found ((app jg:app))
+  (jg:with-html-response
+    (jg:set-response-status 404)
+    (pi:element-string (cmp:not-found-page))))
 
 (defun update-routes ()
   (fbr:enable-file-based-routing *raw-app*
