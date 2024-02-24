@@ -10,7 +10,7 @@
       (head
         (title "skyizwhite.dev")
         (script :type "module" :src "http://localhost:5173/@vite/client")
-        (script :type "module" :src "http://localhost:5173/src/js/main.js"))
+        (script :type "module" :src "http://localhost:5173/src/assets/main.js"))
       (body :class "h-[100svh] w-screen"
         (main :class "h-full"
           pi:children)))))

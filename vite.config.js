@@ -2,9 +2,11 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   build: {
-    manifest: true,
+    outDir: 'public',
+    emptyOutDir: false,
+    copyPublicDir: false,
     rollupOptions: {
-      input: 'src/js/main.js',
+      input: 'src/assets/main.js',
     },
   },
 })

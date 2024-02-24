@@ -1,5 +1,3 @@
 .qlot
 node_modules
-static/style/tailwind.css
-.vscode/alive
 dist

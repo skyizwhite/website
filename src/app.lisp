@@ -17,13 +17,19 @@
 
 (update-routes)
 
+(defun exist-public-file-p (path)
+  (and (not (string= path "/"))
+       (let ((pathname (probe-file (concatenate 'string "public" path))))
+         (and pathname
+              (pathname-name pathname)))))
+
 (defparameter *app*
   (lack:builder :accesslog
                 (:static
-                 :path "/assets/"
-                 :root (asdf:system-relative-pathname :hp "dist/assets/"))
-                (:static
-                 :path "/public/"
+                 :path (lambda (path)
+                         (if (exist-public-file-p path) 
+                             path
+                             nil))
                  :root (asdf:system-relative-pathname :hp "public/"))
                 *raw-app*))
 
