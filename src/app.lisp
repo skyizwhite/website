@@ -18,9 +18,13 @@
 (update-routes)
 
 (defparameter *app*
-  (lack:builder (:static
-                 :path "/dist/assets/"
-                 :root (asdf:system-relative-pathname :hp "assets/"))
+  (lack:builder :accesslog
+                (:static
+                 :path "/assets/"
+                 :root (asdf:system-relative-pathname :hp "dist/assets/"))
+                (:static
+                 :path "/public/"
+                 :root (asdf:system-relative-pathname :hp "public/"))
                 *raw-app*))
 
 ; for clackup cmd

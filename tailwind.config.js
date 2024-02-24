@@ -5,4 +5,7 @@ export default {
         "./src/components/**/*.lisp"
     ],
     plugins: [require("daisyui")],
+    daisyui: {
+        themes: ["retro"]
+    },
 };
