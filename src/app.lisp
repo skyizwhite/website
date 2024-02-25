@@ -18,9 +18,8 @@
 
 (defun update-routes ()
   (fbr:enable-file-based-routing *raw-app*
-                                 :dir "src/routes"
                                  :system "hp"
-                                 :system-pathname "src"))
+                                 :directory "src/routes"))
 
 (update-routes)
 
