@@ -24,10 +24,9 @@
 (update-routes)
 
 (defun exist-public-file-p (path)
-  (and (not (string= path "/"))
-       (let ((pathname (probe-file (concatenate 'string "public" path))))
-         (and pathname
-              (pathname-name pathname)))))
+  (let ((pathname (probe-file (concatenate 'string "public" path))))
+    (and pathname
+         (pathname-name pathname))))
 
 (defparameter *app*
   (lack:builder :accesslog
