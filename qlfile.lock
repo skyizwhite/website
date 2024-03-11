@@ -33,4 +33,4 @@
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-82d05f436a864ce9609cca74deab64c4781b36ab"))
+  :version "git-68c3e0494da254fb39e6b5d0f4b54343f72dd13c"))
