@@ -1,42 +1,38 @@
-(uiop:define-package #:hp/app
+(defpackage #:hp
+  (:nicknames #:hp/app)
   (:use #:cl)
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:fbr #:ningle-fbr))
   (:local-nicknames (#:pi #:piccolo))
-  (:local-nicknames (#:cmp #:hp/components/*))
-  (:import-from #:lack)
-  (:export #:*app*
-           #:update-routes))
-(in-package #:hp/app)
+  (:local-nicknames (#:view #:hp/view))
+  (:local-nicknames (#:cmp #:hp/components/**/*))
+  (:import-from #:lack.middleware.accesslog
+                #:*lack-middleware-accesslog*)
+  (:export #:start
+           #:stop
+           #:update))
+(in-package #:hp)
 
-(defparameter *raw-app* (jg:make-app))
+(defparameter *app* (jg:make-app :address "localhost"
+                                 :port 3000))
 
 (defmethod jg:not-found ((app jg:app))
-  (jg:with-html-response
-    (jg:set-response-status 404)
-    (pi:element-string (cmp:not-found-page))))
+  (view:render-page (cmp:not-found-page)
+                     :status :not-found
+                     :title "404 Not Found"
+                     :description "お探しのページは見つかりませんでした。"))
 
-(defun update-routes ()
-  (fbr:enable-file-based-routing *raw-app*
-                                 :system "hp"
-                                 :directory "src/routes"))
+(defun update ()
+  (jg:clear-middlewares *app*)
+  (jg:install-middleware *app* *lack-middleware-accesslog*)
+  (jg:static-path *app* "/public/" "public/")
+  (fbr:assign-routes *app*
+                     :system "hp"
+                     :directory "src/routes"))
+(update)
 
-(update-routes)
+(defun start ()
+  (jg:start *app*))
 
-(defun exist-public-file-p (path)
-  (let ((pathname (probe-file (concatenate 'string "public" path))))
-    (and pathname
-         (pathname-name pathname))))
-
-(defparameter *app*
-  (lack:builder :accesslog
-                (:static
-                 :path (lambda (path)
-                         (if (exist-public-file-p path) 
-                             path
-                             nil))
-                 :root (asdf:system-relative-pathname :hp "public/"))
-                *raw-app*))
-
-; for clackup cmd
-*app*
+(defun stop ()
+  (jg:stop *app*))

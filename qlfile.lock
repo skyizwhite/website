@@ -10,18 +10,6 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2023-10-21"))
-("alexandria" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
-("lack" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
-("clack" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
 ("cl-jingle" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -29,8 +17,8 @@
 ("piccolo" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/piccolo.git")
-  :version "git-2ae90c290e86a81f608ce0bced119896cc12b6bf"))
+  :version "git-4fd887fc1bff812f10e57aca8011166f0b6a8c6d"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-68c3e0494da254fb39e6b5d0f4b54343f72dd13c"))
+  :version "git-438030b0b89dc706c37932616e6bf82d0416ea26"))

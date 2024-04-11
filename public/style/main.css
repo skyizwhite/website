@@ -1,6 +1,5 @@
 @charset "utf-8";
 
 body {
-	height: 100svh;
-	width: 100%;
+	display: block;
 }
