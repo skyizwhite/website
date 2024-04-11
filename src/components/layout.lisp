@@ -9,8 +9,10 @@
     (html
       (head
         (title "skyizwhite.dev")
-        (script :type "module" :src "http://localhost:5173/@vite/client")
-        (script :type "module" :src "http://localhost:5173/src/assets/main.js"))
-      (body :hx-ext "debug, alpine-morph, head-support" :class "h-[100svh] w-screen"
-        (main :class "h-full"
+        (script :src "/js/htmx.min.js")
+        (script :src "/js/htmx-ext/head-support.js")
+        (script :src "/js/alpine.min.js" :defer t)
+        (link :rel "stylesheet" :href "/style/main.css" type="text/css"))
+      (body :hx-ext "head-support"
+        (main
           pi:children)))))

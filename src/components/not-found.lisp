@@ -9,6 +9,5 @@
 (pi:define-element not-found-page ()
   (pi:h
     (layout
-      (section :class "h-full flex justify-center items-center"
-        (h1 :class "text-error text-4xl"
-          "404 Not Found")))))
+      (section
+        (h1 "404 Not Found")))))

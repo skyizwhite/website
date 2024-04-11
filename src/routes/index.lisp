@@ -10,14 +10,7 @@
 
 (pi:define-element page ()
   (pi:h
-    (cmp:layout
-      (section :class "h-full flex justify-center items-center"
-        (div :class "flex flex-col items-center gap-2"
-          (div :class "avatar"
-            (div :class "w-32 mask mask-squircle"
-              (img :src "/img/me.jpg")))
-          (p :class "text-primary text-3xl text-center"
-            "Hello, World!"))))))
+    (div)))
 
 ;;; Controller
 
