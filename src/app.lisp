@@ -24,6 +24,8 @@
 (defun update ()
   (jg:clear-middlewares *app*)
   (jg:install-middleware *app* mw:*public-files*)
+  (jg:static-path *app* "/scripts/" "src/scripts/")
+  (jg:static-path *app* "/styles/" "src/styles/")
   (fbr:assign-routes *app*
                      :system "hp"
                      :directory "src/routes"))
