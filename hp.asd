@@ -7,4 +7,4 @@
   :depends-on ("hp/app")
   :in-order-to ((test-op (test-op "hp-tests"))))
 
-(register-system-packages "lack-middleware-accesslog" '(:lack.middleware.accesslog))
+(register-system-packages "lack-middleware-static" '(:lack.middleware.static))

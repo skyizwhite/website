@@ -6,8 +6,7 @@
   (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:view #:hp/view))
   (:local-nicknames (#:cmp #:hp/components/**/*))
-  (:import-from #:lack.middleware.accesslog
-                #:*lack-middleware-accesslog*)
+  (:local-nicknames (#:mw #:hp/middleware))
   (:export #:start
            #:stop
            #:update))
@@ -24,8 +23,7 @@
 
 (defun update ()
   (jg:clear-middlewares *app*)
-  (jg:install-middleware *app* *lack-middleware-accesslog*)
-  (jg:static-path *app* "/public/" "public/")
+  (jg:install-middleware *app* mw:*public-files*)
   (fbr:assign-routes *app*
                      :system "hp"
                      :directory "src/routes"))
