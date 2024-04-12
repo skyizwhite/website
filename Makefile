@@ -1,8 +1,5 @@
 install: ## Install dependencies
-	@qlot install ; npm i
-
-dev: ## Run dev mode
-	@npm run dev
+	@qlot install
 
 help: ## Show options
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
