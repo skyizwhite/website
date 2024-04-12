@@ -8,11 +8,12 @@
   (pi:h
     (head
       (meta :charset "UTF-8")
-      (title (format nil "~@[~a | ~]skyizwhite.dev" title))
+      (script :src "/js/htmx.js")
+      (script :src "/js/htmx-ext/head-support.js")
+      (script :src "/js/alpine.js" :defer t)
+      (link :rel "stylesheet" :type "text/css" :href "/style/ress.css")
+      (link :rel "stylesheet" :type "text/css" :href "/style/global.css")
+      (title (format nil "~@[~a - ~]skyizwhite.dev" title))
       (meta
         :name "description"
-        :content (or description "pakuの個人サイト"))
-      (script :src "/public/js/htmx.js")
-      (script :src "/public/js/htmx-ext/head-support.js")
-      (script :src "/public/js/alpine.js" :defer t)
-      (link :rel "stylesheet" :type "text/css" :href "/public/style/main.css"))))
+        :content (or description "pakuの個人サイト")))))
