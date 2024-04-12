@@ -4,9 +4,23 @@
   (:export #:document))
 (in-package #:hp/components/global/document)
 
-(pi:define-element document (metadata)
+(pi:define-element document (title description)
   (pi:h
     (html :lang "ja"
-      metadata
-      (body :hx-ext "head-support"
-        pi:children))))
+      (head
+        (meta :charset "UTF-8")
+        (script :src "/scripts/htmx.js")
+        (script :src "/scripts/htmx-ext/head-support.js")
+        (script :src "/scripts/alpine.js" :defer t)
+        (link :rel "stylesheet" :type "text/css" :href "/styles/ress.css")
+        (link :rel "stylesheet" :type "text/css" :href "/styles/global.css")
+        (link :rel "preconnect" :href "https://fonts.googleapis.com")
+        (link :rel "preconnect" :href "https://fonts.gstatic.com" :crossorigin t)
+        (link 
+          :rel "stylesheet"
+          :href "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap")
+        (title (format nil "~@[~a - ~]skyizwhite.dev" title))
+        (meta
+          :name "description"
+          :content (or description "pakuの個人サイト")))
+      pi:children)))

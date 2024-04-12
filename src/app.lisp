@@ -18,8 +18,8 @@
 (defmethod jg:not-found ((app jg:app))
   (view:render (cmp:not-found-page)
                :status :not-found
-               :title "404 Not Found"
-               :description "お探しのページは見つかりませんでした。"))
+               :metadata '(:title "404 Not Found"
+                           :description "お探しのページは見つかりませんでした。")))
 
 (defun start ()
   (jg:start *app*))

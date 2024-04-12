@@ -6,4 +6,5 @@
 
 (pi:define-element layout ()
   (pi:h
-    (main pi:children)))
+    (body :hx-ext "head-support"
+      (main pi:children))))

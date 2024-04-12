@@ -6,14 +6,9 @@
   (:export #:render))
 (in-package #:hp/view)
 
-(defun render (page &key status title description)
+(defun render (page &key metadata status)
   (jg:with-html-response
     (and status (jg:set-response-status status))
     (pi:elem-str
-     (let ((md (cmp:metadata :title title :description description))
-           (body (cmp:layout page)))
-       (pi:h
-         (if (jg:get-request-header "HX-Boosted")
-             (<> md body)
-             (cmp:document :metadata md
-               body)))))))
+     (cmp:document metadata
+       (cmp:layout page)))))
