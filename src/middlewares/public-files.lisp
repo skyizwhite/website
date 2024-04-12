@@ -1,10 +1,9 @@
-(defpackage #:hp/middleware
+(defpackage #:hp/middlewares/public-files
   (:use #:cl)
-  (:local-nicknames (#:jg #:jingle))
   (:import-from #:lack.middleware.static
                 #:*lack-middleware-static*)
   (:export #:*public-files*))
-(in-package #:hp/middleware)
+(in-package #:hp/middlewares/public-files)
 
 (defun exist-public-file-p (path)
   (let ((pathname (probe-file (concatenate 'string "public" path))))

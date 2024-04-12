@@ -22,3 +22,7 @@
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
   :version "git-438030b0b89dc706c37932616e6bf82d0416ea26"))
+("cl-ppcre" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2023-10-21"))
