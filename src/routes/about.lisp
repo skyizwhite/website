@@ -16,6 +16,6 @@
 
 (defun on-get (params)
   (declare (ignore params))
-  (view:render-page (page)
-                     :title "about"
-                     :description "pakuの自己紹介"))
+  (view:render (page)
+               :title "about"
+               :description "pakuの自己紹介"))

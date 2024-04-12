@@ -16,10 +16,10 @@
                                  :port 3000))
 
 (defmethod jg:not-found ((app jg:app))
-  (view:render-page (cmp:not-found-page)
-                     :status :not-found
-                     :title "404 Not Found"
-                     :description "お探しのページは見つかりませんでした。"))
+  (view:render (cmp:not-found-page)
+               :status :not-found
+               :title "404 Not Found"
+               :description "お探しのページは見つかりませんでした。"))
 
 (defun update ()
   (jg:clear-middlewares *app*)

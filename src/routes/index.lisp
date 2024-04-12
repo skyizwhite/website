@@ -18,4 +18,4 @@
 
 (defun on-get (params)
   (declare (ignore params))
-  (view:render-page (page)))
+  (view:render (page)))

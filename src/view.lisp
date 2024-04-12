@@ -3,10 +3,10 @@
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:cmp #:hp/components/**/*))
-  (:export #:render-page))
+  (:export #:render))
 (in-package #:hp/view)
 
-(defun render-page (page &key status title description)
+(defun render (page &key status title description)
   (jg:with-html-response
     (and status (jg:set-response-status status))
     (pi:elem-str
