@@ -12,7 +12,8 @@
     (pi:elem-str
      (let ((md (cmp:metadata :title title :description description))
            (body (cmp:layout page)))
-       (if (jg:get-request-header "HX-Boosted")
-           (pi:h (<> md body))
-           (pi:h (cmp:document :metadata md
-                   body)))))))
+       (pi:h
+         (if (jg:get-request-header "HX-Boosted")
+             (<> md body)
+             (cmp:document :metadata md
+               body)))))))

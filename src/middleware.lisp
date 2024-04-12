@@ -15,7 +15,5 @@
     (funcall *lack-middleware-static*
              app
              :path (lambda (path)
-                     (if (exist-public-file-p path) 
-                         path
-                         nil))
+                     (and (exist-public-file-p path) path))
              :root (asdf:system-relative-pathname :hp "public/"))))
