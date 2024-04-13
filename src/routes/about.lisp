@@ -11,8 +11,10 @@
 
 (pi:define-element page ()
   (pi:h
-    (section
-      (h1 "About"))))
+    (section :data-cmp "pages/about"
+      (h1 "About")
+      (a :href "/" :hx-boost "true"
+        "top"))))
 
 (defun on-get (params)
   (declare (ignore params))

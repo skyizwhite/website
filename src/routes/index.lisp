@@ -7,7 +7,7 @@
 
 (pi:define-element page ()
   (pi:h
-    (section
+    (section :data-cmp "pages/index"
       (h1 "Hello, World!")
       (a :href "/about" :hx-boost "true"
         "About"))))
