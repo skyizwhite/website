@@ -1,8 +1,8 @@
-(defpackage #:hp/components/global/not-found
+(defpackage #:hp/components/not-found
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:export #:not-found-page))
-(in-package #:hp/components/global/not-found)
+(in-package #:hp/components/not-found)
 
 (pi:define-element not-found-page ()
   (pi:h

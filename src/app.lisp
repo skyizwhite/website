@@ -5,7 +5,7 @@
   (:local-nicknames (#:fbr #:ningle-fbr))
   (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:view #:hp/view))
-  (:local-nicknames (#:cmp #:hp/components/**/*))
+  (:local-nicknames (#:cmp #:hp/components/*))
   (:local-nicknames (#:mw #:hp/middlewares/*))
   (:export #:start
            #:stop
