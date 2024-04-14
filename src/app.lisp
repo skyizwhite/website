@@ -3,9 +3,6 @@
   (:use #:cl)
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:fbr #:ningle-fbr))
-  (:local-nicknames (#:pi #:piccolo))
-  (:local-nicknames (#:view #:hp/view))
-  (:local-nicknames (#:cmp #:hp/components/*))
   (:local-nicknames (#:mw #:hp/middlewares/*))
   (:export #:start
            #:stop
@@ -14,12 +11,6 @@
 
 (defparameter *app* (jg:make-app :address "localhost"
                                  :port 3000))
-
-(defmethod jg:not-found ((app jg:app))
-  (view:render (cmp:not-found-page)
-               :status :not-found
-               :metadata '(:title "404 Not Found"
-                           :description "お探しのページは見つかりませんでした。")))
 
 (defun start ()
   (jg:start *app*))
