@@ -2,7 +2,7 @@
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:view #:hp/view))
-  (:export #:on-get))
+  (:export #:handle-get))
 (in-package #:hp/routes/index)
 
 (pi:define-element page ()
@@ -12,6 +12,6 @@
       (a :href "/about" :hx-boost "true"
         "About"))))
 
-(defun on-get (params)
+(defun handle-get (params)
   (declare (ignore params))
   (view:render (page)))
