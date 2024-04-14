@@ -4,15 +4,15 @@
   (:export #:collect-style-links))
 (in-package #:hp/view/optimizer)
 
-(defun detect-components (page-str)
-  (remove-duplicates (re:all-matches-as-strings "(?<=data-cmp=\")[^\"]*(?=\")"
-                                                page-str)
+(defun detect-scopes (html-str)
+  (remove-duplicates (re:all-matches-as-strings "(?<=data-scope=\")[^\"]*(?=\")"
+                                                html-str)
                      :test #'string=))
 
-(defun components->stylesheets (data-cmps)
-  (mapcar (lambda (cmp-name)
-            (concatenate 'string "/styles/" cmp-name ".css"))
-          data-cmps))
+(defun scopes->stylesheets (scopes)
+  (mapcar (lambda (scope)
+            (concatenate 'string "/styles/" scope ".css"))
+          scopes))
 
-(defun collect-style-links (page-str)
-  (components->stylesheets (detect-components page-str)))
+(defun collect-style-links (html-str)
+  (scopes->stylesheets (detect-scopes html-str)))

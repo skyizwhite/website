@@ -1,4 +1,4 @@
-@scope ([data-cmp='pages/about']) {
+@scope ([data-scope='pages/about']) {
   :scope {
     height: 100svh;
     background-color: thistle;
