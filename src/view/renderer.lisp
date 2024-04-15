@@ -9,7 +9,7 @@
 
 (pi:define-element stylesheets (hrefs)
   (pi:h
-    (<> '()
+    (<>
       (mapcar (lambda (href)
                 (link :rel "stylesheet" :type "text/css" :href href))
               hrefs))))

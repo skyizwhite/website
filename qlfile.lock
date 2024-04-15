@@ -17,7 +17,7 @@
 ("piccolo" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/piccolo.git")
-  :version "git-4fd887fc1bff812f10e57aca8011166f0b6a8c6d"))
+  :version "git-1f588b8a62b408067f8ea3a2045058dd94fd8047"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
