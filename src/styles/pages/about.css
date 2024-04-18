@@ -1,8 +1,0 @@
-@scope ([data-scope='pages/about']) {
-  :scope {
-    height: 100svh;
-    background-color: thistle;
-    display: grid;
-    place-content: center;
-  }
-}

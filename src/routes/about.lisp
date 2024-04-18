@@ -11,7 +11,7 @@
 
 (pi:define-element page ()
   (pi:h
-    (section :data-scope "pages/about"
+    (section
       (h1 "About")
       (a :href "/" :hx-boost "true"
         "top"))))

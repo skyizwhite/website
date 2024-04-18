@@ -7,8 +7,9 @@
 
 (pi:define-element page ()
   (pi:h
-    (section :data-scope "pages/index"
-      (h1 "Hello, World!")
+    (section
+      (h1 :class "text-red-400"
+        "Hello, World!")
       (a :href "/about" :hx-boost "true"
         "About"))))
 
