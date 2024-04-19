@@ -1,7 +1,7 @@
 (defpackage #:hp/routes/about
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
-  (:local-nicknames (#:view #:hp/view/*))
+  (:local-nicknames (#:view #:hp/view/**/*))
   (:export #:handle-get))
 (in-package #:hp/routes/about)
 
@@ -11,9 +11,9 @@
 
 (pi:define-element page ()
   (pi:h
-    (section
+    (section :data-css "pages/about"
       (h1 "About")
-      (a :href "/" :hx-boost "true"
+      (a :href "/"
         "top"))))
 
 (defun handle-get (params)

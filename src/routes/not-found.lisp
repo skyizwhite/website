@@ -2,7 +2,7 @@
   (:use #:cl)
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:pi #:piccolo))
-  (:local-nicknames (#:view #:hp/view/*))
+  (:local-nicknames (#:view #:hp/view/**/*))
   (:export #:handle-not-found))
 (in-package #:hp/routes/not-found)
 

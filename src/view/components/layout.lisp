@@ -1,12 +1,12 @@
-(defpackage #:hp/components/layout
+(defpackage #:hp/view/components/layout
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:export #:layout))
-(in-package #:hp/components/layout)
+(in-package #:hp/view/components/layout)
 
 (pi:define-element layout ()
   (pi:h
-    (body :hx-ext "head-support"
+    (body
       ; header
       (main pi:children)
       ; footer

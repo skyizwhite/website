@@ -3,18 +3,18 @@
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:cfg #:hp/config))
-  (:local-nicknames (#:cmp #:hp/components/*))
+  (:local-nicknames (#:cmp #:hp/view/components/*))
   (:export #:render
            #:partial-render))
 (in-package #:hp/view/renderer)
 
 (defun render (page &key status metadata)
   (jg:with-html-response
-    (jg:set-response-status (or status :ok))
+    (if status (jg:set-response-status status))
     (pi:elem-str (cmp:document metadata
                    (cmp:layout page)))))
 
 (defun partial-render (component &key status)
   (jg:with-html-response
-    (jg:set-response-status (or status :ok))
+    (if status (jg:set-response-status status))
     (pi:elem-str component)))
