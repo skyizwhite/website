@@ -4,6 +4,7 @@
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:fbr #:ningle-fbr))
   (:local-nicknames (#:mw #:hp/middlewares/*))
+  (:local-nicknames (#:cfg #:hp/config))
   (:export #:start
            #:stop
            #:update))
@@ -13,9 +14,14 @@
                                  :port 3000))
 
 (defun start ()
+  (uiop:run-program (if (cfg:is-dev-p)
+                        "make dev"
+                        "make build"))
   (jg:start *app*))
 
 (defun stop ()
+  (when (cfg:is-dev-p)
+    (uiop:run-program "make stop"))
   (jg:stop *app*))
 
 (defun setup ()
