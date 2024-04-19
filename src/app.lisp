@@ -32,7 +32,8 @@
                      :directory "src/routes")
   (jg:static-path *app* "/assets/" "src/assets/")
   (jg:install-middleware *app* mw:*public-files*)
-  (jg:install-middleware *app* mw:*normalize-path*))
+  (jg:install-middleware *app* mw:*normalize-path*)
+  (jg:install-middleware *app* mw:*recovery*))
 
 (defun update ()
   (stop)
