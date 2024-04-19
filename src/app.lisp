@@ -14,13 +14,13 @@
                                  :port 3000))
 
 (defun start ()
-  (uiop:run-program (if (cfg:is-dev-p)
+  (uiop:run-program (if (cfg:dev-mode-p)
                         "make dev"
                         "make build"))
   (jg:start *app*))
 
 (defun stop ()
-  (when (cfg:is-dev-p)
+  (when (cfg:dev-mode-p)
     (uiop:run-program "make stop"))
   (jg:stop *app*))
 

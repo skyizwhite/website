@@ -1,14 +1,17 @@
 (defpackage #:hp/config
   (:use #:cl)
+  (:import-from #:log4cl)
   (:export #:*env*
-           #:is-dev-p
-           #:is-prod-p))
+           #:dev-mode-p
+           #:prod-mode-p))
 (in-package #:hp/config)
 
 (defparameter *env* (or (uiop:getenv "HP_ENV") "dev"))
 
-(defun is-dev-p ()
+(defun dev-mode-p ()
   (string= *env* "dev"))
 
-(defun is-prod-p ()
+(defun prod-mode-p ()
   (string= *env* "prod"))
+
+(log:config :nofile)
