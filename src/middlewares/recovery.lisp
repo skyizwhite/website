@@ -1,9 +1,8 @@
 (defpackage #:hp/middlewares/recovery
   (:use #:cl)
+  (:import-from #:log4cl)
   (:export #:*recovery*))
 (in-package #:hp/middlewares/recovery)
-
-;;; TODO: insert logger
 
 (defparameter *recovery*
   (lambda (app)
@@ -11,5 +10,6 @@
       (handler-case
           (funcall app env)
         (error (c)
+          (log:error "Unhandled error caught: ~a" c)
           `(500 (:content-type "text/plain")
-                (,(format nil "Internal Server Error: ~a~%" c))))))))
+                ("Internal Server Error")))))))

@@ -4,3 +4,4 @@ ql cl-jingle
 git piccolo https://github.com/skyizwhite/piccolo.git
 git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
 ql cl-ppcre
+ql log4cl
