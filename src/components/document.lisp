@@ -1,10 +1,8 @@
-(defpackage #:hp/view/renderer
+(defpackage #:hp/components/document
   (:use #:cl)
-  (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:pi #:piccolo))
-  (:export #:render
-           #:partial-render))
-(in-package #:hp/view/renderer)
+  (:export #:document))
+(in-package #:hp/components/document)
 
 (pi:define-element document (title description)
   (pi:h
@@ -24,15 +22,4 @@
         (meta
           :name "description"
           :content (or description "pakuの個人サイト")))
-      (body :hx-ext "head-support"
-        (main pi:children)))))
-
-(defun render (page &key status metadata)
-  (jg:with-html-response
-    (and status (jg:set-response-status status))
-    (pi:elem-str (document metadata page))))
-
-(defun partial-render (component &key status)
-  (jg:with-html-response
-    (and status (jg:set-response-status status))
-    (pi:elem-str component)))
+      pi:children)))
