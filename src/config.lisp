@@ -1,8 +1,7 @@
 (defpackage #:hp/config
   (:use #:cl)
   (:import-from #:log4cl)
-  (:export #:*env*
-           #:dev-mode-p
+  (:export #:dev-mode-p
            #:prod-mode-p))
 (in-package #:hp/config)
 
