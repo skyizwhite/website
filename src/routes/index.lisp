@@ -9,7 +9,7 @@
   (pi:h
     (section (view:asset-props :style "pages/index.css"
                                :script "pages/index.js"
-                               :x-data "indexPageState")
+                               :x-data "indexPage")
       (h1
         "Hello, World!")
       (a :href "/about" :hx-boost "true"

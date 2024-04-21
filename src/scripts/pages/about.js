@@ -1,4 +1,4 @@
-export const aboutPageState = () => ({
+export const aboutPage = () => ({
   count: 0,
 
   decrement() {

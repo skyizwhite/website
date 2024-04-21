@@ -13,7 +13,7 @@
   (pi:h
     (section (view:asset-props :style "pages/about.css"
                                :script "pages/about.js"
-                               :x-data "aboutPageState")
+                               :x-data "aboutPage")
       (h1 "About")
       (a :href "/" :hx-boost "true"
         "top")
