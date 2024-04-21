@@ -4,6 +4,7 @@
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:fbr #:ningle-fbr))
   (:local-nicknames (#:cfg #:hp/config/*))
+  (:local-nicknames (#:asset #:hp/view/asset))
   (:local-nicknames (#:mw #:hp/middlewares/*))
   (:export #:start
            #:stop
@@ -25,8 +26,8 @@
   (fbr:assign-routes *app*
                      :system "hp"
                      :directory "src/routes")
-  (jg:static-path *app* (cfg:asset-root :script) "src/scripts/")
-  (jg:static-path *app* (cfg:asset-root :style) "src/styles/")
+  (jg:static-path *app* (asset:asset-root :script) "src/scripts/")
+  (jg:static-path *app* (asset:asset-root :style) "src/styles/")
   (jg:install-middleware *app* mw:*public-files*)
   (jg:install-middleware *app* mw:*recovery*)
   (jg:install-middleware *app* mw:*normalize-path*)

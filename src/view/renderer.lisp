@@ -10,7 +10,7 @@
 (defun render (page &key status metadata)
   (jg:with-html-response
     (if status (jg:set-response-status status))
-    (pi:elem-str (cmp:document metadata
+    (pi:elem-str (cmp:document :metadata metadata
                    (cmp:layout page)))))
 
 (defun partial-render (component &key status)
