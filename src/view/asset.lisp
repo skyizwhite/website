@@ -30,10 +30,10 @@
   (lambda (path)
     (asset-path kind path)))
 
-(defmacro define-asset (name kind &body files)
+(defmacro define-asset (name kind files)
   `(defparameter ,name
-     (funcall ,(if (rest files) '#'identity '#'car)
-              (mapcar (asset-path-under ,kind) ',files))))
+     (,(if (listp files) 'mapcar 'funcall)
+      (asset-path-under ,kind) ',files)))
 
 (define-asset *ress* :vendor
   "ress@5.0.2.css")
@@ -46,31 +46,29 @@
 (define-asset *htmx* :vendor
   "htmx@1.9.12.js")
 (define-asset *htmx-extentions* :htmx-ext
-  "alpine-morph@1.9.12.js"
-  "head-support@1.9.12.js")
+  ("alpine-morph@1.9.12.js"
+   "head-support@1.9.12.js"))
 
 (define-asset *alpine* :vendor
   "alpine@3.13.8.js")
 (define-asset *alpine-extentions* :alpine-ext
-  "async-alpine@1.2.2.js"
-  "persist@3.13.8.js"
-  "morph@3.13.8.js")
+  ("async-alpine@1.2.2.js"
+   "persist@3.13.8.js"
+   "morph@3.13.8.js"))
 
 (defun detect-data-props (html-str data-prop-name)
-  (remove-duplicates (re:all-matches-as-strings (format nil
-                                                        "(?<=~a=\")[^\"]*(?=\")"
-                                                        data-prop-name)
-                                                html-str)
-                     :test #'string=))
+  (let* ((regex (format nil "(?<=~a=\")[^\"]*(?=\")" data-prop-name))
+         (data-props (re:all-matches-as-strings regex html-str)))
+    (remove-duplicates data-props :test #'string=)))
 
 (defun get-css-paths (html-str)
   (mapcar (asset-path-under :css)
           (detect-data-props html-str "data-style")))
 
-(defun asset-props (&key style script x-data)
-  (append (and style `(:data-style ,style))
-          (and script x-data
+(defun asset-props (&key css js x-data)
+  (append (and css `(:data-style ,css))
+          (and js x-data
                `(:ax-load t
-                 :ax-load-src ,(asset-path :js script)
+                 :ax-load-src ,(asset-path :js js)
                  :x-ignore t
                  :x-data ,x-data))))

@@ -11,8 +11,8 @@
 
 (pi:define-element page ()
   (pi:h
-    (section (view:asset-props :style "pages/about.css"
-                               :script "pages/about.js"
+    (section (view:asset-props :css    "pages/about.css"
+                               :js     "pages/about.js"
                                :x-data "aboutPage")
       (h1 "About")
       (a :href "/" :hx-boost "true"

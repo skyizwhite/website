@@ -26,8 +26,8 @@
   (fbr:assign-routes *app*
                      :system "hp"
                      :directory "src/routes")
-  (jg:install-middleware *app* mw:*serve-assets*)
   (jg:install-middleware *app* mw:*recovery*)
+  (jg:install-middleware *app* mw:*serve-assets*)
   (jg:install-middleware *app* mw:*normalize-path*)
   (jg:install-middleware *app* mw:*accesslog*)
   (jg:install-middleware *app* mw:*block-unsupported-browser*))
