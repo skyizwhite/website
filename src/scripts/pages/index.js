@@ -1,9 +1,7 @@
-export function indexPageState() {
-  return {
-    count: 0,
+export const indexPageState = () => ({
+  count: 0,
 
-    increment() {
-      this.count++
-    }
+  increment() {
+    this.count++
   }
-}
+})

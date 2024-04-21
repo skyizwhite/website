@@ -1,9 +1,7 @@
-export function aboutPageState() {
-  return {
-    count: 0,
-    
-    decrement() {
-      this.count--
-    }
+export const aboutPageState = () => ({
+  count: 0,
+
+  decrement() {
+    this.count--
   }
-}
+})

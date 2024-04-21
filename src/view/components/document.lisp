@@ -20,7 +20,7 @@
     (html :lang "ja"
       (head
         (meta :charset "UTF-8")
-        (link :rel "stylesheet" :type "text/css" :href "/vendor/ress.css")
+        (link :rel "stylesheet" :type "text/css" :href "/vendor/ress@5.0.2.css")
         (link :rel "stylesheet" :type "text/css" :href "/styles/global.css")
         (on-demand-stylesheets pi:children)
         (link :rel "preconnect" :href "https://fonts.googleapis.com")
