@@ -1,10 +1,9 @@
-(defpackage #:hp/config
+(defpackage #:hp/config/env
   (:use #:cl)
-  (:import-from #:log4cl)
   (:export #:dev-mode-p
            #:prod-mode-p
            #:*port*))
-(in-package #:hp/config)
+(in-package #:hp/config/env)
 
 (defparameter *env* (or (uiop:getenv "HP_ENV") "dev"))
 
@@ -15,5 +14,3 @@
   (string= *env* "prod"))
 
 (defparameter *port* (parse-integer (or (uiop:getenv "HP_PORT") "3000")))
-
-(log:config :nofile)

@@ -7,8 +7,8 @@
 
 (pi:define-element page ()
   (pi:h
-    (section (view:asset-props :style "pages/index"
-                               :script "pages/index"
+    (section (view:asset-props :style "pages/index.css"
+                               :script "pages/index.js"
                                :x-data "indexPageState")
       (h1
         "Hello, World!")

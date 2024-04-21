@@ -2,7 +2,7 @@
   (:use #:cl)
   (:import-from #:log4cl)
   (:local-nicknames (#:tb #:trivial-backtrace))
-  (:local-nicknames (#:cfg #:hp/config))
+  (:local-nicknames (#:cfg #:hp/config/env))
   (:export #:*recovery*))
 (in-package #:hp/middlewares/recovery)
 

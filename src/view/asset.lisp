@@ -1,6 +1,7 @@
 (defpackage #:hp/view/asset
   (:use #:cl)
   (:local-nicknames (#:re #:cl-ppcre))
+  (:local-nicknames (#:cfg #:hp/config/asset))
   (:export #:get-css-links
            #:asset-props))
 (in-package #:hp/view/asset)
@@ -12,20 +13,15 @@
                                                 html-str)
                      :test #'string=))
 
-(defun data-props->asset-links (parent-path extension data-props)
-  (mapcar (lambda (data-prop)
-            (concatenate 'string parent-path data-prop extension))
-          data-props))
-
 (defun get-css-links (html-str)
-  (data-props->asset-links "/styles/"
-                           ".css"
-                           (detect-data-props html-str "data-style")))
+  (mapcar (lambda (data-prop)
+            (cfg:asset-path :style data-prop))
+          (detect-data-props html-str "data-style")))
 
 (defun asset-props (&key style script x-data)
   (append (and style `(:data-style ,style))
           (and script x-data
                `(:ax-load t
-                 :ax-load-src ,(format nil "/scripts/~a.js" script)
+                 :ax-load-src ,(cfg:asset-path :script script)
                  :x-ignore t
                  :x-data ,x-data))))

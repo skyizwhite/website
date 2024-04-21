@@ -1,4 +1,4 @@
-@scope ([data-style='pages/about']) {
+@scope ([data-style='pages/about.css']) {
   :scope {
     height: 100svh;
     display: grid;
