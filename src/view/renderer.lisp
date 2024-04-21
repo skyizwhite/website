@@ -17,4 +17,4 @@
 (defun partial-render (component &key status)
   (jg:with-html-response
     (if status (jg:set-response-status status))
-    (pi:elem-str component)))
+    (pi:elem-str (cmp:partial-document component))))

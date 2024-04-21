@@ -7,13 +7,18 @@
 
 (pi:define-element page ()
   (pi:h
-    (section :data-css "pages/index"
+    (section (view:asset-props :style "pages/index"
+                               :script "pages/index"
+                               :x-data "indexPageState")
       (h1
         "Hello, World!")
-      (a :href "/about"
+      (a :href "/about" :hx-boost "true"
         "About")
       (button :x-data t :@click "$store.darkMode.toggle()"
-        "Toggle theme"))))
+        "Toggle theme")
+      (button
+        :@click "increment()"
+        (span :x-text "count")))))
 
 (defun handle-get (params)
   (declare (ignore params))

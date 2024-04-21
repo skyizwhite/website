@@ -7,6 +7,7 @@
 (pi:define-element layout ()
   (pi:h
     (body
+      :hx-ext "head-support,alpine-morph"
       :x-data t
       :|:data-dark| "$store.darkMode.on"
       ; header

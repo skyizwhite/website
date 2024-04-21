@@ -11,10 +11,14 @@
 
 (pi:define-element page ()
   (pi:h
-    (section :data-css "pages/about"
+    (section (view:asset-props :style "pages/about"
+                               :script "pages/about"
+                               :x-data "aboutPageState")
       (h1 "About")
-      (a :href "/"
-        "top"))))
+      (a :href "/" :hx-boost "true"
+        "top")
+      (button :@click "decrement()"
+        (span :x-text "count")))))
 
 (defun handle-get (params)
   (declare (ignore params))
