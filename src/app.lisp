@@ -31,7 +31,8 @@
   (jg:install-middleware *app* mw:*public-files*)
   (jg:install-middleware *app* mw:*recovery*)
   (jg:install-middleware *app* mw:*normalize-path*)
-  (jg:install-middleware *app* mw:*accesslog*))
+  (jg:install-middleware *app* mw:*accesslog*)
+  (jg:install-middleware *app* mw:*block-unsupported-browser*))
 
 (defun update ()
   (stop)
