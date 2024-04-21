@@ -26,9 +26,7 @@
   (fbr:assign-routes *app*
                      :system "hp"
                      :directory "src/routes")
-  (jg:static-path *app* (asset:asset-root :script) "src/scripts/")
-  (jg:static-path *app* (asset:asset-root :style) "src/styles/")
-  (jg:install-middleware *app* mw:*public-files*)
+  (jg:install-middleware *app* mw:*serve-assets*)
   (jg:install-middleware *app* mw:*recovery*)
   (jg:install-middleware *app* mw:*normalize-path*)
   (jg:install-middleware *app* mw:*accesslog*)

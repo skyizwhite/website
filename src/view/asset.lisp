@@ -14,8 +14,8 @@
 (in-package #:hp/view/asset)
 
 (defparameter *asset-roots*
-  '(:style "/styles/"
-    :script "/scripts/"
+  '(:css "/css/"
+    :js "/js/"
     :vendor "/vendor/"
     :htmx-ext "/vendor/htmx-ext/"
     :alpine-ext "/vendor/alpine-ext/"))
@@ -37,10 +37,10 @@
 
 (define-asset *ress* :vendor
   "ress@5.0.2.css")
-(define-asset *global-css* :style
+(define-asset *global-css* :css
   "global.css")
 
-(define-asset *global-js* :script
+(define-asset *global-js* :js
   "global.js")
 
 (define-asset *htmx* :vendor
@@ -64,13 +64,13 @@
                      :test #'string=))
 
 (defun get-css-paths (html-str)
-  (mapcar (asset-path-under :style)
+  (mapcar (asset-path-under :css)
           (detect-data-props html-str "data-style")))
 
 (defun asset-props (&key style script x-data)
   (append (and style `(:data-style ,style))
           (and script x-data
                `(:ax-load t
-                 :ax-load-src ,(asset-path :script script)
+                 :ax-load-src ,(asset-path :js script)
                  :x-ignore t
                  :x-data ,x-data))))

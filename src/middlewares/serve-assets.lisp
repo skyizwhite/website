@@ -1,18 +1,18 @@
-(defpackage #:hp/middlewares/public-files
+(defpackage #:hp/middlewares/serve-assets
   (:use #:cl)
   (:import-from #:lack.middleware.static
                 #:*lack-middleware-static*)
-  (:export #:*public-files*))
-(in-package #:hp/middlewares/public-files)
+  (:export #:*serve-assets*))
+(in-package #:hp/middlewares/serve-assets)
 
 (defun exist-public-file-p (path)
-  (let ((pathname (probe-file (concatenate 'string "public" path))))
+  (let ((pathname (probe-file (concatenate 'string "assets" path))))
     (and pathname (pathname-name pathname))))
 
-(defparameter *public-files*
+(defparameter *serve-assets*
   (lambda (app)
     (funcall *lack-middleware-static*
              app
              :path (lambda (path)
                      (and (exist-public-file-p path) path))
-             :root (asdf:system-relative-pathname :hp "public/"))))
+             :root (asdf:system-relative-pathname :hp "assets/"))))
