@@ -1,7 +1,6 @@
 @scope ([data-css='pages/index']) {
   :scope {
     height: 100svh;
-    background-color: aliceblue;
     display: grid;
     place-content: center;
   }

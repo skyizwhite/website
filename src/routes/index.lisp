@@ -11,7 +11,9 @@
       (h1
         "Hello, World!")
       (a :href "/about"
-        "About"))))
+        "About")
+      (button :x-data t :@click "$store.darkMode.toggle()"
+        "Toggle theme"))))
 
 (defun handle-get (params)
   (declare (ignore params))

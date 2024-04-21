@@ -31,7 +31,7 @@
   (pi:h
     (<>
       (mapcar (lambda (src)
-                (script :src src))
+                (script :src src :defer t))
               srcs))))
 
 (pi:define-element stylesheets (hrefs)
@@ -63,8 +63,10 @@
         (link 
           :rel "stylesheet"
           :href "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap")
-        (on-demand-assets :component pi:children)
         (script :src "/vendor/htmx@1.9.12.js")
+        (script :src "/vendor/alpine-ext/persist@3.13.8.js" :defer t)
+        (script :src "/scripts/global.js" :defer t)
+        (on-demand-assets :component pi:children)
         (script :src "/vendor/alpine@3.13.8.js" :defer t)
         (title (format nil "~@[~a - ~]skyizwhite.dev" title))
         (meta

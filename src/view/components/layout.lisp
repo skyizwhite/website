@@ -7,6 +7,8 @@
 (pi:define-element layout ()
   (pi:h
     (body
+      :x-data t
+      :|:data-dark| "$store.darkMode.on"
       ; header
       (main pi:children)
       ; footer
