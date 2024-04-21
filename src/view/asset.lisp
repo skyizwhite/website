@@ -20,21 +20,20 @@
     :htmx-ext "/vendor/htmx-ext/"
     :alpine-ext "/vendor/alpine-ext/"))
 
-(defun asset-root (group)
-  (getf *asset-roots* group))
+(defun asset-root (kind)
+  (getf *asset-roots* kind))
 
-(defun asset-path (group path)
-  (concatenate 'string (asset-root group) path))
+(defun asset-path (kind path)
+  (concatenate 'string (asset-root kind) path))
 
-(defun asset-path-under (root)
-  (lambda (ext)
-    (asset-path root ext)))
+(defun asset-path-under (kind)
+  (lambda (path)
+    (asset-path kind path)))
 
-(defmacro define-asset (name root &body files)
+(defmacro define-asset (name kind &body files)
   `(defparameter ,name
-     ,(if (rest files)
-          `(mapcar (asset-path-under ,root) ',files)
-          `(funcall (asset-path-under ,root) ,(car files)))))
+     (funcall ,(if (rest files) '#'identity '#'car)
+              (mapcar (asset-path-under ,kind) ',files))))
 
 (define-asset *ress* :vendor
   "ress@5.0.2.css")
@@ -65,8 +64,7 @@
                      :test #'string=))
 
 (defun get-css-paths (html-str)
-  (mapcar (lambda (data-prop)
-            (asset-path :style data-prop))
+  (mapcar (asset-path-under :style)
           (detect-data-props html-str "data-style")))
 
 (defun asset-props (&key style script x-data)
