@@ -11,9 +11,9 @@
 
 (pi:define-element page ()
   (pi:h
-    (section (view:asset-props :css    "pages/about.css"
-                               :js     "pages/about.js"
-                               :x-data "aboutPage")
+    (section (view:cmp-props :css    "pages/about.css"
+                             :js     "pages/about.js"
+                             :x-data "aboutPage")
       (h1 "About")
       (a :href "/" :hx-boost "true"
         "top")

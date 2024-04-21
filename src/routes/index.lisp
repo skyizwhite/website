@@ -7,9 +7,9 @@
 
 (pi:define-element page ()
   (pi:h
-    (section (view:asset-props :css    "pages/index.css"
-                               :js     "pages/index.js"
-                               :x-data "indexPage")
+    (section (view:cmp-props :css    "pages/index.css"
+                             :js     "pages/index.js"
+                             :x-data "indexPage")
       (h1
         "Hello, World!")
       (a :href "/about" :hx-boost "true"

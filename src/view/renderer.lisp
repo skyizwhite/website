@@ -2,7 +2,7 @@
   (:use #:cl)
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:pi #:piccolo))
-  (:local-nicknames (#:cmp #:hp/view/components/*))
+  (:local-nicknames (#:cmp #:hp/view/components/**/*))
   (:export #:render
            #:partial-render))
 (in-package #:hp/view/renderer)

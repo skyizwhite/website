@@ -1,8 +1,8 @@
-(defpackage #:hp/view/components/layout
+(defpackage #:hp/view/components/layout/main
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:export #:layout))
-(in-package #:hp/view/components/layout)
+(in-package #:hp/view/components/layout/main)
 
 (pi:define-element layout ()
   (pi:h
