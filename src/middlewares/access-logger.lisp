@@ -1,12 +1,12 @@
-(defpackage #:hp/middlewares/accesslog
+(defpackage #:hp/middlewares/access-logger
   (:use #:cl)
   (:import-from #:lack.middleware.accesslog
                 #:*lack-middleware-accesslog*)
   (:import-from #:log4cl)
-  (:export *accesslog*))
-(in-package #:hp/middlewares/accesslog)
+  (:export *access-logger*))
+(in-package #:hp/middlewares/access-logger)
 
-(defparameter *accesslog*
+(defparameter *access-logger*
   (lambda (app)
     (funcall *lack-middleware-accesslog*
              app

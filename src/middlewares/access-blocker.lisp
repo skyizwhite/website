@@ -1,10 +1,10 @@
-(defpackage #:hp/middlewares/block-unsupported-browser
+(defpackage #:hp/middlewares/access-blocker
   (:use #:cl)
   (:local-nicknames (#:re #:cl-ppcre))
-  (:export #:*block-unsupported-browser*))
-(in-package #:hp/middlewares/block-unsupported-browser)
+  (:export #:*access-blocker*))
+(in-package #:hp/middlewares/access-blocker)
 
-(defparameter *block-unsupported-browser*
+(defparameter *access-blocker*
   (lambda (app)
     (lambda (env)
       (let ((user-agent (gethash "user-agent" (getf env :headers))))

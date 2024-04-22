@@ -23,14 +23,12 @@
 (defun setup ()
   (jg:clear-middlewares *app*)
   (jg:clear-routing-rules *app*)
-  (fbr:assign-routes *app*
-                     :system "hp"
-                     :directory "src/routes")
-  (jg:install-middleware *app* mw:*recovery*)
-  (jg:install-middleware *app* mw:*serve-assets*)
-  (jg:install-middleware *app* mw:*normalize-path*)
-  (jg:install-middleware *app* mw:*accesslog*)
-  (jg:install-middleware *app* mw:*block-unsupported-browser*))
+  (fbr:assign-routes *app* :system "hp" :directory "src/routes")
+  (jg:install-middleware *app* mw:*path-normalizer*)
+  (jg:install-middleware *app* mw:*assets-server*)
+  (jg:install-middleware *app* mw:*access-logger*)
+  (jg:install-middleware *app* mw:*access-blocker*)
+  (jg:install-middleware *app* mw:*recoverer*))
 
 (defun update ()
   (stop)
