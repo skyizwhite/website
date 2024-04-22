@@ -7,18 +7,8 @@
 
 (pi:define-element page ()
   (pi:h
-    (section (view:cmp-props :css    "pages/index.css"
-                             :js     "pages/index.js"
-                             :x-data "indexPage")
-      (h1
-        "Hello, World!")
-      (a :href "/about" :hx-boost "true"
-        "About")
-      (button :x-data t :@click "$store.darkMode.toggle()"
-        "Toggle theme")
-      (button
-        :@click "increment()"
-        (span :x-text "count")))))
+    (div (view:cmp-props :css "pages/index.css")
+      (h1 "Hello, World!"))))
 
 (defun handle-get (params)
   (declare (ignore params))

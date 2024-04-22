@@ -1,7 +1,0 @@
-@scope ([data-css='pages/about.css']) {
-  :scope {
-    height: 100svh;
-    display: grid;
-    place-content: center;
-  }
-}
