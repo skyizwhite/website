@@ -1,9 +1,9 @@
 (defpackage #:hp/view/components/document/main
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
-  (:import-from #:hp/view/components/document/stylesheets
-                #:stylesheets
-                #:on-demand-stylesheets)
+  (:import-from #:hp/view/components/document/styles
+                #:styles
+                #:on-demand-styles)
   (:import-from #:hp/view/components/document/scripts
                 #:scripts)
   (:import-from #:hp/view/components/document/seo
@@ -17,7 +17,7 @@
     (html :lang "ja"
       (head
         (meta :charset "UTF-8")
-        (stylesheets pi:children)
+        (styles pi:children)
         (scripts)
         (seo metadata))
       pi:children)))
@@ -26,5 +26,5 @@
   (pi:h
     (<>
       (head :hx-head "append"
-        (on-demand-stylesheets pi:children))
+        (on-demand-styles pi:children))
       pi:children)))
