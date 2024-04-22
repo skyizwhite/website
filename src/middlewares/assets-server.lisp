@@ -5,7 +5,7 @@
   (:export #:*assets-server*))
 (in-package #:hp/middlewares/assets-server)
 
-(defun exist-public-file-p (path)
+(defun exist-asset-file-p (path)
   (let ((pathname (probe-file (concatenate 'string "assets" path))))
     (and pathname (pathname-name pathname))))
 
@@ -14,5 +14,5 @@
     (funcall *lack-middleware-static*
              app
              :path (lambda (path)
-                     (and (exist-public-file-p path) path))
+                     (and (exist-asset-file-p path) path))
              :root (asdf:system-relative-pathname :hp "assets/"))))
