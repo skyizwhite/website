@@ -1,7 +1,7 @@
 (defpackage #:hp/routes/index
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
-  (:local-nicknames (#:view #:hp/view/**/*))
+  (:local-nicknames (#:view #:hp/view/*))
   (:export #:handle-get))
 (in-package #:hp/routes/index)
 

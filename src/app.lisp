@@ -3,7 +3,7 @@
   (:use #:cl)
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:fbr #:ningle-fbr))
-  (:local-nicknames (#:cfg #:hp/config/*))
+  (:local-nicknames (#:cfg #:hp/config/env))
   (:local-nicknames (#:asset #:hp/view/asset))
   (:local-nicknames (#:mw #:hp/middlewares/*))
   (:export #:start

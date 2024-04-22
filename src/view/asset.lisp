@@ -1,21 +1,15 @@
 (defpackage #:hp/view/asset
   (:use #:cl)
   (:local-nicknames (#:re #:cl-ppcre))
+  (:local-nicknames (#:cfg #:hp/config/asset))
   (:export #:asset-root
            #:define-assets
            #:get-css-paths
            #:cmp-props))
 (in-package #:hp/view/asset)
 
-(defparameter *asset-roots*
-  '(:css "/css/"
-    :js "/js/"
-    :vendor "/vendor/"
-    :htmx-ext "/vendor/htmx-ext/"
-    :alpine-ext "/vendor/alpine-ext/"))
-
 (defun asset-root (kind)
-  (getf *asset-roots* kind))
+  (getf cfg:*asset-roots* kind))
 
 (defun asset-path (kind path)
   (concatenate 'string (asset-root kind) path))
