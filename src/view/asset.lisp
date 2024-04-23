@@ -3,7 +3,7 @@
   (:local-nicknames (#:re #:cl-ppcre))
   (:local-nicknames (#:cfg #:hp/config/asset))
   (:export #:asset-root
-           #:define-assets
+           #:defasset
            #:get-css-paths
            #:cmp-props))
 (in-package #:hp/view/asset)
@@ -18,7 +18,7 @@
   (lambda (path)
     (asset-path kind path)))
 
-(defmacro define-asset (name kind files)
+(defmacro defasset (name kind files)
   `(defparameter ,name
      (,(if (listp files) 'mapcar 'funcall)
       (asset-path-under ,kind) ',files)))

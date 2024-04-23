@@ -2,16 +2,16 @@
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:import-from #:hp/view/asset
-                #:define-asset
+                #:defasset
                 #:get-css-paths)
   (:export #:on-demand-styles
            #:styles))
 (in-package #:hp/view/components/document/styles)
 
-(define-asset *ress*
+(defasset *ress*
   :vendor "ress@5.0.2.css")
 
-(define-asset *global-css*
+(defasset *global-css*
   :css "global.css")
 
 (pi:define-element on-demand-styles ()

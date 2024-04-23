@@ -2,24 +2,24 @@
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:import-from #:hp/view/asset
-                #:define-asset)
+                #:defasset)
   (:export #:scripts))
 (in-package #:hp/view/components/document/scripts)
 
-(define-asset *global-js*
+(defasset *global-js*
   :js "global.js")
 
-(define-asset *htmx*
+(defasset *htmx*
   :vendor "htmx@1.9.12.js")
 
-(define-asset *htmx-extentions*
+(defasset *htmx-extentions*
   :htmx-ext ("alpine-morph@1.9.12.js"
              "head-support@1.9.12.js"))
 
-(define-asset *alpine*
+(defasset *alpine*
   :vendor "alpine@3.13.8.js")
 
-(define-asset *alpine-extentions*
+(defasset *alpine-extentions*
   :alpine-ext ("async-alpine@1.2.2.js"
                "persist@3.13.8.js"
                "morph@3.13.8.js"))
