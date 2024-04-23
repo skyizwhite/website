@@ -23,14 +23,14 @@
      (,(if (listp files) 'mapcar 'funcall)
       (asset-path-under ,kind) ',files)))
 
-(defun detect-data-props (html-str data-prop-name)
-  (let* ((regex (format nil "(?<=~a=\")[^\"]*(?=\")" data-prop-name))
-         (data-props (re:all-matches-as-strings regex html-str)))
-    (remove-duplicates data-props :test #'string=)))
+(defun detect-attr-vals (html attr)
+  (let* ((regex (format nil "(?<=~a=\")[^\"]*(?=\")" attr))
+         (vals (re:all-matches-as-strings regex html)))
+    (remove-duplicates vals :test #'string=)))
 
-(defun get-css-paths (html-str)
+(defun get-css-paths (html)
   (mapcar (asset-path-under :css)
-          (detect-data-props html-str "data-css")))
+          (detect-attr-vals html "data-css")))
 
 (defun cmp-props (&key css js x-data)
   (append (and css `(:data-css ,css))

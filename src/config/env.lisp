@@ -13,7 +13,7 @@
              (funcall ,(or parser '#'identity) ,env-val)
              ,default)))))
 
-(defenv *env*  "HP_ENV"  :default "dev")
+(defenv *env* "HP_ENV" :default "dev")
 (defenv *port* "HP_PORT" :default 3000 :parser #'parse-integer)
 
 (defun dev-mode-p ()
