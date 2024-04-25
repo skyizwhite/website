@@ -14,19 +14,19 @@
 (defparameter *header-nav-items*
   '((:href "/"        :label "Home")
     (:href "/about"   :label "About")
-    (:href "/work"    :label "Work")
-    (:href "/contact" :label "Contact")))
+    (:href "/work"    :label "Work")))
 
 (define-element header-nav-item (href label)
   (li
-    :class "px-2 rounded-full"
-    :|:class| #?"isCurrentPath('${href}') && 'font-bold bg-lime-200 pointer-events-none'"
+    :class "px-4 rounded-full"
+    :|:class| #?"isCurrentPath('${href}')
+                 && 'font-bold bg-indigo-200 pointer-events-none shadow-sm'"
     (a :href href
       label)))
 
 (define-element layout-header ()
   (header :class "px-10 py-6 flex justify-between"
-    (H1 :class "font-bold text-2xl"
+    (h1 :class "font-bold text-xl"
       "skyizwhite.dev")
     (nav
       :x-data "{
@@ -43,7 +43,7 @@
 (define-element layout ()
   (body
     :hx-ext *hx-ext*
-    :class "h-[100svh] flex flex-col"          
+    :class "h-[100svh] flex flex-col bg-neutral-200"
     (layout-header)
     (main :class "flex-1"
       children)

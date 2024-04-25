@@ -1,7 +1,8 @@
 (defpackage #:hp/routes/about
   (:use #:cl
         #:piccolo)
-  (:local-nicknames (#:view #:hp/view/*))
+  (:import-from #:hp/view/*
+                #:render)
   (:export #:handle-get))
 (in-package #:hp/routes/about)
 
@@ -9,8 +10,8 @@
   (div :class "h-full place-content-center"
     (h1
       :class "text-4xl text-center"
-      "About")))
+      "Coming soon...")))
 
 (defun handle-get (params)
   (declare (ignore params))
-  (view:render (page)))
+  (render (page)))
