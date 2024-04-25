@@ -4,8 +4,7 @@
   (:local-nicknames (#:cfg #:hp/config/asset))
   (:export #:asset-root
            #:defasset
-           #:get-css-paths
-           #:cmp-props))
+           #:get-css-paths))
 (in-package #:hp/view/asset)
 
 (defun asset-root (kind)
@@ -31,11 +30,3 @@
 (defun get-css-paths (html)
   (mapcar (asset-path-under :css)
           (detect-attr-vals html "data-css")))
-
-(defun cmp-props (&key css js x-data)
-  (append (and css `(:data-css ,css))
-          (and js x-data
-               `(:ax-load t
-                 :ax-load-src ,(asset-path :js js)
-                 :x-ignore t
-                 :x-data ,x-data))))

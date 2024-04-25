@@ -4,7 +4,6 @@
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:fbr #:ningle-fbr))
   (:local-nicknames (#:cfg #:hp/config/env))
-  (:local-nicknames (#:asset #:hp/view/asset))
   (:local-nicknames (#:mw #:hp/middlewares/*))
   (:export #:start
            #:stop
@@ -32,7 +31,7 @@
 
 (defun update ()
   (stop)
-  (setup)
+  (ql:quickload :hp)
   (start))
 
 (setup)

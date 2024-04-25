@@ -1,0 +1,7 @@
+@scope ([data-css='components/layout/header.css']) {
+  :scope {
+    height: 80px;
+    display: flex;
+    background-color: gray;
+  }
+}

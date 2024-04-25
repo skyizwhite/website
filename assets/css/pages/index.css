@@ -1,6 +1,6 @@
 @scope ([data-css='pages/index.css']) {
   :scope {
-    height: 100svh;
+    height: 100%;
     display: grid;
     place-content: center;
   }

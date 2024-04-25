@@ -7,7 +7,7 @@
 
 (pi:define-element page ()
   (pi:h
-    (div (view:cmp-props :css "pages/index.css")
+    (div :data-css "pages/index.css"
       (h1 "Hello, World!"))))
 
 (defun handle-get (params)
