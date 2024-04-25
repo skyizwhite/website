@@ -1,4 +1,4 @@
-(defpackage #:hp/view/components/document/styles
+(defpackage #:hp/components/document/styles
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:import-from #:hp/view/asset
@@ -6,7 +6,7 @@
                 #:get-css-paths)
   (:export #:on-demand-styles
            #:styles))
-(in-package #:hp/view/components/document/styles)
+(in-package #:hp/components/document/styles)
 
 (defasset *ress* :vendor "ress@5.0.2.css")
 (defasset *global* :css "global.css")

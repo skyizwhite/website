@@ -3,7 +3,7 @@
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:cfg #:hp/config/env))
-  (:local-nicknames (#:cmp #:hp/view/components/**/*))
+  (:local-nicknames (#:cmp #:hp/components/**/*))
   (:export #:render
            #:partial-render))
 (in-package #:hp/view/renderer)

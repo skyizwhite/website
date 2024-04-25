@@ -1,16 +1,16 @@
-(defpackage #:hp/view/components/document/main
+(defpackage #:hp/components/document/main
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
-  (:import-from #:hp/view/components/document/styles
+  (:import-from #:hp/components/document/styles
                 #:styles
                 #:on-demand-styles)
-  (:import-from #:hp/view/components/document/scripts
+  (:import-from #:hp/components/document/scripts
                 #:scripts)
-  (:import-from #:hp/view/components/document/seo
+  (:import-from #:hp/components/document/seo
                 #:seo)
   (:export #:document
            #:partial-document))
-(in-package #:hp/view/components/document/main)
+(in-package #:hp/components/document/main)
 
 (pi:define-element document (metadata)
   (pi:h

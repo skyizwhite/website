@@ -1,10 +1,10 @@
-(defpackage #:hp/view/components/document/scripts
+(defpackage #:hp/components/document/scripts
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:import-from #:hp/view/asset
                 #:defasset)
   (:export #:scripts))
-(in-package #:hp/view/components/document/scripts)
+(in-package #:hp/components/document/scripts)
 
 (defasset *htmx* :vendor "htmx@1.9.12.js")
 (defasset *htmx-exts* :htmx-ext

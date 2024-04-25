@@ -1,8 +1,8 @@
-(defpackage #:hp/view/components/document/seo
+(defpackage #:hp/components/document/seo
   (:use #:cl)
   (:local-nicknames (#:pi #:piccolo))
   (:export #:seo))
-(in-package #:hp/view/components/document/seo)
+(in-package #:hp/components/document/seo)
 
 (pi:define-element seo (title description)
   (pi:h
