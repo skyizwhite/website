@@ -5,9 +5,8 @@
 (in-package #:hp/config/asset)
 
 (defparameter *asset-roots*
-  '(:img "/img/"
-    :css "/css/"
-    :js "/js/"
+  '(:root "/"
+    :img "/img/"
     :vendor "/vendor/"
     :htmx-ext "/vendor/htmx-ext/"
     :alpine-ext "/vendor/alpine-ext/"))

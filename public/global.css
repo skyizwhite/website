@@ -1,8 +1,8 @@
-@charset "utf-8";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html {
   font-family: "Noto Sans JP", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
 }

@@ -14,9 +14,13 @@
                                  :port cfg:*port*))
 
 (defun start ()
+  (if (cfg:dev-mode-p)
+      (uiop:run-program "make dev"))
   (jg:start *app*))
 
 (defun stop ()
+  (if (cfg:dev-mode-p)
+      (uiop:run-program "make stop"))
   (jg:stop *app*))
 
 (defun setup ()
@@ -24,9 +28,8 @@
   (jg:clear-routing-rules *app*)
   (fbr:assign-routes *app* :system "hp" :directory "src/routes")
   (jg:install-middleware *app* mw:*path-normalizer*)
-  (jg:install-middleware *app* mw:*assets-server*)
+  (jg:install-middleware *app* mw:*public-server*)
   (jg:install-middleware *app* mw:*access-logger*)
-  (jg:install-middleware *app* mw:*access-blocker*)
   (jg:install-middleware *app* mw:*recoverer*))
 
 (defun update ()

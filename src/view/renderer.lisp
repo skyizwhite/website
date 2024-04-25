@@ -3,7 +3,7 @@
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:pi #:piccolo))
   (:local-nicknames (#:cfg #:hp/config/env))
-  (:local-nicknames (#:cmp #:hp/components/**/*))
+  (:local-nicknames (#:cmp #:hp/components/*))
   (:export #:render
            #:partial-render))
 (in-package #:hp/view/renderer)
@@ -22,4 +22,4 @@
 (defun partial-render (component &key status)
   (jg:with-html-response
     (if status (jg:set-response-status status))
-    (funcall (renderer) (cmp:partial-document component))))
+    (funcall (renderer) component)))

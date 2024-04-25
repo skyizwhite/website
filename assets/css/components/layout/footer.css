@@ -1,6 +1,0 @@
-@scope ([data-css='components/layout/footer.css']) {
-  :scope {
-    height: 40px;
-    background-color: gray;
-  }
-}
