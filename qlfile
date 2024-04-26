@@ -7,4 +7,5 @@ ql cl-ppcre
 ql log4cl
 ql function-cache
 ql trivial-backtrace
-ql cl-interpol
+ql parenscript
+ql paren6

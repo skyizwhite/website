@@ -1,14 +1,13 @@
-(defpackage #:hp/routes/index
-  (:use #:cl
-        #:piccolo
-        #:cl-interpol)
+(uiop:define-package #:hp/routes/index
+  (:use #:cl)
+  (:mix #:parenscript
+        #:paren6
+        #:piccolo)
   (:import-from #:hp/view/*
                 #:defasset
                 #:render)
   (:export #:handle-get))
 (in-package #:hp/routes/index)
-
-(named-readtables:in-readtable :interpol-syntax)
 
 (defasset *me-img* :img "me.jpg")
 
@@ -24,11 +23,7 @@
         (h1 :class "text-4xl font-bold"
           "paku (skyizwhite)")
         (p :class "text-xl"
-          "Web developer"
-          (br)
-          "Admin of"
-          (a :target "_blank" :href "https://himagine.club" :class "text-indigo-500"
-            "himagine.club"))
+          "Software developer")
         (ul
           (li
             (span "GitHub:")
@@ -39,12 +34,14 @@
               "@skyizwhite"))
           (li
             (span "Email: ")
-            (let ((email "'paku'+'@'+'skyizwhite.dev'"))
-              (a
-                :x-data t
-                :x-text email
-                :|:href| #?"'mailto:'+${email}"
-                :class "text-indigo-500")))
+            (a
+              :x-data (ps (create6
+                           (email (list6 "paku" "@" "skyizwhite.dev"))
+                           (mailto (list6 "mailto:"))))
+              :x-text (ps (chain email (join "")))
+              :|:href| (ps (chain (list6 :... mailto :... email) (join "")))
+              :|:class| "'text-indigo-500'"
+              "Please enable Javascript to read."))
           (li
             (span "Fediverse(main): ")
             (a

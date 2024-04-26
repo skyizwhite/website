@@ -1,7 +1,8 @@
-(defpackage #:hp/components/layout
-  (:use #:cl
-        #:piccolo
-        #:cl-interpol)
+(uiop:define-package #:hp/components/layout
+  (:use #:cl)
+  (:mix #:parenscript
+        #:paren6
+        #:piccolo)
   (:import-from #:hp/config/asset
                 #:*hx-ext*)
   (:import-from #:hp/view/asset
@@ -9,18 +10,16 @@
   (:export #:layout))
 (in-package #:hp/components/layout)
 
-(named-readtables:in-readtable :interpol-syntax)
-
 (defparameter *header-nav-items*
-  '((:href "/"        :label "Home")
-    (:href "/about"   :label "About")
-    (:href "/work"    :label "Work")))
+  '((:href "/"      :label "Home")
+    (:href "/about" :label "About")
+    (:href "/work"  :label "Work")))
 
 (define-element header-nav-item (href label)
   (li
     :class "px-4 rounded-full"
-    :|:class| #?"isCurrentPath('${href}')
-                 && 'font-bold bg-indigo-200 pointer-events-none shadow-sm'"
+    :|:class| (ps* `(and (is-current-path ,href)
+                         "font-bold bg-indigo-200 pointer-events-none shadow-sm"))
     (a :href href
       label)))
 
@@ -29,12 +28,10 @@
     (h1 :class "font-bold text-xl"
       "skyizwhite.dev")
     (nav
-      :x-data "{
-        currentPath: window.location.pathname,
-        isCurrentPath(path) {
-          return this.currentPath === path
-        }
-      }"
+      :x-data (ps (create6
+                   (current-path (@ window location pathname))
+                   (defun is-current-path (path)
+                     (eql (@ this current-path) path))))
       :hx-boost "true"
       (ul :class "h-full flex items-center gap-6 text-lg"
         (mapcar (lambda (item) (header-nav-item item))
