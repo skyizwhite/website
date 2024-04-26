@@ -21,9 +21,9 @@
           :class "w-full max-w-xs rounded-xl shadow-sm"))
       (div :class "flex flex-col justify-center gap-10"
         (h1 :class "text-4xl font-bold"
-          "paku (skyizwhite)")
+          "paku")
         (p :class "text-xl"
-          "Software developer")
+          "Web developer")
         (ul
           (li
             (span "GitHub:")
@@ -36,12 +36,12 @@
             (span "Email: ")
             (a
               :x-data (ps (create6
-                           (email (list6 "paku" "@" "skyizwhite.dev"))
-                           (mailto (list6 "mailto:"))))
-              :x-text (ps (chain email (join "")))
-              :|:href| (ps (chain (list6 :... mailto :... email) (join "")))
+                           (email (chain (list6 "paku" "skyizwhite.dev")
+                                         (join "@")))))
+              :x-text (ps email)
+              :|:href| (ps (chain (list6 "mailto:" email) (join "")))
               :|:class| "'text-indigo-500'"
-              "Please enable Javascript to read."))
+              "(Please enable Javascript to show.)"))
           (li
             (span "Fediverse(main): ")
             (a
