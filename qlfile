@@ -1,7 +1,7 @@
 ql wild-package-inferred-system
 ql fiveam
 ql cl-jingle
-git piccolo https://github.com/skyizwhite/piccolo.git
+git hsx https://github.com/skyizwhite/hsx.git
 git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
 ql cl-ppcre
 ql log4cl

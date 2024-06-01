@@ -1,7 +1,8 @@
 (defpackage #:hp/routes/not-found
   (:use #:cl
-        #:piccolo)
-  (:local-nicknames (#:view #:hp/view/*))
+        #:hsx)
+  (:import-from #:hp/view/responser
+                #:response)
   (:export #:handle-not-found))
 (in-package #:hp/routes/not-found)
 
@@ -9,13 +10,14 @@
   '(:title "404 Not Found"
     :description "お探しのページは見つかりませんでした。"))
 
-(define-element page ()
-  (div :class "h-full place-content-center"
-    (h1
-      :class "text-rose-400 text-4xl text-center"
-      "404 Not Found")))
+(defcomp page ()
+  (hsx
+   (div :class "h-full place-content-center"
+     (h1
+       :class "text-rose-400 text-4xl text-center"
+       "404 Not Found"))))
 
 (defun handle-not-found ()
-  (view:render (page)
-               :status :not-found
-               :metadata *metadata*))
+  (response (page)
+            :status :not-found
+            :metadata *metadata*))
