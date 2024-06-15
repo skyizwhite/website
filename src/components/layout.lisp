@@ -6,8 +6,6 @@
 
 (defcomp layout (&key children)
   (hsx
-   (body
-     (header)
-     (main
-       children)
-     (footer))))
+   (body :hx-ext "head-support"
+     (main :class "container"
+       children))))

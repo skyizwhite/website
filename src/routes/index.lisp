@@ -7,7 +7,7 @@
 
 (defcomp page ()
   (hsx
-    (h1 "Hello, World!")))
+   (h1 "こんにちは")))
 
 (defun handle-get (params)
   (declare (ignore params))

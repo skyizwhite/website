@@ -25,7 +25,6 @@
   (fbr:assign-routes *app* :system "hp" :directory "src/routes")
   (jg:install-middleware *app* mw:*path-normalizer*)
   (jg:install-middleware *app* mw:*public-server*)
-  (jg:install-middleware *app* mw:*access-logger*)
   (jg:install-middleware *app* mw:*recoverer*))
 
 (defun update ()

@@ -11,7 +11,7 @@
 (defun response (page &key status metadata)
   (jg:with-html-response
     (if status (jg:set-response-status status))
-    (hsx:render-to-string (cmp:document :metadata metadata
+    (hsx:render-to-string (cmp:document metadata
                             (cmp:layout page)))))
 
 (defun partial-response (component &key status)
