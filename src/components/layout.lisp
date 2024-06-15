@@ -1,4 +1,4 @@
-(uiop:define-package #:hp/components/layout
+(defpackage #:hp/components/layout
   (:use #:cl
         #:hsx)
   (:export #:layout))
@@ -7,5 +7,5 @@
 (defcomp layout (&key children)
   (hsx
    (body :hx-ext "head-support"
-     (main :class "container"
+     (main :class "uk-container"
        children))))

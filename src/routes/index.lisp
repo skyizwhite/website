@@ -1,4 +1,4 @@
-(uiop:define-package #:hp/routes/index
+(defpackage #:hp/routes/index
   (:use #:cl
         #:hsx
         #:hp/response)

@@ -1,6 +1,5 @@
 (defpackage #:hp/middlewares/recoverer
   (:use #:cl)
-  (:import-from #:log4cl)
   (:local-nicknames (#:tb #:trivial-backtrace))
   (:local-nicknames (#:env #:hp/env))
   (:export #:*recoverer*))
