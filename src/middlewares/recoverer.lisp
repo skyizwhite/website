@@ -2,12 +2,12 @@
   (:use #:cl)
   (:import-from #:log4cl)
   (:local-nicknames (#:tb #:trivial-backtrace))
-  (:local-nicknames (#:cfg #:hp/config/env))
+  (:local-nicknames (#:env #:hp/env))
   (:export #:*recoverer*))
 (in-package #:hp/middlewares/recoverer)
 
 (defun message (condition)
-  (if (cfg:dev-mode-p)
+  (if (env:dev-mode-p)
       (tb:print-backtrace condition :output nil)
       "Internal Server Error"))
 

@@ -4,7 +4,6 @@ ql cl-jingle
 git hsx https://github.com/skyizwhite/hsx.git
 git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
 ql cl-ppcre
-ql log4cl
 ql function-cache
 ql trivial-backtrace
 ql parenscript

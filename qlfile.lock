@@ -26,10 +26,6 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2023-10-21"))
-("log4cl" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
 ("function-cache" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)

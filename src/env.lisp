@@ -1,9 +1,9 @@
-(defpackage #:hp/config/env
+(defpackage #:hp/env
   (:use #:cl)
   (:export #:dev-mode-p
            #:prod-mode-p
            #:*port*))
-(in-package #:hp/config/env)
+(in-package #:hp/env)
 
 (defmacro defenv (name env &key default parser)
   (let ((env-val (gensym "val")))

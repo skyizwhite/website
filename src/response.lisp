@@ -2,7 +2,6 @@
   (:use #:cl)
   (:import-from #:hsx)
   (:local-nicknames (#:jg #:jingle))
-  (:local-nicknames (#:cfg #:hp/config/env))
   (:local-nicknames (#:cmp #:hp/components/*))
   (:export #:response
            #:partial-response))

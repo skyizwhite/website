@@ -3,7 +3,7 @@
   (:use #:cl)
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:fbr #:ningle-fbr))
-  (:local-nicknames (#:cfg #:hp/config/env))
+  (:local-nicknames (#:env #:hp/env))
   (:local-nicknames (#:mw #:hp/middlewares/*))
   (:export #:start
            #:stop
@@ -11,7 +11,7 @@
 (in-package #:hp)
 
 (defparameter *app* (jg:make-app :address "localhost"
-                                 :port cfg:*port*))
+                                 :port env:*port*))
 
 (defun start ()
   (jg:start *app*))
