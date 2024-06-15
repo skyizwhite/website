@@ -1,22 +1,20 @@
-(defpackage #:hp/view/responser
+(defpackage #:hp/response
   (:use #:cl)
-  (:import-from #:hsx
-                #:render)
+  (:import-from #:hsx)
   (:local-nicknames (#:jg #:jingle))
   (:local-nicknames (#:cfg #:hp/config/env))
   (:local-nicknames (#:cmp #:hp/components/*))
   (:export #:response
            #:partial-response))
-(in-package #:hp/view/responser)
+(in-package #:hp/response)
 
 (defun response (page &key status metadata)
   (jg:with-html-response
     (if status (jg:set-response-status status))
-    (render (cmp:document :metadata metadata
-              (cmp:layout page))
-            :minify t)))
+    (hsx:render-to-string (cmp:document :metadata metadata
+                            (cmp:layout page)))))
 
 (defun partial-response (component &key status)
   (jg:with-html-response
     (if status (jg:set-response-status status))
-    (render component :minify t)))
+    (hsx:render-to-string component)))

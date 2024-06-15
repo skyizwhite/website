@@ -14,13 +14,9 @@
                                  :port cfg:*port*))
 
 (defun start ()
-  (if (cfg:dev-mode-p)
-      (uiop:run-program "make dev"))
   (jg:start *app*))
 
 (defun stop ()
-  (if (cfg:dev-mode-p)
-      (uiop:run-program "make stop"))
   (jg:stop *app*))
 
 (defun setup ()
