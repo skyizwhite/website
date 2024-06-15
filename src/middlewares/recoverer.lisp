@@ -16,6 +16,5 @@
       (handler-case
           (funcall app env)
         (error (c)
-          (log:error "Unhandled error caught: ~a" c)
           `(500 (:content-type "text/plain")
                 (,(message c))))))))
