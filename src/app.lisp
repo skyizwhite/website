@@ -10,13 +10,19 @@
            #:update))
 (in-package #:hp)
 
+(defparameter *watch-process* nil)
+
 (defparameter *app* (jg:make-app :address "localhost"
                                  :port env:*port*))
 
 (defun start ()
+  (when (env:dev-mode-p)
+    (setf *watch-process* (uiop:launch-program "make watch")))
   (jg:start *app*))
 
 (defun stop ()
+  (when (env:dev-mode-p)
+    (uiop:terminate-process *watch-process*))
   (jg:stop *app*))
 
 (defun setup ()

@@ -12,8 +12,7 @@
      (head
        (meta :charset "UTF-8")
        (meta :name "viewport" :content "width=device-width, initial-scale=1")
-       (link :rel "stylesheet" :href "https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css")
-       (script :src "https://cdn.jsdelivr.net/npm/uikit@3.21.5/dist/js/uikit.min.js")
+       (link :rel "stylesheet" :href "/dist.css")
        (script :src "https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/htmx.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/head-support.js")
        (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js" :defer t)
@@ -22,7 +21,7 @@
          :name "description"
          :content (or description "pakuの個人サイト"))
        (body :hx-ext "head-support"
-         (main :class "container"
+         (main :class "container mx-auto"
            children))))))
 
 (defun response (page &key status metadata)
