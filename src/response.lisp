@@ -1,9 +1,7 @@
 (defpackage #:hp/response
   (:use #:cl
         #:hsx)
-  (:local-nicknames (#:jg #:jingle))
-  (:export #:response
-           #:partial-response))
+  (:local-nicknames (#:jg #:jingle)))
 (in-package #:hp/response)
 
 (defcomp document (&key title description children)
@@ -26,15 +24,11 @@
          (main :class "container mx-auto"
            children))))))
 
-(defun response (page &key status metadata)
-  (jg:with-html-response
-    (when status
-      (jg:set-response-status status))
-    (hsx:render-to-string (document metadata
-                            page))))
-
-(defun partial-response (component &key status)
-  (jg:with-html-response
-    (when status
-      (jg:set-response-status status))
-    (hsx:render-to-string component)))
+(defmethod jg:process-response ((app jg:app) result)
+  (jg:set-response-header :content-type "text/html; charset=utf-8")
+  (call-next-method app
+                    (hsx:render-to-string
+                     (if (listp result)
+                         (destructuring-bind (body metadata) result
+                           (document metadata body))
+                         (document result)))))

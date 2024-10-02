@@ -1,7 +1,6 @@
 (defpackage #:hp/routes/index
   (:use #:cl
-        #:hsx
-        #:hp/response)
+        #:hsx)
   (:export #:handle-get))
 (in-package #:hp/routes/index)
 
@@ -12,4 +11,4 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (response (page)))
+  (page))

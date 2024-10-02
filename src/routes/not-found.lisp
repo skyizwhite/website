@@ -1,7 +1,7 @@
 (defpackage #:hp/routes/not-found
   (:use #:cl
-        #:hsx
-        #:hp/response)
+        #:hsx)
+  (:local-nicknames (#:jg #:jingle))
   (:export #:handle-not-found))
 (in-package #:hp/routes/not-found)
 
@@ -11,9 +11,9 @@
 
 (defcomp page ()
   (hsx
-   (h1 "404 Not Found")))
+   (h1 :class "text-primary"
+     "404 Not Found")))
 
 (defun handle-not-found ()
-  (response (page)
-            :status :not-found
-            :metadata *metadata*))
+  (jg:set-response-status :not-found)
+  (list (page) *metadata*))

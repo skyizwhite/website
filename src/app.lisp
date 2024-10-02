@@ -5,6 +5,7 @@
   (:local-nicknames (#:fbr #:ningle-fbr))
   (:local-nicknames (#:env #:hp/env))
   (:local-nicknames (#:mw #:hp/middlewares/*))
+  (:import-from #:hp/response)
   (:export #:start
            #:stop
            #:update))
