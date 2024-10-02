@@ -1,12 +1,35 @@
-install: ## Install dependencies
+TAILWINDCSS_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
+TAILWIND_TARGET=tailwindcss-macos-arm64
+BIN_DIR=./bin
+TAILWIND_BIN=$(BIN_DIR)/tailwindcss
+STYLE_SRC=./public/style.css
+STYLE_DIST=./public/dist.css
+
+all: install
+
+install: ## Download TailwindCSS binary and install other dependencies
+	@echo "Creating bin directory if it doesn't exist..."
+	mkdir -p $(BIN_DIR)
+	@echo "Downloading TailwindCSS binary..."
+	curl -sLO $(TAILWINDCSS_URL)
+	@echo "Making TailwindCSS binary executable..."
+	chmod +x $(TAILWIND_TARGET)
+	@echo "Moving TailwindCSS binary to $(BIN_DIR)..."
+	mv $(TAILWIND_TARGET) $(TAILWIND_BIN)
+	@echo "TailwindCSS is ready in $(BIN_DIR)/"
+	@echo "Installing qlot dependencies..."
 	@qlot install
 
-watch: ## Run watch mode
-	@bun run tailwindcss -i ./public/style.css -o ./public/dist.css --watch=always
+watch: ## Start TailwindCSS in watch mode for automatic rebuilds
+	@$(TAILWIND_BIN) -i $(STYLE_SRC) -o $(STYLE_DIST) --watch=always
 
-build: ## Build
-	@bun run tailwindcss -i ./public/style.css -o ./public/dist.css
+build: ## Generate the final CSS output
+	@$(TAILWIND_BIN) -i $(STYLE_SRC) -o $(STYLE_DIST)
 
-help: ## Show options
+help: ## Display available commands and their descriptions
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+clean: ## Remove the bin directory and clean up generated files
+	@echo "Removing $(BIN_DIR)..."
+	rm -rf $(BIN_DIR)

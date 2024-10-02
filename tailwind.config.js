@@ -5,10 +5,5 @@ module.exports = {
     "./src/routes/**/*.lisp",
     "./src/components/**/*.lisp",
   ],
-  theme: {
-    extend: {},
-  },
-  plugins: [
-    require('daisyui'),
-  ],
+  plugins: [],
 }

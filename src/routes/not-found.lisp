@@ -11,7 +11,7 @@
 
 (defcomp page ()
   (hsx
-   (h1 :class "text-primary"
+   (h1 :class "text-red-600"
      "404 Not Found")))
 
 (defun handle-not-found ()
