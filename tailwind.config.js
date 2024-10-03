@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/response.lisp",
+    "./src/renderer.lisp",
     "./src/routes/**/*.lisp",
     "./src/components/**/*.lisp",
   ],

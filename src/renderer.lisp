@@ -1,8 +1,8 @@
-(defpackage #:hp/response
+(defpackage #:hp/renderer
   (:use #:cl
         #:hsx)
   (:local-nicknames (#:jg #:jingle)))
-(in-package #:hp/response)
+(in-package #:hp/renderer)
 
 (defcomp document (&key title description children)
   (hsx
