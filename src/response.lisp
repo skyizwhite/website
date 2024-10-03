@@ -19,10 +19,10 @@
        (title (format nil "~@[~a - ~]skyizwhite.dev" title))
        (meta
          :name "description"
-         :content (or description "pakuの個人サイト"))
-       (body :hx-ext "head-support"
-         (main :class "container mx-auto"
-           children))))))
+         :content (or description "pakuの個人サイト")))
+     (body :hx-ext "head-support"
+           (main :class "container mx-auto"
+                 children)))))
 
 (defmethod jg:process-response ((app jg:app) result)
   (jg:set-response-header :content-type "text/html; charset=utf-8")
