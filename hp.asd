@@ -4,7 +4,7 @@
   :defsystem-depends-on ("wild-package-inferred-system")
   :class "winfer:wild-package-inferred-system"
   :pathname "src"
-  :depends-on ("hp/app")
+  :depends-on ("hp/main")
   :in-order-to ((test-op (test-op "hp-tests"))))
 
 (register-system-packages "lack-middleware-static" '(:lack.middleware.static))
