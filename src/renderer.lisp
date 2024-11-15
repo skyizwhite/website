@@ -1,7 +1,10 @@
 (defpackage #:hp/renderer
   (:use #:cl
-        #:hsx)
+        #:hsx
+        #:trivia)
   (:local-nicknames (#:jg #:jingle))
+  (:import-from #:hsx/element
+                #:element)
   (:local-nicknames (#:env #:hp/env)))
 (in-package #:hp/renderer)
 
@@ -27,11 +30,11 @@
 
 (defmethod jg:process-response ((app jg:app) result)
   (jg:set-response-header :content-type "text/html; charset=utf-8")
-  (when (env:dev-mode-p)
-    (jg:set-response-header :cache-control "no-store"))
   (call-next-method app
                     (hsx:render-to-string
-                     (if (listp result)
-                         (destructuring-bind (body metadata) result
-                           (document metadata body))
-                         (document result)))))
+                     (match result
+                       ((guard (or (list element metadata)
+                                   element)
+                               (typep element 'element))
+                        (document metadata element))
+                       (_ (error "Invalid response form"))))))

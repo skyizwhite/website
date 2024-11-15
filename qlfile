@@ -5,3 +5,4 @@ git hsx https://github.com/skyizwhite/hsx.git
 git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
 ql cl-ppcre
 ql trivial-backtrace
+ql trivia
