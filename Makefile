@@ -1,4 +1,4 @@
-TAILWINDCSS_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
+TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
 TAILWIND_TARGET=tailwindcss-macos-arm64
 BIN_DIR=./bin
 TAILWIND_BIN=$(BIN_DIR)/tailwindcss
@@ -11,7 +11,7 @@ install: ## Download TailwindCSS binary and install other dependencies
 	@echo "Creating bin directory if it doesn't exist..."
 	mkdir -p $(BIN_DIR)
 	@echo "Downloading TailwindCSS binary..."
-	curl -sLO $(TAILWINDCSS_URL)
+	curl -sLO $(TAILWIND_URL)
 	@echo "Making TailwindCSS binary executable..."
 	chmod +x $(TAILWIND_TARGET)
 	@echo "Moving TailwindCSS binary to $(BIN_DIR)..."
@@ -33,3 +33,11 @@ help: ## Display available commands and their descriptions
 clean: ## Remove the bin directory and clean up generated files
 	@echo "Removing $(BIN_DIR)..."
 	rm -rf $(BIN_DIR)
+
+lem: ## Open Lem with TailwindCSS server
+	@echo "Starting make watch in background..."
+	@make watch > /dev/null 2>&1 & \
+	WATCH_PID=$$!; \
+	trap "kill $$WATCH_PID" SIGINT SIGTERM EXIT; \
+	lem; \
+	kill $$WATCH_PID

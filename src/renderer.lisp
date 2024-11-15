@@ -1,7 +1,8 @@
 (defpackage #:hp/renderer
   (:use #:cl
         #:hsx)
-  (:local-nicknames (#:jg #:jingle)))
+  (:local-nicknames (#:jg #:jingle))
+  (:local-nicknames (#:env #:hp/env)))
 (in-package #:hp/renderer)
 
 (defcomp document (&key title description children)
@@ -26,6 +27,8 @@
 
 (defmethod jg:process-response ((app jg:app) result)
   (jg:set-response-header :content-type "text/html; charset=utf-8")
+  (when (env:dev-mode-p)
+    (jg:set-response-header :cache-control "no-store"))
   (call-next-method app
                     (hsx:render-to-string
                      (if (listp result)

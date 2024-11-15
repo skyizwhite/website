@@ -13,7 +13,7 @@
          open: false,
          get isOpen() { return this.open },
          toggle() { this.open = ! this.open },
-     }"
+       }"
        (button :@click "toggle()"
          "Toggle")
        (div :x-show "isOpen"

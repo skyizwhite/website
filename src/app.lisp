@@ -11,8 +11,6 @@
 (defparameter *app* (jg:make-app :address "localhost"
                                  :port env:*port*))
 
-(jg:clear-middlewares *app*)
-(jg:clear-routing-rules *app*)
 (fbr:assign-routes *app* :system "hp" :directory "src/routes")
 (jg:install-middleware *app* mw:*recoverer*)
 (jg:install-middleware *app* mw:*path-normalizer*)

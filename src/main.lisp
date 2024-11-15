@@ -10,16 +10,10 @@
            #:update))
 (in-package #:hp)
 
-(defparameter *watch-process* nil)
-
 (defun start ()
-  (when (env:dev-mode-p)
-    (setf *watch-process* (uiop:launch-program "make watch")))
   (jg:start *app*))
 
 (defun stop ()
-  (when (env:dev-mode-p)
-    (uiop:terminate-process *watch-process*))
   (jg:stop *app*))
 
 (defun update ()
