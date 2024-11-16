@@ -6,30 +6,13 @@
   (:local-nicknames (#:jg #:jingle))
   (:import-from #:hsx/element
                 #:element)
-  (:local-nicknames (#:env #:hp/env)))
+  (:local-nicknames (#:env #:hp/env))
+  (:import-from #:hp/components/header
+                #:page-header))
 (in-package #:hp/renderer)
 
 (defun bust-cache (url)
   (format nil "~a?~a" url #.(get-universal-time)))
-
-(defcomp page-header ()
-  (let ((links '(("Work" "/work")
-                 ("Blog" "/blog"))))
-    (hsx
-     (header :class "flex justify-between container mx-auto py-4"
-       (h1 :class "text-lg font-bold"
-         (a :href "/" "skyizwhite"))
-       (ul :class "flex"
-         (loop
-           :for (content href) :in links :collect
-              (li (a
-                    :href href
-                    :class (concatenate 'string
-                                        "pl-4"
-                                        (and (str:starts-with? href
-                                                               (jg:request-uri jg:*request*))
-                                             " text-pink-600"))
-                    content))))))))
 
 (defcomp document (&key title description children)
   (hsx
@@ -37,21 +20,31 @@
      (head
        (meta :charset "UTF-8")
        (meta :name "viewport" :content "width=device-width, initial-scale=1")
-       (link :rel "icon" :href "/favicon.ico")
-       (link :rel "apple-touch-icon" :href "/favicon.ico")
+       (link :rel "icon" :href (bust-cache "/favicon.ico"))
+       (link :rel "apple-touch-icon" :href (bust-cache "/favicon.ico"))
        (link :rel "stylesheet" :href (bust-cache "/dist.css"))
+       (link :rel "preconnect" :href "https://fonts.googleapis.com")
+       (link :rel "preconnect" :href "https://fonts.gstatic.com" :crossorigin t)
+       (link :rel "stylesheet" :href "https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap")
        (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.0/dist/htmx.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-head-support@2.0.0/head-support.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.0/response-targets.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js" :defer t)
-       (title (format nil "~@[~a - ~]skyizwhite" title))
-       (meta :name "description" :content (or description "pakuの個人サイト")))
+       (title (format nil "~@[~a - ~]Amongtellers" title))
+       (meta
+         :name "description"
+         :content
+         (or description
+             (<>
+               "Welcome to the official website of 'Amongtellers (Amaterasu)', "
+               "a personal project by paku (skyizwhite). "
+               "Discover project details, the latest updates, and related activities."))))
      (body
        :hx-ext "head-support, response-targets"
        :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
        :class "h-[100svh] flex flex-col"
        (page-header)
-       (main :class "flex-1 h-full mx-auto container"
+       (main :class "flex-1 h-full"
          children)))))
 
 (defmethod jg:process-response ((app jg:app) result)

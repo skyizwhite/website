@@ -6,9 +6,14 @@
 
 (defcomp page ()
   (hsx
-   (div :class "h-full grid place-items-center"
-     (h1 :class "text-pink-600"
-       "Hello World"))))
+   (section :class "h-[100svh] bg-[url('/fv.jpg')] bg-cover bg-center flex items-end pb-12"
+     (div :class "container flex justify-between items-end"
+       (h1 :class "flex flex-col text-6xl font-bold italic leading-normal"
+         (span :class "block"
+           "Bridging Minds,")
+         (span :class "block"
+           "Building Futures."))
+       (p "© 2025 skyizwhite")))))
 
 (defun handle-get (params)
   (declare (ignore params))

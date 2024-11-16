@@ -35,7 +35,7 @@ clean: ## Remove the bin directory and clean up generated files
 	rm -rf $(BIN_DIR)
 
 lem: ## Open Lem with TailwindCSS server
-	@echo "Starting make watch in background..."
+	@echo "Starting TailwindCSS server in background..."
 	@make watch > /dev/null 2>&1 & \
 	WATCH_PID=$$!; \
 	trap "kill $$WATCH_PID" SIGINT SIGTERM EXIT; \

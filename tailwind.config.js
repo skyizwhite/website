@@ -5,5 +5,10 @@ module.exports = {
     "./src/routes/**/*.lisp",
     "./src/components/**/*.lisp",
   ],
+  theme: {
+    container: {
+      center: true,
+    },
+  },
   plugins: [],
 }
