@@ -8,7 +8,7 @@
   (:export #:*app*))
 (in-package #:hp/app)
 
-(defparameter *app* (jg:make-app :address "localhost"
+(defparameter *app* (jg:make-app :address env:*address*
                                  :port env:*port*))
 
 (fbr:assign-routes *app* :system "hp" :directory "src/routes")

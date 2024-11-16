@@ -2,7 +2,8 @@
   (:use #:cl)
   (:export #:dev-mode-p
            #:prod-mode-p
-           #:*port*))
+           #:*port*
+           #:*address*))
 (in-package #:hp/env)
 
 (defmacro defenv (name env &key default parser)
@@ -14,6 +15,7 @@
              ,default)))))
 
 (defenv *env* "HP_ENV" :default "dev")
+(defenv *address* "HP_ADDRESS" :default "localhost")
 (defenv *port* "HP_PORT" :default 3000 :parser #'parse-integer)
 
 (defun dev-mode-p ()

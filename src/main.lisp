@@ -7,16 +7,19 @@
                 #:*app*)
   (:export #:start
            #:stop
-           #:update))
+           #:reload))
 (in-package #:hp)
 
 (defun start ()
-  (jg:start *app*))
+  (jg:start *app*)
+  (when (env:dev-mode-p)
+    (uiop:run-program (format nil "open http://~a:~a"
+                              env:*address* env:*port*))))
 
 (defun stop ()
   (jg:stop *app*))
 
-(defun update ()
+(defun reload ()
   (stop)
   (ql:quickload :hp/app)
   (start))
