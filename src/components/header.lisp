@@ -8,7 +8,7 @@
   (let ((links '(("Home" "/")
                  ("About" "/about")
                  ("Work" "/work")
-                 ("Blog" "/blog")
+                 ("Article" "/article")
                  ("Contact" "/contact"))))
     (hsx
      (header :class "fixed top-0 w-full"
@@ -22,5 +22,5 @@
            (loop
              :for (content href) :in links :collect
                 (li :class "flex items-center"
-                  (a :href href :class "text-xl font-bold pl-6 hover:text-orange-600"
+                  (a :href href :class "text-lg hover:text-orange-600"
                     content)))))))))

@@ -7,7 +7,7 @@
 (in-package #:hp/env)
 
 (defmacro defenv (name env &key default parser)
-  (let ((env-val (gensym "val")))
+  (let ((env-val (gensym "env-val")))
     `(defparameter ,name
        (let ((,env-val (uiop:getenv ,env)))
          (if ,env-val

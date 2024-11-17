@@ -7,8 +7,7 @@
   (:import-from #:hsx/element
                 #:element)
   (:local-nicknames (#:env #:hp/env))
-  (:import-from #:hp/components/header
-                #:page-header))
+  (:local-nicknames (#:cmp #:hp/components/*)))
 (in-package #:hp/renderer)
 
 (defun bust-cache (url)
@@ -43,9 +42,10 @@
        :hx-ext "head-support, response-targets"
        :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
        :class "h-[100svh] flex flex-col"
-       (page-header)
+       (cmp:page-header)
        (main :class "flex-1 h-full"
-         children)))))
+         children)
+       (cmp:page-footer)))))
 
 (defmethod jg:process-response ((app jg:app) result)
   (jg:set-response-header :content-type "text/html; charset=utf-8")

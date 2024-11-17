@@ -6,14 +6,15 @@
 
 (defcomp page ()
   (hsx
-   (section :class "h-[100svh] bg-[url('/fv.jpg')] bg-cover bg-center flex items-end pb-12"
-     (div :class "container flex justify-between items-end"
-       (h1 :class "flex flex-col text-6xl font-bold italic leading-normal"
-         (span :class "block"
-           "Bridging Minds,")
-         (span :class "block"
-           "Building Futures."))
-       (p "© 2025 skyizwhite")))))
+   (section
+     ; first view
+     (div :class "h-[100svh] bg-[url('/fv.jpg')] bg-cover bg-center flex"
+       (div :class "container flex items-end justify-between"
+         (h1 :class "flex flex-col text-6xl font-bold italic leading-normal pb-10"
+           (span :class "block"
+             "Beyond Differences,")
+           (span :class "block"
+             "Shaping Tomorrow")))))))
 
 (defun handle-get (params)
   (declare (ignore params))
