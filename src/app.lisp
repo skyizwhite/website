@@ -13,5 +13,5 @@
 
 (fbr:assign-routes *app* :system "hp" :directory "src/routes")
 (jg:install-middleware *app* mw:*recoverer*)
-(jg:install-middleware *app* mw:*path-normalizer*)
+(jg:install-middleware *app* mw:*trim-trailing-slash*)
 (jg:install-middleware *app* mw:*public-server*)

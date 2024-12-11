@@ -7,3 +7,4 @@ ql cl-ppcre
 ql trivial-backtrace
 ql trivia
 ql cl-str
+ql quri
