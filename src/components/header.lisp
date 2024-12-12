@@ -1,10 +1,10 @@
 (defpackage #:hp/components/header
   (:use #:cl
         #:hsx)
-  (:export #:page-header))
+  (:export #:~header))
 (in-package #:hp/components/header)
 
-(defcomp page-header ()
+(defcomp ~header ()
   (let ((links '(("Home" "/")
                  ("About" "/about")
                  ("Work" "/work")
@@ -20,7 +20,8 @@
                :class "w-52 h-auto")))
          (ul :class "flex flex-col gap-4"
            (loop
-             :for (content href) :in links :collect
-                (li :class "flex items-center"
-                  (a :href href :class "text-lg hover:text-orange-600"
-                    content)))))))))
+             :for (title href) :in links :collect
+                (hsx
+                 (li :class "flex items-center"
+                   (a :href href :class "text-lg hover:text-orange-600"
+                     title))))))))))

@@ -4,7 +4,7 @@
   (:export #:handle-get))
 (in-package #:hp/routes/index)
 
-(defcomp page ()
+(defcomp ~page ()
   (hsx
    (section
      ; first view
@@ -18,4 +18,4 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (page))
+  (~page))

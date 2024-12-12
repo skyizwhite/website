@@ -13,7 +13,7 @@
 (defun bust-cache (url)
   (format nil "~a?~a" url #.(get-universal-time)))
 
-(defcomp document (&key title description children)
+(defcomp ~document (&key title description children)
   (hsx
    (html :lang "ja"
      (head
@@ -34,18 +34,19 @@
          :name "description"
          :content
          (or description
-             (<>
-               "Welcome to the official website of 'Amongtellers (Amaterasu)', "
-               "a personal project by paku (skyizwhite). "
-               "Discover project details, the latest updates, and related activities."))))
+             (hsx
+              (<>
+                "Welcome to the official website of 'Amongtellers (Amaterasu)', "
+                "a personal project by paku (skyizwhite). "
+                "Discover project details, the latest updates, and related activities.")))))
      (body
        :hx-ext "head-support, response-targets"
        :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
        :class "h-[100svh] flex flex-col"
-       (cmp:page-header)
+       (cmp:~header)
        (main :class "flex-1 h-full"
          children)
-       (cmp:page-footer)))))
+       (cmp:~footer)))))
 
 (defmethod jg:process-response ((app jg:app) result)
   (jg:set-response-header :content-type "text/html; charset=utf-8")
@@ -59,5 +60,5 @@
                        ((guard (or (list element metadata)
                                    element)
                                (typep element 'element))
-                        (document metadata element))
+                        (~document metadata element))
                        (_ (error "Invalid response form"))))))
