@@ -2,10 +2,6 @@
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
   :version "2023-10-21"))
-("wild-package-inferred-system" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
 ("fiveam" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -21,7 +17,7 @@
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-7ab7284e88b82fdf31d55187f893e815a551ef38"))
+  :version "git-d20dbe264911b7dfd6e6fade899db9b09bd2dd32"))
 ("cl-ppcre" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
