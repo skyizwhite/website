@@ -16,8 +16,7 @@
         :description "The personal homepage of Akira Tempaku (paku) - projects, thoughts, and more."
         :og-url "https://skyizwhite.dev"
         :og-type "website"
-        :og-image (lambda (path)
-                    (format nil "https://skyizwhite.dev~@[~a~]" path))
+        :og-image "https://skyizwhite.dev/img/og.jpg"
         :og-image-width 1024
         :og-image-height 1024))
 
