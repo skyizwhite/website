@@ -11,8 +11,11 @@
 
 (defcomp ~page ()
   (hsx
-   (section
-     (h1 "404 Not Found"))))
+   (section :class "flex flex-col h-full items-center justify-center gap-y-6"
+     (h1 :class "font-bold text-2xl"
+       "404 Not Found")
+     (a :href "/" :class "text-lg text-pink-500 hover:underline"
+       "Back to TOP"))))
 
 (defun handle-not-found ()
   (jingle:set-response-status :not-found)
