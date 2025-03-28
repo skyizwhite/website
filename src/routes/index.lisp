@@ -15,7 +15,7 @@
 (defcomp ~page ()
   (hsx
    (section :class "flex flex-col items-center justify-center h-full"
-     (img :src "/img/me.jpg" :alt "Profile Picture" :class "size-40 rounded rounded-full border shadow-lg")
+     (img :src "/img/me.webp" :alt "Profile Picture" :class "size-40 rounded rounded-full border shadow-lg")
      (div :class "flex flex-col items-center gap-2 py-6"
        (h1 :class "font-bold text-2xl"
          "Akira Tempaku")
@@ -26,6 +26,7 @@
          :for (name url) :in *links*
          :collect (hsx (a :href url :target "_blank" :class "text-lg hover:underline"
                          name)))))))
+
 (defun handle-get (params)
   (declare (ignore params))
   (~page))
