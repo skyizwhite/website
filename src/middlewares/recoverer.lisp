@@ -1,8 +1,8 @@
 (defpackage #:hp/middlewares/recoverer
   (:use #:cl
         #:hsx)
-  (:local-nicknames (#:tb #:trivial-backtrace))
-  (:local-nicknames (#:env #:hp/env))
+  (:import-from #:trivial-backtrace
+                #:print-backtrace)
   (:export #:*recoverer*))
 (in-package #:hp/middlewares/recoverer)
 
@@ -14,10 +14,10 @@
      (body
        (main
          (h1 "500 Internal Server Error")
-         (when (env:dev-mode-p)
+         (when (string= (uiop:getenv "HP_ENV") "dev")
            (hsx
             (pre
-              (code (tb:print-backtrace condition :output nil))))))))))
+              (code (print-backtrace condition :output nil))))))))))
 
 (defparameter *recoverer*
   (lambda (app)

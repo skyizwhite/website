@@ -1,8 +1,11 @@
 (defpackage #:hp/app
   (:use #:cl)
-  (:local-nicknames (#:jg #:jingle))
-  (:local-nicknames (#:fbr #:ningle-fbr))
-  (:local-nicknames (#:env #:hp/env))
+  (:import-from #:jingle
+                #:make-app
+                #:install-middleware
+                #:configure)
+  (:import-from #:ningle-fbr
+                #:set-routes)
   (:import-from #:hp/middlewares/recoverer
                 #:*recoverer*)
   (:import-from #:hp/middlewares/trailing-slash
@@ -13,12 +16,12 @@
   (:export #:*app*))
 (in-package #:hp/app)
 
-(defparameter *app* (jg:make-app :address env:*address*
-                                 :port env:*port*))
+(defparameter *app*
+  (let ((app (make-app)))
+    (set-routes app :system :hp :target-dir-path "routes")
+    (install-middleware app *recoverer*)
+    (install-middleware app *trim-trailing-slash*)
+    (install-middleware app *public-server*)
+    (configure app)))
 
-(fbr:set-routes *app* :system :hp :target-dir-path "routes")
-(jg:install-middleware *app* *recoverer*)
-(jg:install-middleware *app* *trim-trailing-slash*)
-(jg:install-middleware *app* *public-server*)
-
-(jg:configure *app*)
+*app*

@@ -2,10 +2,9 @@
   (:use #:cl
         #:hsx
         #:trivia)
-  (:local-nicknames (#:jg #:jingle))
+  (:import-from :jingle)
   (:import-from #:hsx/element
-                #:element)
-  (:local-nicknames (#:env #:hp/env)))
+                #:element))
 (in-package #:hp/renderer)
 
 (defun bust-cache (url)
@@ -70,12 +69,12 @@
        (main :class "flex-1 h-full"
          children)))))
 
-(defmethod jg:process-response ((app jg:app) result)
-  (jg:set-response-header :content-type "text/html; charset=utf-8")
-  (when (env:dev-mode-p)
-    (jg:set-response-header :cache-control "no-store, no-cache, must-revalidate")
-    (jg:set-response-header :pragma "no-cache")
-    (jg:set-response-header :expires "0"))
+(defmethod jingle:process-response ((app jingle:app) result)
+  (jingle:set-response-header :content-type "text/html; charset=utf-8")
+  (when (string= (uiop:getenv "HP_ENV") "dev")
+    (jingle:set-response-header :cache-control "no-store, no-cache, must-revalidate")
+    (jingle:set-response-header :pragma "no-cache")
+    (jingle:set-response-header :expires "0"))
   (call-next-method app
                     (hsx:render-to-string
                      (match result

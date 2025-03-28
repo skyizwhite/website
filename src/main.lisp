@@ -1,8 +1,7 @@
 (defpackage #:hp
   (:nicknames #:hp/main)
   (:use #:cl)
-  (:local-nicknames (#:jg #:jingle))
-  (:local-nicknames (#:env #:hp/env))
+  (:import-from #:clack)
   (:import-from #:hp/app
                 #:*app*)
   (:export #:start
@@ -10,11 +9,22 @@
            #:reload))
 (in-package #:hp)
 
+(defparameter *handler* nil)
+
 (defun start ()
-  (jg:start *app*))
+  (if *handler*
+      (format t "The server is already running.~%")
+      (setf *handler* (clack:clackup *app*
+                                     :server :hunchentoot
+                                     :address "localhost"
+                                     :port 3000))))
 
 (defun stop ()
-  (jg:stop *app*))
+  (if *handler*
+      (progn
+        (clack:stop *handler*)
+        (setf *handler* nil))
+      (format t "The server is not running.~%")))
 
 (defun reload ()
   (stop)

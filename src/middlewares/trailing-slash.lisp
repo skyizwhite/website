@@ -1,6 +1,6 @@
 (defpackage #:hp/middlewares/trailing-slash
   (:use #:cl)
-  (:local-nicknames (#:qu #:quri))
+  (:import-from :quri)
   (:export #:*trim-trailing-slash*))
 (in-package #:hp/middlewares/trailing-slash)
 
@@ -10,8 +10,8 @@
 (defparameter *trim-trailing-slash*
   (lambda (app)
     (lambda (env)
-      (let* ((req-uri (qu:uri (getf env :request-uri)))
-             (req-path (qu:uri-path req-uri))
+      (let* ((req-uri (quri:uri (getf env :request-uri)))
+             (req-path (quri:uri-path req-uri))
              (req-method (getf env :request-method))
              (response (funcall app env))
              (res-status (first response)))
@@ -19,7 +19,7 @@
                  (eq req-method :get)
                  (not (string= req-path "/"))
                  (string= (last-string req-path) "/"))
-            (let ((red-uri (qu:copy-uri req-uri
+            (let ((red-uri (quri:copy-uri req-uri
                                         :path (string-right-trim "/" req-path))))
-              `(301 (:location ,(qu:render-uri red-uri))))
+              `(301 (:location ,(quri:render-uri red-uri))))
             response)))))

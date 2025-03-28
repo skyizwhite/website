@@ -1,11 +1,11 @@
 ql fiveam
 ql cl-jingle
-git hsx https://github.com/skyizwhite/hsx.git
-git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
-git lack-mw https://github.com/skyizwhite/lack-mw.git
 ql cl-ppcre
-ql trivial-backtrace
 ql trivia
 ql cl-str
 ql quri
 ql clack
+git hsx https://github.com/skyizwhite/hsx.git
+git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
+git lack-mw https://github.com/skyizwhite/lack-mw.git
+git trivial-backtrace https://github.com/hraban/trivial-backtrace.git
