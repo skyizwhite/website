@@ -4,18 +4,28 @@
   (:export #:handle-get))
 (in-package #:hp/routes/index)
 
+(defparameter *links*
+  '(("Keyoxide"       "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62")
+    ("GitHub"         "https://github.com/skyizwhite")
+    ("Forgejo"        "https://code.skyizwhite.dev/paku")
+    ("X"              "https://x.com/skyizwhite")
+    ("Fediverse"      "https://himagine.club/@skyizwhite")
+    ("Service Status" "https://status.skyizwhite.dev")))
+
 (defcomp ~page ()
   (hsx
-   (section
-     ; first view
-     (div :class "h-[100svh] bg-[url('/fv.jpg')] bg-cover bg-center flex"
-       (div :class "container flex items-end justify-between"
-         (h1 :class "flex flex-col text-6xl font-bold italic leading-normal pb-10"
-           (span :class "block"
-             "Beyond Differences,")
-           (span :class "block"
-             "Shaping Tomorrow")))))))
-
+   (section :class "flex flex-col items-center justify-center h-full"
+     (img :src "/img/me.jpg" :alt "Profile Picture" :class "size-40 rounded rounded-full border shadow-lg")
+     (div :class "flex flex-col items-center gap-2 py-6"
+       (h1 :class "font-bold text-2xl"
+         "Akira Tempaku")
+       (p :class "text-xl"
+         "Web developer"))
+     (div :class "flex flex-col items-center text-pink-500"
+       (loop
+         :for (name url) :in *links*
+         :collect (hsx (a :href url :target "_blank" :class "text-lg hover:underline"
+                         name)))))))
 (defun handle-get (params)
   (declare (ignore params))
   (~page))

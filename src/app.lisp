@@ -20,3 +20,5 @@
 (jg:install-middleware *app* *recoverer*)
 (jg:install-middleware *app* *trim-trailing-slash*)
 (jg:install-middleware *app* *public-server*)
+
+(jg:configure *app*)

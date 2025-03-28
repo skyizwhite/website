@@ -2,8 +2,8 @@ TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/downloa
 TAILWIND_TARGET=tailwindcss-macos-arm64
 BIN_DIR=./bin
 TAILWIND_BIN=$(BIN_DIR)/tailwindcss
-STYLE_SRC=./public/style.css
-STYLE_DIST=./public/dist.css
+STYLE_SRC=./public/style/global.css
+STYLE_DIST=./public/style/dist.css
 
 all: install
 
@@ -41,3 +41,9 @@ lem: ## Open Lem with TailwindCSS server
 	trap "kill $$WATCH_PID" SIGINT SIGTERM EXIT; \
 	lem; \
 	kill $$WATCH_PID
+
+docker-build:
+	docker build -t hp .
+
+docker-run:
+	docker run -p 3000:3000 hp

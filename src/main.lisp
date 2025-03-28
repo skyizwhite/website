@@ -11,10 +11,7 @@
 (in-package #:hp)
 
 (defun start ()
-  (jg:start *app*)
-  (when (env:dev-mode-p)
-    (uiop:run-program (format nil "open http://~a:~a"
-                              env:*address* env:*port*))))
+  (jg:start *app*))
 
 (defun stop ()
   (jg:stop *app*))

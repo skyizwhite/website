@@ -11,12 +11,8 @@
 
 (defcomp ~page ()
   (hsx
-   (section :class "container flex flex-col justify-center items-center h-full gap-10"
-     (h1 :class "text-2xl text-red-600"
-       (getf *metadata* :title))
-     (p (getf *metadata* :description))
-     (a :href "/" :class "text-orange-600"
-       "Return to the homepage"))))
+   (section
+     (h1 "404 Not Found"))))
 
 (defun handle-not-found ()
   (jg:set-response-status :not-found)

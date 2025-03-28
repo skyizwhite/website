@@ -1,11 +1,11 @@
 ("quicklisp" .
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
-  :version "2023-10-21"))
+  :version "2024-10-12"))
 ("fiveam" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
+  :version "ql-2024-10-12"))
 ("cl-jingle" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -13,19 +13,23 @@
 ("hsx" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-f60259ec4a101de87c5364c3f1b571706448d3a0"))
+  :version "git-4ff1c97e3ff727aa332995f5be4dcfb138a45d5f"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-d20dbe264911b7dfd6e6fade899db9b09bd2dd32"))
+  :version "git-bc87e5de01959cd99364bc14ad3eaf88e52e4478"))
+("lack-mw" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
+  :version "git-77a0f436635e5beadaba3765492832704a015a3c"))
 ("cl-ppcre" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
+  :version "ql-2024-10-12"))
 ("trivial-backtrace" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
+  :version "ql-2023-02-14"))
 ("trivia" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -35,6 +39,10 @@
   :initargs (:%version :latest)
   :version "ql-2024-10-12"))
 ("quri" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2024-10-12"))
+("clack" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2024-10-12"))
