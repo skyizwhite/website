@@ -1,5 +1,4 @@
 (defsystem "hp-tests"
-  :defsystem-depends-on ("wild-package-inferred-system")
   :class :package-inferred-system
   :pathname "tests"
   :depends-on ("fiveam"

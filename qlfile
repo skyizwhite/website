@@ -1,9 +1,6 @@
 ql fiveam
 ql cl-jingle
-ql cl-ppcre
 ql trivia
-ql cl-str
-ql quri
 ql clack
 git hsx https://github.com/skyizwhite/hsx.git
 git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
