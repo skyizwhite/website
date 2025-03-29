@@ -4,11 +4,15 @@
         #:trivia)
   (:import-from :jingle)
   (:import-from #:hsx/element
-                #:element))
+                #:element)
+  (:import-from #:hp/env
+                #:hp-env))
 (in-package #:hp/renderer)
 
 (defun bust-cache (url)
-  (format nil "~a?v=~a" url (get-universal-time)))
+  (format nil "~a?v=~a" url (if (string= (hp-env) "dev")
+                                (get-universal-time)
+                                #.(get-universal-time))))
 
 (defparameter *metadata-template*
   (list :title (lambda (title)
@@ -70,7 +74,7 @@
 
 (defmethod jingle:process-response ((app jingle:app) result)
   (jingle:set-response-header :content-type "text/html; charset=utf-8")
-  (when (string= (uiop:getenv "HP_ENV") "dev")
+  (when (string= (hp-env) "dev")
     (jingle:set-response-header :cache-control "no-store, no-cache, must-revalidate")
     (jingle:set-response-header :pragma "no-cache")
     (jingle:set-response-header :expires "0"))

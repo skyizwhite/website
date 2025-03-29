@@ -46,3 +46,7 @@
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/hraban/trivial-backtrace.git")
   :version "git-7f90b4a4144775cca0728791e4b92ac2557b07a1"))
+("cl-dotenv" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2018-10-18"))

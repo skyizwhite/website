@@ -3,6 +3,8 @@
         #:hsx)
   (:import-from #:trivial-backtrace
                 #:print-backtrace)
+  (:import-from #:hp/env
+                #:hp-env)
   (:export #:*recoverer*))
 (in-package #:hp/middlewares/recoverer)
 
@@ -14,7 +16,7 @@
      (body
        (main
          (h1 "500 Internal Server Error")
-         (when (string= (uiop:getenv "HP_ENV") "dev")
+         (when (string= (hp-env) "dev")
            (hsx
             (pre
               (code (print-backtrace condition :output nil))))))))))
