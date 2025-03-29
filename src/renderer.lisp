@@ -2,7 +2,8 @@
   (:use #:cl
         #:hsx
         #:trivia)
-  (:import-from :jingle)
+  (:import-from #:jingle
+                #:set-response-header)
   (:import-from #:hsx/element
                 #:element)
   (:import-from #:hp/env
@@ -10,9 +11,7 @@
 (in-package #:hp/renderer)
 
 (defun bust-cache (url)
-  (format nil "~a?v=~a" url (if (string= (hp-env) "dev")
-                                (get-universal-time)
-                                #.(get-universal-time))))
+  (format nil "~a?v=~a" url #.(get-universal-time)))
 
 (defparameter *metadata-template*
   (list :title (lambda (title)
@@ -26,7 +25,7 @@
 
 (defun complete-metadata (metadata)
   (loop 
-    :for (key template) :on *metadata-template* by #'cddr
+    :for (key template) :on *metadata-template* :by #'cddr
     :for value := (getf metadata key)
     :append (list key (if (functionp template)
                           (funcall template value)
@@ -72,17 +71,17 @@
          children)))))
 
 (defmethod jingle:process-response ((app jingle:app) result)
-  (jingle:set-response-header :content-type "text/html; charset=utf-8")
+  (set-response-header :content-type "text/html; charset=utf-8")
   (when (string= (hp-env) "dev")
-    (jingle:set-response-header :cache-control "no-store, no-cache, must-revalidate")
-    (jingle:set-response-header :pragma "no-cache")
-    (jingle:set-response-header :expires "0"))
+    (set-response-header :cache-control "no-store, no-cache, must-revalidate")
+    (set-response-header :pragma "no-cache")
+    (set-response-header :expires "0"))
   (call-next-method app
                     (hsx:render-to-string
                      (match result
-                       ((guard (or (list element metadata)
-                                   element)
-                               (typep element 'element))
+                       ((guard (or (list page metadata)
+                                   page)
+                               (typep page 'element))
                         (~document (complete-metadata metadata)
-                          element))
+                          page))
                        (_ (error "Invalid response form"))))))

@@ -1,7 +1,8 @@
 (defpackage #:hp/routes/not-found
   (:use #:cl
         #:hsx)
-  (:import-from :jingle)
+  (:import-from #:jingle
+                #:set-response-status)
   (:export #:handle-not-found))
 (in-package #:hp/routes/not-found)
 
@@ -18,5 +19,5 @@
        "Back to TOP"))))
 
 (defun handle-not-found ()
-  (jingle:set-response-status :not-found)
+  (set-response-status :not-found)
   (list (~page) *metadata*))
