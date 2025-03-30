@@ -7,19 +7,22 @@
   (:import-from #:hsx/element
                 #:element)
   (:import-from #:hp/env
+                #:hp-url
                 #:hp-env))
 (in-package #:hp/renderer)
 
-(defun bust-cache (url)
-  (format nil "~a?v=~a" url #.(get-universal-time)))
+(defun path->url (path)
+  (concatenate 'string
+               (hp-url)
+               (and (not (string= path "/")) path)))
 
 (defparameter *metadata-template*
-  (list :title (lambda (title)
-                 (format nil "~@[~a - ~]~a" title "skyizwhite.dev"))
+  (list :title (lambda (title) (format nil "~@[~a - ~]~a" title "skyizwhite.dev"))
         :description "The personal homepage of Akira Tempaku (paku) - projects, thoughts, and more."
-        :og-url "https://skyizwhite.dev"
+        :canonical #'path->url
+        :og-url #'path->url
         :og-type "website"
-        :og-image "https://skyizwhite.dev/img/og.jpg"
+        :og-image (path->url "/img/og.jpg")
         :og-image-width 1024
         :og-image-height 1024))
 
@@ -31,8 +34,12 @@
                           (funcall template value)
                           (or value template)))))
 
+(defun bust-cache (url)
+  (format nil "~a?v=~a" url #.(get-universal-time)))
+
 (defcomp ~document (&key title
                          description
+                         canonical
                          og-url
                          og-type
                          og-image
@@ -54,6 +61,7 @@
        (meta :property "og:image" :content og-image)
        (meta :property "og:image:width" :content og-image-width)
        (meta :property "og:image:height" :content og-image-height)
+       (link :rel "canonical" :href canonical)
        (link :rel "icon" :type "image/x-icon" :href "/img/favicon.ico")
        (link :rel "apple-touch-icon" :href "/img/favicon.ico")
        (link :rel "stylesheet" :href (bust-cache "/style/dist.css"))
