@@ -72,10 +72,9 @@
 
 (defmethod jingle:process-response ((app jingle:app) result)
   (set-response-header :content-type "text/html; charset=utf-8")
-  (when (string= (hp-env) "dev")
-    (set-response-header :cache-control "no-store, no-cache, must-revalidate")
-    (set-response-header :pragma "no-cache")
-    (set-response-header :expires "0"))
+  (set-response-header :cache-control (if (string= (hp-env) "dev")
+                                          "private, no-store, no-cache, must-revalidate"
+                                          "public, max-age=60, s-maxage=300, stale-while-revalidate=300, stale-if-error=300"))
   (call-next-method app
                     (hsx:render-to-string
                      (match result
