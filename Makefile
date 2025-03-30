@@ -2,8 +2,8 @@ TAILWIND_URL=https://github.com/tailwindlabs/tailwindcss/releases/latest/downloa
 TAILWIND_TARGET=tailwindcss-macos-arm64
 BIN_DIR=./bin
 TAILWIND_BIN=$(BIN_DIR)/tailwindcss
-STYLE_SRC=./public/style/global.css
-STYLE_DIST=./public/style/dist.css
+STYLE_SRC=./static/style/global.css
+STYLE_DIST=./static/style/dist.css
 
 all: install
 

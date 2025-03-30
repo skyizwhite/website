@@ -10,7 +10,7 @@ RUN mkdir -p ./bin \
   && chmod +x tailwindcss-linux-x64 \
   && mv tailwindcss-linux-x64 ./bin/tailwindcss
 
-RUN ./bin/tailwindcss -i ./public/style/global.css -o ./public/style/dist.css --minify
+RUN ./bin/tailwindcss -i ./static/style/global.css -o ./static/style/dist.css --minify
 
 RUN qlot install --quiet
 

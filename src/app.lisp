@@ -20,8 +20,8 @@
     (set-routes app :system :hp :target-dir-path "routes")
     (install-middleware app *recoverer*)
     (install-middleware app *trim-trailing-slash*)
-    (static-path app "/img/" "public/img/")
-    (static-path app "/style/" "public/style/")
+    (static-path app "/img/" "static/img/")
+    (static-path app "/style/" "static/style/")
     (configure app)))
 
 *app*
