@@ -8,8 +8,8 @@
   '(("Keyoxide"       "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62")
     ("GitHub"         "https://github.com/skyizwhite")
     ("Forgejo"        "https://code.skyizwhite.dev/paku")
-    ("X"              "https://x.com/skyizwhite")
-    ("Fediverse"      "https://himagine.club/@skyizwhite")
+    ("X (EN)"         "https://x.com/skyizwhite")
+    ("Fediverse (JP)" "https://himagine.club/@skyizwhite")
     ("Service Status" "https://status.skyizwhite.dev")))
 
 (defcomp ~page ()

@@ -18,7 +18,7 @@
 
 (defparameter *metadata-template*
   (list :title (lambda (title) (format nil "~@[~a - ~]~a" title "skyizwhite.dev"))
-        :description "The personal homepage of Akira Tempaku (paku) - projects, thoughts, and more."
+        :description "The personal website of Akira Tempaku (paku) - projects, thoughts, and more."
         :canonical #'path->url
         :og-url #'path->url
         :og-type "website"
