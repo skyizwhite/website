@@ -1,4 +1,4 @@
-(defpackage #:hp/env
+(defpackage #:hp/lib/env
   (:use #:cl)
   (:import-from #:cl-dotenv
                 #:load-env)
@@ -6,7 +6,7 @@
            #:hp-url
            #:microcms-service-domain
            #:microcms-api-key))
-(in-package #:hp/env)
+(in-package #:hp/lib/env)
 
 (load-env (merge-pathnames "./.env"))
 

@@ -2,7 +2,7 @@
   (:use #:cl)
   (:import-from #:microcms
                 #:define-list-client)
-  (:import-from #:hp/env
+  (:import-from #:hp/lib/env
                 #:microcms-service-domain
                 #:microcms-api-key)
   (:export #:get-blog-list

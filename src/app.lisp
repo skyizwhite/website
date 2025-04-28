@@ -11,7 +11,7 @@
                 #:*trim-trailing-slash*)
   (:import-from #:clack-errors
                 #:*clack-error-middleware*)
-  (:import-from #:hp/env
+  (:import-from #:hp/lib/env
                 #:hp-env)
   (:import-from #:hp/renderer)
   (:export #:*app*))

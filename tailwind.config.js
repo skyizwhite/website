@@ -3,7 +3,7 @@ module.exports = {
   content: [
     "./src/renderer.lisp",
     "./src/routes/**/*.lisp",
-    "./src/components/**/*.lisp",
+    "./src/ui/**/*.lisp",
   ],
   theme: {
     container: {

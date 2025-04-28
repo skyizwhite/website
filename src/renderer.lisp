@@ -6,7 +6,7 @@
                 #:set-response-header)
   (:import-from #:hsx/element
                 #:element)
-  (:import-from #:hp/env
+  (:import-from #:hp/lib/env
                 #:hp-url
                 #:hp-env))
 (in-package #:hp/renderer)
