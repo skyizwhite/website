@@ -8,3 +8,5 @@ git lack-mw https://github.com/skyizwhite/lack-mw.git
 git trivial-backtrace https://github.com/hraban/trivial-backtrace.git
 ql cl-dotenv
 ql clack-errors
+git microcms https://github.com/skyizwhite/microcms-lisp-sdk
+ql local-time

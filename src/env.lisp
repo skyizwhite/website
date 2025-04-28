@@ -3,7 +3,9 @@
   (:import-from #:cl-dotenv
                 #:load-env)
   (:export #:hp-env
-           #:hp-url))
+           #:hp-url
+           #:microcms-service-domain
+           #:microcms-api-key))
 (in-package #:hp/env)
 
 (load-env (merge-pathnames "./.env"))
@@ -14,3 +16,5 @@
 
 (env-var hp-env "HP_ENV")
 (env-var hp-url "HP_URL")
+(env-var microcms-service-domain "MICROCMS_SERVICE_DOMAIN")
+(env-var microcms-api-key "MICROCMS_API_KEY")
