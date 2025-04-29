@@ -14,16 +14,16 @@
 (defcomp ~page ()
   (hsx
    (section :class "flex flex-col items-center justify-center h-full"
-     (img :src "/img/me.webp" :alt "Profile Picture" :class "size-40 rounded rounded-full border shadow-lg")
+     (img :src "/img/avatar.jpg" :alt "avatar" :class "size-40 rounded-xl shadow-sm")
      (div :class "flex flex-col items-center gap-2 py-6"
-       (h1 :class "font-bold text-2xl"
+       (h1 :class "font-bold text-2xl text-center"
          "Akira Tempaku")
        (p :class "text-xl"
          "Web developer"))
-     (div :class "flex flex-col items-center text-pink-500"
+     (div :class "flex flex-col items-center"
        (loop
          :for (name url) :in *links*
-         :collect (hsx (a :href url :target "_blank" :class "text-lg hover:underline"
+         :collect (hsx (a :href url :target "_blank" :class "text-lg underline hover:text-pink-500"
                          name)))))))
 
 (defun handle-get (params)

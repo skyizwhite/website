@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  font-family: 'Noto Sans JP Variable', sans-serif;
+  font-family: "Zen Kurenaido", sans-serif;
 }
 
 @supports (font-variation-settings: normal) {
   :root {
-    font-family: 'Noto Sans JP Variable', sans-serif;
+    font-family: "Zen Kurenaido", sans-serif;
   }
 }
