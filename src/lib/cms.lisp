@@ -1,15 +1,20 @@
 (defpackage #:hp/lib/cms
   (:use #:cl)
   (:import-from #:microcms
-                #:define-list-client)
+                #:define-list-client
+                #:define-object-client)
   (:import-from #:hp/lib/env
                 #:microcms-service-domain
                 #:microcms-api-key)
   (:export #:get-blog-list
-           #:get-blog-detail))
+           #:get-blog-detail
+           #:get-bio
+           #:get-work))
 (in-package :hp/lib/cms)
 
 (setf microcms:*service-domain* (microcms-service-domain))
 (setf microcms:*api-key* (microcms-api-key))
 
+(define-object-client bio)
+(define-object-client work)
 (define-list-client blog)

@@ -14,7 +14,7 @@
 (defcomp ~page ()
   (hsx
    (section :class "flex flex-col items-center justify-center h-full"
-     (img :src "/img/avatar.jpg" :alt "avatar" :class "size-40 rounded-xl shadow-sm")
+     (img :src "/img/avatar.webp" :alt "avatar" :class "size-40 rounded-xl shadow-sm")
      (div :class "flex flex-col items-center gap-2 py-6"
        (h1 :class "font-bold text-2xl text-center"
          "Akira Tempaku")

@@ -40,29 +40,26 @@
        (link :rel "manifest" :href "/img/site.webmanifest")
        (link :rel "stylesheet" :href (bust-cache "/style/dist.css"))
        (link :rel "preconnect" :href "https://fonts.googleapis.com")
-       (link :rel "stylesheet" :href "https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap")
+       (link :rel "stylesheet" :href "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap")
        (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.0/dist/htmx.min.js")
-       (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-preload@2.0.0/preload.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-head-support@2.0.0/head-support.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.0/response-targets.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js" :defer t))
      (body
-       :hx-ext "head-support, response-targets, preload"
+       :hx-ext "head-support, response-targets"
        :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
        :class (<>
-                "h-[100svh] flex flex-col bg-[url(/img/bg.jpg)] bg-cover bg-center "
+                "h-[100svh] flex flex-col bg-[url(/img/bg.webp)] bg-cover bg-center "
                 "p-2 md:p-8")
        (div :class (<> 
                      "bg-amber-50/90 flex flex-col flex-1 w-full max-w-[700px] overflow-hidden  shadow-sm "
                      "px-2 pt-2 mx-auto md:px-8 md:pt-8")
          (header :class "flex justify-between pb-2 md:pb-4 border-b-1"
-           (h1 :class "text-2xl md:text-4xl font-bold"
+           (h1 :class "text-2xl md:text-3xl font-bold"
              (a :href "/"
                "skyizwhite"))
            (nav :class "flex items-end"
-             (ul
-               :class "flex gap-4 text-lg [&_a]:underline [&_a]:hover:text-pink-500"
-               :preload t
+             (ul :class "flex gap-4 text-lg [&_a]:underline [&_a]:hover:text-pink-500"
                (li (a :href "/bio" "bio"))
                (li (a :href "/work" "work"))
                (li (a :href "/blog" "blog")))))

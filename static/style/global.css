@@ -1,11 +1,12 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
-  font-family: "Zen Kurenaido", sans-serif;
+  font-family: "Zen Maru Gothic", sans-serif;
 }
 
 @supports (font-variation-settings: normal) {
   :root {
-    font-family: "Zen Kurenaido", sans-serif;
+    font-family: "Zen Maru Gothic", sans-serif;
   }
 }

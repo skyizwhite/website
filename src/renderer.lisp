@@ -19,7 +19,7 @@
   (set-response-header :content-type "text/html; charset=utf-8")
   (set-response-header :cache-control (if (string= (hp-env) "dev")
                                           "private, no-store"
-                                          "public, s-maxage=60, stale-while-revalidate=86400, stale-if-error=86400"))
+                                          "public, max-age=60 s-maxage=300, stale-while-revalidate=86400, stale-if-error=86400"))
   (call-next-method app
                     (hsx:render-to-string
                      (match result
