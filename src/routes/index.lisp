@@ -28,4 +28,5 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (~page))
+  (list :body (~page)
+        :cache :static))

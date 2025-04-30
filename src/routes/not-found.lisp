@@ -18,4 +18,6 @@
        "Back to TOP"))))
 
 (defun handle-not-found ()
-  (list (~page) *metadata*))
+  (list :body (~page)
+        :metadata *metadata*
+        :cache :dynamic))
