@@ -6,7 +6,8 @@
 
 (defparameter *metadata*
   '(:title "404 Not Found"
-    :description "The page you are looking for may have been deleted or the URL might be incorrect."))
+    :description "The page you are looking for may have been deleted or the URL might be incorrect."
+    :error t))
 
 (defcomp ~page ()
   (hsx

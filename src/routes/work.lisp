@@ -5,7 +5,8 @@
 (in-package :hp/routes/work)
 
 (defparameter *metadata*
-  (list :title "work"))
+  (list :title "work"
+        :path "/work"))
 
 (defcomp ~page ()
   (hsx

@@ -5,7 +5,8 @@
 (in-package :hp/routes/blog)
 
 (defparameter *metadata*
-  (list :title "blog"))
+  (list :title "blog"
+        :path "/blog"))
 
 (defcomp ~page ()
   (hsx

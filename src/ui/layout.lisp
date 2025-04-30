@@ -1,37 +1,21 @@
 (defpackage #:hp/ui/layout
   (:use #:cl
         #:hsx)
+  (:import-from #:hp/lib/metadata
+                #:~metadata)
   (:export #:~layout))
 (in-package #:hp/ui/layout)
 
 (defun bust-cache (url)
   (format nil "~a?v=~a" url #.(get-universal-time)))
 
-(defcomp ~layout (&key title
-                       description
-                       canonical
-                       og-url
-                       og-type
-                       og-image
-                       og-image-width
-                       og-image-height
-                       children)
+(defcomp ~layout (&key metadata children)
   (hsx
    (html :lang "ja"
      (head
        (meta :charset "UTF-8")
        (meta :name "viewport" :content "width=device-width, initial-scale=1")
-       (title title)
-       (meta :name "description" :content description)
-       (meta :property "og:title" :content title)
-       (meta :property "og:description" :content description)
-       (meta :property "og:url" :content og-url)
-       (meta :property "og:type" :content og-type)
-       (meta :property "og:site_name" :content "skyizwhite.dev")
-       (meta :property "og:image" :content og-image)
-       (meta :property "og:image:width" :content og-image-width)
-       (meta :property "og:image:height" :content og-image-height)
-       (link :rel "canonical" :href canonical)
+       (~metadata :metadata metadata)
        (link :rel "icon" :type "image/png" :href "/img/favicon-96x96.png" :sizes "96x96")
        (link :rel "icon" :type "image/svg+xml" :href "/img/favicon.svg")
        (link :rel "shortcut icon" :href "/img/favicon.ico")

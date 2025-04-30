@@ -5,7 +5,8 @@
 (in-package :hp/routes/bio)
 
 (defparameter *metadata*
-  (list :title "bio"))
+  (list :title "bio"
+        :path "/bio"))
 
 (defcomp ~page ()
   (hsx

@@ -9,8 +9,6 @@
   (:import-from #:hp/lib/env
                 #:hp-url
                 #:hp-env)
-  (:import-from #:hp/lib/metadata
-                #:complete-metadata)
   (:import-from #:hp/ui/layout
                 #:~layout))
 (in-package #:hp/renderer)
@@ -26,6 +24,6 @@
                        ((guard (or (list page metadata)
                                    page)
                                (typep page 'element))
-                        (~layout (complete-metadata metadata)
+                        (~layout :metadata metadata
                           page))
                        (_ (error "Invalid response form"))))))
