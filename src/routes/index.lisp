@@ -1,7 +1,8 @@
 (defpackage #:hp/routes/index
   (:use #:cl
         #:hsx)
-  (:export #:handle-get))
+  (:export #:handle-get
+           #:handle-head))
 (in-package #:hp/routes/index)
 
 (defparameter *links*
@@ -30,3 +31,7 @@
   (declare (ignore params))
   (list :body (~page)
         :cache :static))
+
+; for health check
+(defun handle-head (params)
+  (declare (ignore params)))

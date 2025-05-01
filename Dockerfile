@@ -6,7 +6,7 @@ ARG TW_BIN=./bin/tailwindcss
 WORKDIR /app
 COPY . /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential curl libev-dev
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential curl wget libev-dev
 
 RUN mkdir -p ./bin \
   && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v${TW_VERSION}/tailwindcss-linux-x64 \
