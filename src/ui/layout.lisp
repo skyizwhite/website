@@ -25,12 +25,13 @@
        (link :rel "stylesheet" :href (bust-cache "/style/dist.css"))
        (link :rel "preconnect" :href "https://fonts.googleapis.com")
        (link :rel "stylesheet" :href "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap")
-       (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.0/dist/htmx.min.js")
-       (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-head-support@2.0.0/head-support.min.js")
-       (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.0/response-targets.min.js")
-       (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js" :defer t))
+       (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js")
+       (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-preload@2.1.1/dist/preload.min.js")
+       (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-head-support@2.0.4/dist/head-support.min.js")
+       (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.3/dist/response-targets.min.js")
+       (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" :defer t))
      (body
-       :hx-ext "head-support, response-targets"
+       :hx-ext "head-support, response-targets, preload"
        :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
        :class (<>
                 "h-[100svh] flex flex-col bg-[url(/img/bg.webp)] bg-cover bg-center "
@@ -43,7 +44,9 @@
              (a :href "/"
                "skyizwhite"))
            (nav :class "flex items-end"
-             (ul :class "flex gap-4 text-lg [&_a]:underline [&_a]:hover:text-pink-500"
+             (ul
+               :preload "mouseover"
+               :class "flex gap-4 text-lg [&_a]:underline [&_a]:hover:text-pink-500"
                (li (a :href "/bio" "bio"))
                (li (a :href "/work" "work"))
                (li (a :href "/blog" "blog")))))
