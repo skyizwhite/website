@@ -3,11 +3,18 @@
         #:hsx)
   (:import-from #:hp/lib/metadata
                 #:~metadata)
+  (:import-from #:jingle
+                #:request-uri)
   (:export #:~layout))
 (in-package #:hp/ui/layout)
 
 (defun bust-cache (url)
   (format nil "~a?v=~a" url #.(get-universal-time)))
+
+(defparameter *nav-menu*
+  '(("/bio" "bio")
+    ("/work" "work")
+    ("/blog" "blog")))
 
 (defcomp ~layout (&key metadata children)
   (hsx
@@ -46,9 +53,14 @@
            (nav :class "flex items-end"
              (ul
                :preload "mouseover"
-               :class "flex gap-4 text-lg [&_a]:underline [&_a]:hover:text-pink-500"
-               (li (a :href "/bio" "bio"))
-               (li (a :href "/work" "work"))
-               (li (a :href "/blog" "blog")))))
+               :class "flex gap-4 text-lg"
+               (loop
+                 :for (href label) :in *nav-menu*
+                 :collect
+                    (if (search href (request-uri jingle:*request*))
+                        (hsx (li :class "text-pink-500"
+                               label))
+                        (hsx (li (a :href href :class "underline hover:text-pink-500"
+                                   label))))))))
          (main :class "flex-1 pt-2 pb-4 md:pt-4 md:pb-8 overflow-y-scroll "
            children))))))
