@@ -1,4 +1,4 @@
-(defpackage #:hp/ui/layout
+(defpackage #:hp/components/layout
   (:use #:cl
         #:hsx)
   (:import-from #:hp/lib/metadata
@@ -6,7 +6,7 @@
   (:import-from #:jingle
                 #:request-uri)
   (:export #:~layout))
-(in-package #:hp/ui/layout)
+(in-package #:hp/components/layout)
 
 (defun bust-cache (url)
   (format nil "~a?v=~a" url #.(get-universal-time)))
@@ -40,27 +40,24 @@
      (body
        :hx-ext "head-support, response-targets, preload"
        :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
-       :class (<>
-                "h-[100svh] flex flex-col bg-[url(/img/bg.webp)] bg-cover bg-center "
-                "p-2 md:p-8")
-       (div :class (<> 
-                     "bg-amber-50/90 flex flex-col flex-1 w-full max-w-[700px] overflow-hidden  shadow-sm "
-                     "px-2 pt-2 mx-auto md:px-8 md:pt-8")
-         (header :class "flex justify-between pb-2 md:pb-4 border-b-1"
-           (h1 :class "text-2xl md:text-3xl font-bold"
-             (a :href "/"
-               "skyizwhite"))
-           (nav :class "flex items-end"
-             (ul
-               :preload "mouseover"
-               :class "flex gap-4 text-lg"
-               (loop
-                 :for (href label) :in *nav-menu*
-                 :collect
-                    (if (search href (request-uri jingle:*request*))
-                        (hsx (li :class "text-pink-500"
-                               label))
-                        (hsx (li (a :href href :class "underline hover:text-pink-500"
-                                   label))))))))
-         (main :class "flex-1 pt-2 pb-4 md:pt-4 md:pb-8 overflow-y-scroll "
-           children))))))
+       :class (<> 
+                "bg-amber-50/90 flex flex-col h-[100svh] w-full max-w-[700px] "
+                "px-2 pt-2 mx-auto md:px-8 md:pt-8")
+       (header :class "flex justify-between pb-2 md:pb-4 border-b-1"            
+         (h1 :class "text-2xl md:text-3xl font-bold"
+           (a :href "/"
+             "skyizwhite"))
+         (nav :class "flex items-end"
+           (ul
+             :preload "mouseover"
+             :class "flex gap-4 text-lg"
+             (loop
+               :for (href label) :in *nav-menu*
+               :collect
+                  (if (search href (request-uri jingle:*request*))
+                      (hsx (li :class "text-pink-500"
+                             label))
+                      (hsx (li (a :href href :class "underline hover:text-pink-500"
+                                 label))))))))
+       (main :class "flex-1 pt-2 pb-4 md:pt-4 md:pb-8 overflow-y-scroll "
+         children)))))

@@ -9,7 +9,7 @@
   (:import-from #:hp/lib/env
                 #:hp-url
                 #:hp-env)
-  (:import-from #:hp/ui/layout
+  (:import-from #:hp/components/layout
                 #:~layout))
 (in-package #:hp/renderer)
 
