@@ -18,12 +18,9 @@
                        (if (string= (hp-env) "dev")
                            "private, no-store"
                            (cond 
-                             ((eq strategy :static)
-                              "public, max-age=31536000, immutable")
-                             ((eq strategy :dynamic)
-                              "public, max-age=60 stale-while-revalidate=86400, stale-if-error=86400")
-                             (t
-                              "private, no-store")))))
+                             ((eq strategy :static) "public, max-age=31536000, immutable")
+                             ((eq strategy :dynamic) "public, max-age=60")
+                             (t "private, no-store")))))
 
 (defmethod jingle:process-response ((app jingle:app) result)
   (set-response-header :content-type "text/html; charset=utf-8")
