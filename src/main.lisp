@@ -1,13 +1,13 @@
-(defpackage #:hp
-  (:nicknames #:hp/main)
+(defpackage #:website
+  (:nicknames #:website/main)
   (:use #:cl)
   (:import-from #:clack)
-  (:import-from #:hp/app
+  (:import-from #:website/app
                 #:*app*)
   (:export #:start
            #:stop
            #:reload))
-(in-package #:hp)
+(in-package #:website)
 
 (defparameter *handler* nil)
 
@@ -28,5 +28,5 @@
 
 (defun reload ()
   (stop)
-  (ql:quickload :hp/app)
+  (ql:quickload :website/app)
   (start))

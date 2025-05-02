@@ -1,4 +1,4 @@
-(defpackage #:hp/renderer
+(defpackage #:website/renderer
   (:use #:cl
         #:hsx
         #:trivia)
@@ -6,16 +6,16 @@
                 #:set-response-header)
   (:import-from #:hsx/element
                 #:element)
-  (:import-from #:hp/lib/env
-                #:hp-url
-                #:hp-env)
-  (:import-from #:hp/components/layout
+  (:import-from #:website/lib/env
+                #:website-url
+                #:website-env)
+  (:import-from #:website/components/layout
                 #:~layout))
-(in-package #:hp/renderer)
+(in-package #:website/renderer)
 
 (defun set-cache-control (strategy)
   (set-response-header :cache-control
-                       (if (string= (hp-env) "dev")
+                       (if (string= (website-env) "dev")
                            "private, no-store"
                            (cond 
                              ((eq strategy :static) "public, max-age=31536000, immutable")

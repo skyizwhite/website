@@ -1,4 +1,4 @@
-(defpackage #:hp/lib/time
+(defpackage #:website/lib/time
   (:use #:cl)
   (:import-from #:local-time
                 #:reread-timezone-repository
@@ -7,7 +7,7 @@
                 #:format-timestring)
   (:export #:datetime
            #:jp-datetime))
-(in-package #:hp/lib/time)
+(in-package #:website/lib/time)
 
 (reread-timezone-repository)
 (setf local-time:*default-timezone*

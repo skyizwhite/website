@@ -1,7 +1,7 @@
-(defpackage #:hp-tests/example
+(defpackage #:website-tests/example
   (:use #:cl
         #:fiveam))
-(in-package #:hp-tests/example)
+(in-package #:website-tests/example)
 
 (def-suite example-test)
 (in-suite example-test)

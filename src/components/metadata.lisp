@@ -1,10 +1,10 @@
-(defpackage #:hp/components/metadata
+(defpackage #:website/components/metadata
   (:use #:cl
         #:hsx)
-  (:import-from #:hp/lib/env
-                #:hp-url)
+  (:import-from #:website/lib/env
+                #:website-url)
   (:export #:~metadata))
-(in-package #:hp/components/metadata)
+(in-package #:website/components/metadata)
 
 (defun create-metadata (&key title
                              description
@@ -27,7 +27,7 @@
 
 (defun path->url (path)
   (concatenate 'string
-               (hp-url)
+               (website-url)
                (and (not (string= path "/")) path)))
 
 (defparameter *metadata-template*

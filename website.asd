@@ -1,7 +1,7 @@
-(defsystem "hp"
+(defsystem "website"
   :description "My personal website"
   :author "Akira Tempaku <paku@skyizwhite.dev>"
   :class :package-inferred-system
   :pathname "src"
-  :depends-on ("hp/main")
-  :in-order-to ((test-op (test-op "hp-tests"))))
+  :depends-on ("website/main")
+  :in-order-to ((test-op (test-op "website-tests"))))

@@ -1,8 +1,13 @@
-(defpackage #:hp/routes/bio
+(defpackage #:website/routes/bio
   (:use #:cl
         #:hsx)
+  (:import-from #:website/lib/cms
+                #:get-bio)
+  (:import-from #:website/lib/time
+                #:datetime
+                #:jp-datetime)
   (:export #:handle-get))
-(in-package :hp/routes/bio)
+(in-package :website/routes/bio)
 
 (defparameter *metadata*
   (list :title "bio"
@@ -10,8 +15,7 @@
 
 (defcomp ~page ()
   (hsx
-   (section
-     (p "Coming soon..."))))
+    (p "coming soon")))
 
 (defun handle-get (params)
   (declare (ignore params))

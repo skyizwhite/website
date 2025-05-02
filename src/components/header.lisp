@@ -1,10 +1,10 @@
-(defpackage #:hp/components/header
+(defpackage #:website/components/header
   (:use #:cl
         #:hsx)
   (:import-from #:jingle
                 #:request-uri)
   (:export #:~header))
-(in-package #:hp/components/header)
+(in-package #:website/components/header)
 
 (defparameter *nav-menu*
   '(("/bio" "bio")

@@ -2,7 +2,7 @@
 set -e
 
 echo "Starting server..."
-.qlot/bin/clackup --system hp --server woo --address 0.0.0.0 --port 3000 src/app.lisp &
+.qlot/bin/clackup --system website --server woo --address 0.0.0.0 --port 3000 src/app.lisp &
 
 SERVER_PID=$!
 

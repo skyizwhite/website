@@ -1,12 +1,12 @@
-(defpackage #:hp/components/layout
+(defpackage #:website/components/layout
   (:use #:cl
         #:hsx)
-  (:import-from #:hp/components/metadata
+  (:import-from #:website/components/metadata
                 #:~metadata)
-  (:import-from #:hp/components/header
+  (:import-from #:website/components/header
                 #:~header)
   (:export #:~layout))
-(in-package #:hp/components/layout)
+(in-package #:website/components/layout)
 
 (defun bust-cache (url)
   (format nil "~a?v=~a" url #.(get-universal-time)))

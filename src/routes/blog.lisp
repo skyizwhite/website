@@ -1,8 +1,8 @@
-(defpackage #:hp/routes/blog
+(defpackage #:website/routes/blog
   (:use #:cl
         #:hsx)
   (:export #:handle-get))
-(in-package :hp/routes/blog)
+(in-package :website/routes/blog)
 
 (defparameter *metadata*
   (list :title "blog"
@@ -10,8 +10,7 @@
 
 (defcomp ~page ()
   (hsx
-   (section
-     (p "Coming soon..."))))
+    (p "coming soon")))
 
 (defun handle-get (params)
   (declare (ignore params))

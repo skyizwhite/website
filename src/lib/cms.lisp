@@ -1,16 +1,16 @@
-(defpackage #:hp/lib/cms
+(defpackage #:website/lib/cms
   (:use #:cl)
   (:import-from #:microcms
                 #:define-list-client
                 #:define-object-client)
-  (:import-from #:hp/lib/env
+  (:import-from #:website/lib/env
                 #:microcms-service-domain
                 #:microcms-api-key)
   (:export #:get-blog-list
            #:get-blog-detail
            #:get-bio
            #:get-work))
-(in-package :hp/lib/cms)
+(in-package :website/lib/cms)
 
 (setf microcms:*service-domain* (microcms-service-domain))
 (setf microcms:*api-key* (microcms-api-key))

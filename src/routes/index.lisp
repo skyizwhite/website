@@ -1,9 +1,9 @@
-(defpackage #:hp/routes/index
+(defpackage #:website/routes/index
   (:use #:cl
         #:hsx)
   (:export #:handle-get
            #:handle-head))
-(in-package #:hp/routes/index)
+(in-package #:website/routes/index)
 
 (defparameter *links*
   '(("Keyoxide"       "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62")

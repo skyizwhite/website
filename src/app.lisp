@@ -1,4 +1,4 @@
-(defpackage #:hp/app
+(defpackage #:website/app
   (:use #:cl)
   (:import-from #:jingle
                 #:make-app
@@ -11,19 +11,19 @@
                 #:*trim-trailing-slash*)
   (:import-from #:clack-errors
                 #:*clack-error-middleware*)
-  (:import-from #:hp/lib/env
-                #:hp-env)
-  (:import-from #:hp/renderer)
+  (:import-from #:website/lib/env
+                #:website-env)
+  (:import-from #:website/renderer)
   (:export #:*app*))
-(in-package #:hp/app)
+(in-package #:website/app)
 
 (defparameter *app*
   (let ((app (make-app)))
-    (set-routes app :system :hp :target-dir-path "routes")
+    (set-routes app :system :website :target-dir-path "routes")
     (install-middleware app (lambda (app)
                               (funcall *clack-error-middleware*
                                        app
-                                       :debug (string= (hp-env) "dev"))))
+                                       :debug (string= (website-env) "dev"))))
     (install-middleware app *trim-trailing-slash*)
     (static-path app "/img/" "static/img/")
     (static-path app "/style/" "static/style/")

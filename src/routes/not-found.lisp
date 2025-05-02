@@ -1,8 +1,8 @@
-(defpackage #:hp/routes/not-found
+(defpackage #:website/routes/not-found
   (:use #:cl
         #:hsx)
   (:export #:handle-not-found))
-(in-package #:hp/routes/not-found)
+(in-package #:website/routes/not-found)
 
 (defparameter *metadata*
   '(:title "404 Not Found"

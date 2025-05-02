@@ -51,7 +51,7 @@ lem: ## Open Lem with TailwindCSS server
 	kill $$WATCH_PID
 
 docker-build: ## Build docker image
-	docker build -t hp .
+	docker build -t website .
 
 docker-run: ## Run docker container
-	docker run -p 3000:3000 hp
+	docker run -p 3000:3000 website
