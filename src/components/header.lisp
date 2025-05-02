@@ -24,5 +24,5 @@
               (if (search href (request-uri jingle:*request*))
                   (hsx (li :class "text-pink-500"
                          label))
-                  (hsx (li (a :href href :class "underline hover:text-pink-500"
+                  (hsx (li (a :href href :class "hover:text-pink-500"
                              label))))))))))

@@ -24,7 +24,7 @@
      (div :class "flex flex-col items-center"
        (loop
          :for (name url) :in *links*
-         :collect (hsx (a :href url :target "_blank" :class "text-lg underline hover:text-pink-500"
+         :collect (hsx (a :href url :target "_blank" :class "text-lg hover:text-pink-500"
                          name)))))))
 
 (defun handle-get (params)
