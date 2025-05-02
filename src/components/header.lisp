@@ -13,12 +13,12 @@
 
 (defcomp ~header ()
   (hsx
-   (header :class "flex justify-between pb-2 md:pb-4 border-b-1"            
+   (header :class "flex justify-between py-2 md:py-4 border-b-1 sticky top-0 bg-white"
      (h1 :class "text-2xl md:text-3xl font-bold"
        (a :href "/"
          "skyizwhite"))
      (nav :class "flex items-end"
-       (ul :preload "mouseover" :class "flex gap-4 text-lg"
+       (ul :preload "mouseover" :class "flex gap-4 text-xl"
          (loop
            :for (href label) :in *nav-menu* :collect
               (if (search href (request-uri jingle:*request*))

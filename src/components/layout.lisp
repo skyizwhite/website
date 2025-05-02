@@ -1,7 +1,7 @@
 (defpackage #:hp/components/layout
   (:use #:cl
         #:hsx)
-  (:import-from #:hp/lib/metadata
+  (:import-from #:hp/components/metadata
                 #:~metadata)
   (:import-from #:hp/components/header
                 #:~header)
@@ -37,9 +37,9 @@
        :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
        :class (<> 
                 "flex flex-col h-[100svh] w-full max-w-[700px] "
-                "p-2 md:pt-6 mx-auto")
+                "px-2 mx-auto")
        (~header)
-       (main :class "flex-1 px-2 py-6 md:px-4 md:py-8 overflow-y-scroll"
+       (main :class "flex-1 px-2 py-6 md:px-4 md:py-8"
          children)
        (footer :class "flex p-2 justify-center text-sm border-t-1"
          (p "© 2025 Akira Tempaku"))))))

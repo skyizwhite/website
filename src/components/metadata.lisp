@@ -1,10 +1,10 @@
-(defpackage #:hp/lib/metadata
+(defpackage #:hp/components/metadata
   (:use #:cl
         #:hsx)
   (:import-from #:hp/lib/env
                 #:hp-url)
   (:export #:~metadata))
-(in-package #:hp/lib/metadata)
+(in-package #:hp/components/metadata)
 
 (defun create-metadata (&key title
                              description
