@@ -24,14 +24,16 @@
 
 (defmethod jingle:process-response ((app jingle:app) result)
   (set-response-header :content-type "text/html; charset=utf-8")
-  (call-next-method app
-                    (hsx:render-to-string
-                     (match result
-                       ((plist :body body
-                               :metadata metadata
-                               :cache cache)
-                        (progn
-                          (set-cache-control cache)
-                          (~layout :metadata metadata
-                            body)))
-                       (_ (error "Invalid response form"))))))
+  (match result
+    ((plist :body body
+            :metadata metadata
+            :cache cache
+            :partial partial)
+     (set-cache-control cache)
+     (call-next-method app                         
+                       (hsx:render-to-string
+                        (if partial
+                            body
+                            (~layout :metadata metadata
+                              body)))))
+    (_ (error "Invalid response form"))))
