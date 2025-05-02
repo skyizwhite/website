@@ -18,7 +18,7 @@
                        (if (string= (website-env) "dev")
                            "private, no-store"
                            (cond 
-                             ((eq strategy :static) "public, max-age=31536000, immutable")
+                             ((eq strategy :static) "public, max-age=60, s-maxage=31536000")
                              ((eq strategy :dynamic) "public, max-age=60")
                              (t "private, no-store")))))
 
