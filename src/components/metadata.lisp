@@ -32,7 +32,7 @@
 
 (defparameter *metadata-template*
   (let ((%title (lambda (title) (format nil "~@[~a - ~]~a" title "skyizwhite.dev")))
-        (%description "The personal website of Akira Tempaku (paku) - bio, work, blog and more."))
+        (%description "The personal website of Akira Tempaku (paku)"))
     (list :title %title
           :description %description
           :canonical #'path->url

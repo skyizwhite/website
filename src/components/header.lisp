@@ -7,7 +7,7 @@
 (in-package #:website/components/header)
 
 (defparameter *nav-menu*
-  '(("/bio" "bio")
+  '(("/about" "about")
     ("/work" "work")
     ("/blog" "blog")))
 
