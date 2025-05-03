@@ -1,8 +1,6 @@
 (defpackage #:website/components/layout
   (:use #:cl
         #:hsx)
-  (:import-from #:website/components/metadata
-                #:~metadata)
   (:import-from #:website/components/header
                 #:~header)
   (:export #:~layout))
@@ -10,12 +8,7 @@
 
 (defcomp ~layout (&key children)
   (hsx
-   (body
-     :hx-ext "head-support, response-targets, preload, alpine-morph"
-     :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
-     :class (<> 
-              "flex flex-col h-[100svh] w-full max-w-[700px] "
-              "px-2 mx-auto")
+   (div :class "flex flex-col h-[100svh] w-full max-w-[700px] px-2 mx-auto"
      (~header)
      (div :class "flex flex-col flex-1 overflow-y-scroll"
        (main :class "flex-1 px-2 py-6 md:px-4 md:py-8"

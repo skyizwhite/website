@@ -10,8 +10,7 @@
 (in-package :website/routes/about)
 
 (defparameter *metadata*
-  (list :title "about"
-        :path "/about"))
+  (list :title "about"))
 
 (defcomp ~page ()
   (hsx

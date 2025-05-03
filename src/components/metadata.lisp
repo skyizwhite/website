@@ -1,75 +1,66 @@
 (defpackage #:website/components/metadata
   (:use #:cl
         #:hsx)
+  (:import-from #:jingle
+                #:request-uri)
   (:import-from #:website/lib/env
                 #:website-url)
   (:export #:~metadata))
 (in-package #:website/components/metadata)
-
-(defun create-metadata (&key title
-                             description
-                             path
-                             canonical
-                             type
-                             image
-                             error)
-  (list :title title
-        :description description
-        :canonical (or canonical path)
-        :og-title title
-        :og-description description
-        :og-url path
-        :og-type type
-        :og-image (getf image :url)
-        :og-image-width (getf image :width)
-        :og-image-height (getf image :height)
-        :error error))
 
 (defun path->url (path)
   (concatenate 'string
                (website-url)
                (and (not (string= path "/")) path)))
 
-(defparameter *metadata-template*
-  (let ((%title (lambda (title) (format nil "~@[~a - ~]~a" title "skyizwhite.dev")))
-        (%description "The personal website of Akira Tempaku (paku)"))
-    (list :title %title
-          :description %description
-          :canonical #'path->url
-          :og-title %title
-          :og-description %description
-          :og-url #'path->url
-          :og-type "website"
-          :og-site-name "skyizwhite.dev"
-          :og-image (path->url "/img/og.jpg")
-          :og-image-width 1024
-          :og-image-height 1024
-          :error nil)))
+(defparameter *default-metadata*
+  (list :title (lambda (title) (format nil "~@[~a - ~]skyizwhite" title))
+        :description "The personal website of Akira Tempaku (paku)"
+        :canonical nil
+        :type "website"
+        :image (list :url (path->url "/img/og.jpg")
+                     :height 1024
+                     :width 1024)
+        :error nil))
+
+(defun create-metadata (&key title
+                             description
+                             canonical
+                             type
+                             image
+                             error)
+  (let ((path (request-uri jingle:*request*)))
+    (hsx
+     (<>
+       (meta :charset "UTF-8")
+       (meta :name "viewport" :content "width=device-width, initial-scale=1")
+       (title title)
+       (meta :name "description" :content description)
+       (and (not error)
+            (hsx (<>
+                   (meta :property "og:title" :content title)
+                   (meta :property "og:description" :content description)
+                   (meta :property "og:url" :content (path->url path))
+                   (meta :property "og:type" :content type)
+                   (meta :property "og:site_name" :content "skyizwhite")
+                   (meta :property "og:image" :content (getf image :url))
+                   (meta :property "og:image:width" :content (getf image :width))
+                   (meta :property "og:image:height" :content (getf image :height))
+                   (link :rel "canonical" :href (path->url (or canonical path))))))
+       (link :rel "icon" :type "image/png" :href "/img/favicon-96x96.png" :sizes "96x96")
+       (link :rel "icon" :type "image/svg+xml" :href "/img/favicon.svg")
+       (link :rel "shortcut icon" :href "/img/favicon.ico")
+       (link :rel "apple-touch-icon" :sizes "180x180" :href "/img/apple-touch-icon.png")
+       (meta :name "apple-mobile-web-app-title" :content "skyizwhite")
+       (link :rel "manifest" :href "/img/site.webmanifest")))))
 
 (defun complete-metadata (metadata)
   (loop 
-    :for (key template) :on *metadata-template* :by #'cddr
+    :for (key template) :on *default-metadata* :by #'cddr
     :for value := (getf metadata key)
     :append (list key (if (functionp template)
                           (funcall template value)
                           (or value template)))))
 
 (defcomp ~metadata (&key metadata)
-  (let ((%metadata (complete-metadata (apply #'create-metadata metadata))))
-    (hsx
-     (<>
-       (title (getf %metadata :title))
-       (meta :name "description" :content (getf %metadata :description))
-       (and
-        (not (getf %metadata :error))
-        (hsx
-         (<>
-           (meta :property "og:title" :content (getf %metadata :og-title))
-           (meta :property "og:description" :content (getf %metadata :og-description))
-           (meta :property "og:url" :content (getf %metadata :og-url))
-           (meta :property "og:type" :content (getf %metadata :og-type))
-           (meta :property "og:site_name" :content (getf %metadata :og-site-name))
-           (meta :property "og:image" :content (getf %metadata :og-image))
-           (meta :property "og:image:width" :content (getf %metadata :og-image-width))
-           (meta :property "og:image:height" :content (getf %metadata :og-image-height))
-           (link :rel "canonical" :href (getf %metadata :canonical)))))))))
+  (apply #'create-metadata (complete-metadata metadata)))

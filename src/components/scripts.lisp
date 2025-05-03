@@ -1,0 +1,22 @@
+(defpackage #:website/components/scripts
+  (:use #:cl
+        #:hsx)
+  (:export #:~scripts))
+(in-package #:website/components/scripts)
+
+(defun bust-cache (url)
+  (format nil "~a?v=~a" url #.(get-universal-time)))
+
+(defcomp ~scripts ()
+  (hsx
+   (<>
+     (link :rel "stylesheet" :href (bust-cache "/style/dist.css"))
+     (link :rel "preconnect" :href "https://fonts.googleapis.com")
+     (link :rel "stylesheet" :href "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap")
+     (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js")
+     (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-preload@2.1.1/dist/preload.min.js")
+     (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-head-support@2.0.4/dist/head-support.min.js")
+     (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.3/dist/response-targets.min.js")
+     (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-alpine-morph@2.0.1/alpine-morph.min.js")
+     (script :src "https://cdn.jsdelivr.net/npm/@alpinejs/morph@3.14.9/dist/cdn.min.js" :defer t)
+     (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" :defer t))))

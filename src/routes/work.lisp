@@ -10,8 +10,7 @@
 (in-package :website/routes/work)
 
 (defparameter *metadata*
-  (list :title "work"
-        :path "/work"))
+  (list :title "work"))
 
 (defcomp ~page ()
   (hsx
