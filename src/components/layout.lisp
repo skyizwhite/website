@@ -26,7 +26,7 @@
        (link :rel "manifest" :href "/img/site.webmanifest")
        (link :rel "stylesheet" :href (bust-cache "/style/dist.css"))
        (link :rel "preconnect" :href "https://fonts.googleapis.com")
-       (link :rel "stylesheet" :href "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap")
+       (link :rel "stylesheet" :href "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap")
        (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-preload@2.1.1/dist/preload.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-head-support@2.0.4/dist/head-support.min.js")
@@ -39,7 +39,8 @@
                 "flex flex-col h-[100svh] w-full max-w-[700px] "
                 "px-2 mx-auto")
        (~header)
-       (main :class "flex-1 px-2 py-6 md:px-4 md:py-8"
-         children)
-       (footer :class "flex p-2 justify-center text-sm border-t-1"
-         (p "© 2025 Akira Tempaku"))))))
+       (div :class "flex flex-col flex-1 overflow-y-scroll"
+         (main :class "flex-1 px-2 py-6 md:px-4 md:py-8"
+           children)
+         (footer :class "flex p-2 justify-center text-sm border-t-1"
+           (p "© 2025 Akira Tempaku")))))))
