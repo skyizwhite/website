@@ -1,6 +1,7 @@
 (defpackage #:website/routes/blog
   (:use #:cl
-        #:hsx)
+        #:hsx
+        #:jingle)
   (:export #:handle-get))
 (in-package :website/routes/blog)
 
@@ -13,4 +14,5 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (list (~page) *metadata*))
+  (setf (context :metadata) *metadata*)
+  (~page))

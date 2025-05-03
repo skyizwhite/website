@@ -1,10 +1,6 @@
 (defpackage #:website/app
-  (:use #:cl)
-  (:import-from #:jingle
-                #:make-app
-                #:install-middleware
-                #:static-path
-                #:configure)
+  (:use #:cl
+        #:jingle)
   (:import-from #:ningle-fbr
                 #:set-routes)
   (:import-from #:lack-mw

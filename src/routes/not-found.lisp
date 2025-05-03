@@ -1,6 +1,7 @@
 (defpackage #:website/routes/not-found
   (:use #:cl
-        #:hsx)
+        #:hsx
+        #:jingle)
   (:export #:handle-not-found))
 (in-package #:website/routes/not-found)
 
@@ -18,4 +19,5 @@
        "Back to TOP"))))
 
 (defun handle-not-found ()
-  (list (~page) *metadata*))
+  (setf (context :metadata) *metadata*)
+  (~page))

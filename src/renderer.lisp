@@ -1,9 +1,7 @@
 (defpackage #:website/renderer
   (:use #:cl
         #:hsx
-        #:trivia)
-  (:import-from #:jingle
-                #:set-response-header)
+        #:jingle)
   (:import-from #:hsx/element
                 #:element)
   (:import-from #:website/lib/env
@@ -21,18 +19,14 @@
   (set-response-header :cache-control (if (string= (website-env) "dev")
                                           "private, no-store"
                                           "public, max-age=60"))
-  (match result
-    ((guard (or (list body metadata)
-                body)
-            (typep body 'element))
-     (call-next-method app
-                       (hsx:render-to-string
-                        (hsx (html :lang "ja"
-                               (head
-                                 (~metadata :metadata metadata)
-                                 (~scripts))
-                               (body
-                                 :hx-ext "head-support, response-targets, preload, alpine-morph"
-                                 :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
-                                 (~layout body)))))))
-    (_ (error "Invalid response form"))))
+  
+  (call-next-method app
+                    (hsx:render-to-string
+                     (hsx (html :lang "ja"
+                            (head
+                              (~metadata :metadata (context :metadata))
+                              (~scripts))
+                            (body
+                              :hx-ext "head-support, response-targets"
+                              :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
+                              (~layout result)))))))

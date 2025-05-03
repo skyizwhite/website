@@ -1,8 +1,7 @@
 (defpackage #:website/components/header
   (:use #:cl
-        #:hsx)
-  (:import-from #:jingle
-                #:request-uri)
+        #:hsx
+        #:jingle)
   (:export #:~header))
 (in-package #:website/components/header)
 

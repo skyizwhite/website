@@ -1,6 +1,7 @@
 (defpackage #:website/routes/work
   (:use #:cl
-        #:hsx)
+        #:hsx
+        #:jingle)
   (:import-from #:website/lib/cms
                 #:get-work)
   (:import-from #:website/lib/time
@@ -18,4 +19,5 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (list (~page) *metadata*))
+  (setf (context :metadata) *metadata*)
+  (~page))

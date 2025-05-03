@@ -1,8 +1,7 @@
 (defpackage #:website/components/metadata
   (:use #:cl
-        #:hsx)
-  (:import-from #:jingle
-                #:request-uri)
+        #:hsx
+        #:jingle)
   (:import-from #:website/lib/env
                 #:website-url)
   (:export #:~metadata))
