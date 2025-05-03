@@ -31,9 +31,11 @@
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-preload@2.1.1/dist/preload.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-head-support@2.0.4/dist/head-support.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.3/dist/response-targets.min.js")
+       (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-alpine-morph@2.0.1/alpine-morph.min.js")
+       (script :src "https://cdn.jsdelivr.net/npm/@alpinejs/morph@3.14.9/dist/cdn.min.js" :defer t)
        (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" :defer t))
      (body
-       :hx-ext "head-support, response-targets, preload"
+       :hx-ext "head-support, response-targets, preload, alpine-morph"
        :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
        :class (<> 
                 "flex flex-col h-[100svh] w-full max-w-[700px] "
