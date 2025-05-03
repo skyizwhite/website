@@ -32,13 +32,13 @@
        :@click "open = !open"
        (div :class "grid justify-items-center gap-1.5"
          (span
-           :class "h-1 w-8 rounded-full bg-black transition"
+           :class "h-1 w-8 rounded-full bg-black transition duration-400"
            :|:class| "open && 'rotate-45 translate-y-2.5'")
          (span
-           :class "h-1 w-8 rounded-full bg-black transition"
+           :class "h-1 w-8 rounded-full bg-black transition duration-400"
            :|:class| "open && 'scale-x-0'")
-         (span 
-           :class "h-1 w-8 rounded-full bg-black"
+         (span
+           :class "h-1 w-8 rounded-full bg-black transition duration-400"
            :|:class| "open && '-rotate-45 -translate-y-2.5'")))
      (nav
        :class (<>
