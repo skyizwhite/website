@@ -27,6 +27,6 @@
                               (~metadata :metadata (context :metadata))
                               (~scripts))
                             (body
-                              :hx-ext "head-support, response-targets"
+                              :hx-ext "head-support, response-targets, preload"
                               :hx-boost "true" :hx-target-404 "body" :hx-target-5* "body"
                               (~layout result)))))))
