@@ -8,7 +8,7 @@
                 #:datetime
                 #:jp-datetime)
   (:export #:handle-get))
-(in-package :website/routes/about)
+(in-package #:website/routes/about)
 
 (defparameter *metadata*
   (list :title "about"))

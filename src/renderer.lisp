@@ -16,12 +16,12 @@
 
 (defmethod jingle:process-response ((app jingle:app) result)
   (set-response-header :content-type "text/html; charset=utf-8")
-  (set-response-header :cache-control (if (string= (website-env) "dev")
-                                          "private, no-store"
-                                          "public, max-age=60"))
-  
+  (when (eq (request-method *request*) :get)
+    (set-response-header :cache-control (if (string= (website-env) "dev")
+                                            "private, no-store"
+                                            "public, max-age=60")))
   (call-next-method app
-                    (hsx:render-to-string
+                    (render-to-string
                      (hsx (html :lang "ja"
                             (head
                               (~metadata :metadata (context :metadata))

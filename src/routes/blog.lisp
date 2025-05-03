@@ -3,7 +3,7 @@
         #:hsx
         #:jingle)
   (:export #:handle-get))
-(in-package :website/routes/blog)
+(in-package #:website/routes/blog)
 
 (defparameter *metadata*
   (list :title "blog"))

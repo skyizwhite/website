@@ -14,26 +14,22 @@
   (hsx
    (header :class "hidden md:flex justify-between py-4 border-b-1 top-0 bg-white"
      (h1 :class "z-20 text-3xl font-bold"
-       (a :href "/"
-         "skyizwhite"))
+       (a :href "/" "skyizwhite"))
      (nav :class "flex items-end"
        (ul :preload "mouseover" :class "flex gap-4 text-xl font-medium"
          (loop
            :for (href label) :in *nav-menu* :collect
-              (if (search href (request-uri jingle:*request*))
-                  (hsx (li :class "text-pink-500"
-                         label))
-                  (hsx (li (a :href href :class "hover:text-pink-500"
-                             label))))))))))
+              (if (search href (request-uri *request*))
+                  (hsx (li :class "text-pink-500" label))
+                  (hsx (li (a :href href :class "hover:text-pink-500" label))))))))))
 
 (defcomp ~sp-header ()
   (hsx
    (header
-     :id "sp-header" :x-data "{ open: false }" :hx-preserve t
+     :id "sp-header" :x-data "{ open: false }"
      :class "flex md:hidden justify-between py-2 border-b-1 top-0 bg-white"     
      (h1 :class "z-20 text-2xl font-bold"
-       (a :href "/" :@click "open = false"
-         "skyizwhite"))
+       (a :href "/" "skyizwhite"))
      (div
        (button
          :class "z-20 size-8 flex flex-col justify-center cursor-pointer relative"
@@ -67,7 +63,7 @@
            :class "flex flex-col h-fit gap-8 text-3xl font-medium"
            (loop
              :for (href label) :in (append '(("/" "home")) *nav-menu*) :collect
-                (hsx (li (a :href href :@click "open = false" label))))))))))
+                (hsx (li (a :href href label))))))))))
 
 (defcomp ~header ()
   (hsx

@@ -8,7 +8,7 @@
                 #:datetime
                 #:jp-datetime)
   (:export #:handle-get))
-(in-package :website/routes/work)
+(in-package #:website/routes/work)
 
 (defparameter *metadata*
   (list :title "work"))

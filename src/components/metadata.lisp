@@ -28,7 +28,7 @@
                              type
                              image
                              error)
-  (let ((path (request-uri jingle:*request*)))
+  (let ((path (request-uri *request*)))
     (hsx
      (<>
        (meta :charset "UTF-8")

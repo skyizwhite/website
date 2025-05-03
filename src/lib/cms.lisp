@@ -10,7 +10,7 @@
            #:get-blog-detail
            #:get-about
            #:get-work))
-(in-package :website/lib/cms)
+(in-package #:website/lib/cms)
 
 (setf microcms:*service-domain* (microcms-service-domain))
 (setf microcms:*api-key* (microcms-api-key))
