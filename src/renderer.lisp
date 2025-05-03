@@ -39,34 +39,23 @@
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-preload@2.1.1/dist/preload.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-head-support@2.0.4/dist/head-support.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.3/dist/response-targets.min.js")
-       (script :src "https://cdn.jsdelivr.net/npm/htmx-ext-alpine-morph@2.0.1/alpine-morph.min.js")
-       (script :src "https://cdn.jsdelivr.net/npm/@alpinejs/morph@3.14.9/dist/cdn.min.js" :defer t)
+       ;(script :src "https://cdn.jsdelivr.net/npm/htmx-ext-alpine-morph@2.0.1/alpine-morph.min.js")
+       ;(script :src "https://cdn.jsdelivr.net/npm/@alpinejs/morph@3.14.9/dist/cdn.min.js" :defer t)
        (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" :defer t))
      children)))
 
-
-(defun set-cache-control (strategy)
-  (set-response-header :cache-control
-                       (if (string= (website-env) "dev")
-                           "private, no-store"
-                           (cond 
-                             ((eq strategy :static) "public, max-age=60, s-maxage=604800, immutable")
-                             ((eq strategy :dynamic) "public, max-age=60")
-                             (t "private, no-store")))))
-
 (defmethod jingle:process-response ((app jingle:app) result)
   (set-response-header :content-type "text/html; charset=utf-8")
+  (set-response-header :cache-control (if (string= (website-env) "dev")
+                                          "private, no-store"
+                                          "public, max-age=60"))
   (match result
-    ((plist :body body
-            :metadata metadata
-            :cache cache
-            :partial partial)
-     (set-cache-control cache)
+    ((guard (or (list body metadata)
+                body)
+            (typep body 'element))
      (call-next-method app
                        (hsx:render-to-string
-                        (if partial
-                            body
-                            (~document :metadata metadata
-                              (~layout
-                                body))))))
+                        (~document :metadata metadata
+                          (~layout
+                            body)))))
     (_ (error "Invalid response form"))))

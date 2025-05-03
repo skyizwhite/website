@@ -19,6 +19,4 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (list :body (~page)
-        :metadata *metadata*
-        :cache :dynamic))
+  (list (~page) *metadata*))

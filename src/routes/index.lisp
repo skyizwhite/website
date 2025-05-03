@@ -43,8 +43,7 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (list :body (~page)
-        :cache :static))
+  (~page))
 
 ; for health check
 (defun handle-head (params)
