@@ -1,6 +1,7 @@
 (defpackage #:website/routes/index
   (:use #:cl
-        #:hsx)
+        #:hsx
+        #:jingle)
   (:export #:handle-get
            #:handle-head))
 (in-package #:website/routes/index)
@@ -43,6 +44,7 @@
 
 (defun handle-get (params)
   (declare (ignore params))
+  (setf (context :cache) :static)
   (~page))
 
 ; for health check

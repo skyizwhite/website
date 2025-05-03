@@ -19,5 +19,6 @@
        "Back to TOP"))))
 
 (defun handle-not-found ()
+  (setf (context :cache) :dynamic)
   (setf (context :metadata) *metadata*)
   (~page))
