@@ -19,7 +19,7 @@
     ("Fediverse"
      "https://himagine.club/@skyizwhite"
      "/img/icon/discussion.svg")
-    ("Service Status"
+    ("Status"
      "https://status.skyizwhite.dev"
      "/img/icon/server.svg")))
 
