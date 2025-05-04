@@ -8,7 +8,7 @@
 
 (defcomp ~layout (&key children)
   (hsx
-   (div :class "flex flex-col h-[100svh] w-full max-w-[700px] px-2 mx-auto"
+   (div :class "fade flex flex-col h-[100svh] w-full max-w-[700px] px-2 mx-auto"
      (~header)
      (div :class "flex flex-col flex-1 overflow-y-scroll"
        (main :class "flex-1 px-2 py-6 md:px-4 md:py-8"

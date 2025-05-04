@@ -50,12 +50,9 @@
                   "fixed flex flex-col items-center justify-center "
                   "z-10 top-0 right-0 w-full h-full gap-16 bg-gray-200")
          :x-show "open"
-         :|x-transition:enter| "transition ease-out duration-400"
-         :|x-transition:enter-start| "translate-x-full"
-         :|x-transition:enter-end| "translate-x-0"
-         :|x-transition:leave| "transition ease-in duration-400"
-         :|x-transition:leave-start| "translate-x-0"
-         :|x-transition:leave-end| "translate-x-full"
+         :x-transition.opacity t
+         :|x-transition:enter.duration.300ms| t
+         :|x-transition:leave.duration.300ms| t
          (h2 :class "text-5xl font-bold"
            "Menu")
          (ul 
