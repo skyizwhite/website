@@ -23,23 +23,3 @@
     font-family: "Zen Maru Gothic", sans-serif;
   }
 }
-
-@keyframes fade-in {
-  from { opacity: 0; }
-}
-
-@keyframes fade-out {
-  to { opacity: 0; }
-}
-
-::view-transition-old(fade) {
-  animation: 300ms ease both fade-out,
-}
-
-::view-transition-new(fade) {
-  animation: 300ms ease both fade-in,
-}
-
-.fade {
-  view-transition-name: fade;
-}
