@@ -17,15 +17,9 @@
 (defmethod jingle:process-response ((app jingle:app) result)
   (set-response-header :content-type "text/html; charset=utf-8")
   (when (eq (request-method *request*) :get)
-    (set-response-header :cache-control (cond ((string= (website-env) "dev")
-                                               "private, no-store")
-                                              ((eq (context :cache) :static)
-                                               "public, max-age=60, s-maxage=604800")
-                                              ((eq (context :cache) :dynamic)
-                                               "public, max-age=60")
-                                              (t
-                                               "private, no-store"))))
-  
+    (set-response-header :cache-control (if (string= (website-env) "dev")
+                                            "private, no-store"
+                                            "public, max-age=60")))
   (call-next-method app
                     (render-to-string
                      (hsx (html :lang "ja"

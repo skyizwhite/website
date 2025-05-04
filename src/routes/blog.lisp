@@ -14,6 +14,5 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (setf (context :cache) :dynamic)
   (setf (context :metadata) *metadata*)
   (~page))
