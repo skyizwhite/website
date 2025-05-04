@@ -19,7 +19,7 @@
        (ul :preload "mouseover" :class "flex gap-4 text-xl font-medium"
          (loop
            :for (href label) :in *nav-menu* :collect
-              (if (search href (request-uri *request*))
+              (if (string= href (request-uri *request*))
                   (hsx (li :class "text-pink-500" label))
                   (hsx (li (a :href href :class "hover:text-pink-500" label))))))))))
 
@@ -60,7 +60,9 @@
            :class "flex flex-col h-fit gap-8 text-3xl font-medium"
            (loop
              :for (href label) :in (append '(("/" "home")) *nav-menu*) :collect
-                (hsx (li (a :href href label))))))))))
+                (if (string= href (request-uri *request*))
+                    (hsx (li :class "text-pink-500" label))
+                    (hsx (li (a :href href :class "hover:text-pink-500" label)))))))))))
 
 (defcomp ~header ()
   (hsx
