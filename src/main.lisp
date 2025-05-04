@@ -9,22 +9,24 @@
            #:reload))
 (in-package #:website)
 
-(defparameter *handler* nil)
+(defparameter *server* nil)
 
 (defun start ()
-  (if *handler*
-      (format t "The server is already running.~%")
-      (setf *handler* (clack:clackup *app*
-                                     :server :hunchentoot
-                                     :address "localhost"
-                                     :port 3000))))
+  (when *server*
+    (restart-case (error "Server is already running.")
+      (restart-server ()
+        :report "Restart the server"
+        (stop))))
+  (setf *server* (clack:clackup *app*
+                                :server :hunchentoot
+                                :address "localhost"
+                                :port 3000)))
 
 (defun stop ()
-  (if *handler*
-      (progn
-        (clack:stop *handler*)
-        (setf *handler* nil))
-      (format t "The server is not running.~%")))
+  (when *server*
+    (clack:stop *server*)
+    (format t "Server stopped~%")
+    (setf *server* nil)))
 
 (defun reload ()
   (stop)
