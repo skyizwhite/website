@@ -12,7 +12,7 @@
                 #:~layout))
 (in-package #:website/renderer)
 
-(defmethod jingle:process-response ((app jingle:app) result)
+(defmethod jingle:process-response :around ((app jingle:app) result)
   (set-response-header :content-type "text/html; charset=utf-8")
   (when (eq (request-method *request*) :get)
     (set-response-header :cache-control "public, max-age=60"))
