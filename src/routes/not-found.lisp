@@ -12,7 +12,7 @@
 
 (defcomp ~page ()
   (hsx
-   (section :class "flex flex-col h-full items-center justify-center gap-y-6"
+   (div :class "flex flex-col h-full items-center justify-center gap-y-6"
      (h1 :class "font-bold text-2xl"
        "404 Not Found")
      (a :href "/" :class "text-lg text-pink-500 hover:underline"
