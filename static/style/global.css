@@ -27,3 +27,8 @@
 @view-transition {
   navigation: auto;
 }
+
+.avatar {
+  view-transition-name: avatar;
+  contain: paint;
+}

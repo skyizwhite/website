@@ -10,14 +10,11 @@
     :description "The page you are looking for may have been deleted or the URL might be incorrect."
     :error t))
 
-(defcomp ~page ()
+(defun handle-not-found ()
+  (setf (context :metadata) *metadata*)
   (hsx
    (div :class "flex flex-col h-full items-center justify-center gap-y-6"
      (h1 :class "font-bold text-2xl"
        "404 Not Found")
      (a :href "/" :class "text-lg text-pink-500 hover:underline"
        "Back to TOP"))))
-
-(defun handle-not-found ()
-  (setf (context :metadata) *metadata*)
-  (~page))

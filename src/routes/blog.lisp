@@ -8,11 +8,7 @@
 (defparameter *metadata*
   (list :title "blog"))
 
-(defcomp ~page ()
-  (hsx
-   (p "coming soon")))
-
 (defun handle-get (params)
   (declare (ignore params))
   (setf (context :metadata) *metadata*)
-  (~page))
+  (hsx (p "coming soon")))

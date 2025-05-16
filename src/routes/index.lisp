@@ -1,6 +1,8 @@
 (defpackage #:website/routes/index
   (:use #:cl
         #:hsx)
+  (:import-from #:website/lib/cms
+                #:get-about)
   (:export #:handle-get
            #:handle-head))
 (in-package #:website/routes/index)
@@ -22,29 +24,29 @@
      "https://status.skyizwhite.dev"
      "/img/icon/server.svg")))
 
-(defcomp ~page ()
-  (hsx
-   (div :class "flex flex-col items-center justify-center h-full"
-     (img :src "/img/avatar.webp" :alt "avatar" :class "size-40 rounded-xl shadow-sm")
-     (div :class "flex flex-col items-center gap-2 py-6"
-       (h1 :class "font-bold text-2xl text-center"
-         "Akira Tempaku")
-       (p :class "text-xl"
-         "Web developer"))
-     (div :class "flex flex-col gap-2 items-left"
-       (loop
-         :for (name url icon) :in *links*
-         :collect (hsx (a 
-                         :href url 
-                         :target "_blank" 
-                         :class "flex items-center gap-2 text-lg hover:text-pink-500"
-                         :rel "me"
-                         (img :src icon :alt name :class "size-4 mt-1")
-                         (span name))))))))
-
 (defun handle-get (params)
   (declare (ignore params))
-  (~page))
+  (let ((about (get-about :query '(:fields "avatar"))))
+    (hsx
+     (div :class "flex flex-col items-center justify-center h-full"
+       (img 
+         :src (getf (getf about :avatar) :url)
+         :alt "avatar" :class "size-40 rounded-xl shadow-sm avatar")
+       (div :class "flex flex-col items-center gap-2 py-6"
+         (h1 :class "font-bold text-2xl text-center"
+           "Akira Tempaku")
+         (p :class "text-xl"
+           "Web developer"))
+       (div :class "flex flex-col gap-2 items-left"
+         (loop
+           :for (name url icon) :in *links*
+           :collect (hsx (a 
+                           :href url 
+                           :target "_blank" 
+                           :class "flex items-center gap-2 text-lg hover:text-pink-500"
+                           :rel "me"
+                           (img :src icon :alt name :class "size-4 mt-1")
+                           (span name)))))))))
 
 ; for health check
 (defun handle-head (params)

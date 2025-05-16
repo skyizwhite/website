@@ -13,11 +13,7 @@
 (defparameter *metadata*
   (list :title "work"))
 
-(defcomp ~page ()
-  (hsx
-   (p "coming soon")))
-
 (defun handle-get (params)
   (declare (ignore params))
   (setf (context :metadata) *metadata*)
-  (~page))
+  (hsx (p "coming soon")))
