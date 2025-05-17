@@ -17,19 +17,19 @@
 (setf microcms:*service-domain* (microcms-service-domain))
 (setf microcms:*api-key* (microcms-api-key))
 
-(defmacro memorize (name timeout)
+(defmacro memorize (name)
   (let ((origin (gensym)))
     `(progn
        (setf (fdefinition ',origin) (fdefinition ',name))
-       (defcached (,name :timeout ,timeout) (&key query)
+       (defcached ,name (&key query)
          (,origin :query query)))))
 
 (define-object-client about)
-(memorize get-about 60)
+(memorize get-about)
 
 (define-object-client work)
-(memorize get-work 60)
+(memorize get-work)
 
 (define-list-client blog)
-(memorize get-blog-list 60)
-(memorize get-blog-detail 60)
+(memorize get-blog-list)
+(memorize get-blog-detail)

@@ -2,6 +2,8 @@
   (:use #:cl
         #:hsx
         #:jingle)
+  (:import-from #:website/helper
+                #:api-request-p)
   (:export #:handle-not-found))
 (in-package #:website/routes/not-found)
 
@@ -12,9 +14,11 @@
 
 (defun handle-not-found ()
   (setf (context :metadata) *metadata*)
-  (hsx
-   (div :class "flex flex-col h-full items-center justify-center gap-y-6"
-     (h1 :class "font-bold text-2xl"
-       "404 Not Found")
-     (a :href "/" :class "text-lg text-pink-500 hover:underline"
-       "Back to TOP"))))
+  (if (api-request-p)
+      '(:|message| "404 Not Found")
+      (hsx
+       (div :class "flex flex-col h-full items-center justify-center gap-y-6"
+         (h1 :class "font-bold text-2xl"
+           "404 Not Found")
+         (a :href "/" :class "text-lg text-pink-500 hover:underline"
+           "Back to TOP")))))
