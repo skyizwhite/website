@@ -7,7 +7,7 @@
 
 (defparameter *nav-menu*
   '(("/about" "about")
-    ("/work" "work")
+    ("/works" "works")
     ("/blog" "blog")))
 
 (defcomp ~pc-header ()

@@ -1,17 +1,17 @@
-(defpackage #:website/routes/work
+(defpackage #:website/routes/works
   (:use #:cl
         #:hsx
         #:jingle)
   (:import-from #:website/lib/cms
-                #:get-work)
+                #:get-works)
   (:import-from #:website/lib/time
                 #:datetime
                 #:jp-datetime)
   (:export #:handle-get))
-(in-package #:website/routes/work)
+(in-package #:website/routes/works)
 
 (defparameter *metadata*
-  (list :title "work"))
+  (list :title "works"))
 
 (defun handle-get (params)
   (declare (ignore params))

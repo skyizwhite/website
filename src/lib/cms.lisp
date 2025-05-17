@@ -9,7 +9,7 @@
                 #:microcms-service-domain
                 #:microcms-api-key)
   (:export #:get-about
-           #:get-work
+           #:get-works
            #:get-blog-list
            #:get-blog-detail))
 (in-package #:website/lib/cms)
@@ -27,8 +27,8 @@
 (define-object-client about)
 (memorize get-about)
 
-(define-object-client work)
-(memorize get-work)
+(define-object-client works)
+(memorize get-works)
 
 (define-list-client blog)
 (memorize get-blog-list)
