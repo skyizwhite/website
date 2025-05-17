@@ -1,7 +1,8 @@
 (defpackage #:website/routes/about
   (:use #:cl
         #:hsx
-        #:jingle)
+        #:jingle
+        #:access)
   (:import-from #:website/lib/cms
                 #:get-about)
   (:import-from #:website/lib/time
@@ -25,7 +26,7 @@
            (div  :class "flex justify-center"
              (figure :class "flex flex-col items-center"
                (img
-                 :src (getf (getf about :avatar) :url)
+                 :src (accesses about :avatar :url)
                  :alt "avatar" :class "size-40 rounded-xl shadow-sm avatar")
                (figcaption (getf about :avatar-caption))))
            (raw! (getf about :content))

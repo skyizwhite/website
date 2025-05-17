@@ -50,6 +50,10 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2020-09-25"))
+("access" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2024-10-12"))
 ("flexi-streams" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)

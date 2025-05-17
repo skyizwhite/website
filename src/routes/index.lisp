@@ -1,6 +1,7 @@
 (defpackage #:website/routes/index
   (:use #:cl
-        #:hsx)
+        #:hsx
+        #:access)
   (:import-from #:website/lib/cms
                 #:get-about)
   (:export #:handle-get
@@ -30,7 +31,7 @@
     (hsx
      (div :class "flex flex-col items-center justify-center h-full"
        (img 
-         :src (getf (getf about :avatar) :url)
+         :src (accesses about :avatar :url)
          :alt "avatar" :class "size-40 rounded-xl shadow-sm avatar")
        (div :class "flex flex-col items-center gap-2 py-6"
          (h1 :class "font-bold text-2xl text-center"
