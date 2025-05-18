@@ -24,12 +24,6 @@
          (and draft-key (hsx (p :class "text-lg text-pink-500" "下書きモード")))
          (article :class "prose max-w-none"
            (h1 "About")
-           (div :class "flex justify-center"
-             (figure :class "flex flex-col items-center"
-               (img
-                 :src (accesses about :avatar :url)
-                 :alt "avatar" :class "size-40 rounded-xl shadow-sm avatar")
-               (figcaption (getf about :avatar-caption))))
            (raw! (getf about :content))
            (p :class "text-right"
              "（最終更新："
