@@ -16,7 +16,9 @@
 
 (defmethod jingle:process-response :around ((app jingle:app) result)
   (when (eq (request-method *request*) :get)
-    (set-response-header :cache-control "public, max-age=60"))
+    (if (context :no-cache)
+        (set-response-header :cache-control "private, no-store, must-revalidate")
+        (set-response-header :cache-control "public, max-age=60")))
   (cond ((api-request-p)
          (set-response-header :content-type "application/json; charset=utf-8") 
          (call-next-method app (to-json result)))

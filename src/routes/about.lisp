@@ -17,13 +17,14 @@
 (defun handle-get (params)
   (setf (context :metadata) *metadata*)
   (with-request-params ((draft-key "draft-key" nil)) params
+    (setf (context :no-cache) draft-key)
     (let ((about (get-about :query (list :draft-key draft-key))))
       (hsx
        (<>
          (and draft-key (hsx (p :class "text-lg text-pink-500" "下書きモード")))
          (article :class "prose max-w-none"
            (h1 "About")
-           (div  :class "flex justify-center"
+           (div :class "flex justify-center"
              (figure :class "flex flex-col items-center"
                (img
                  :src (accesses about :avatar :url)
