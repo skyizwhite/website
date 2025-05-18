@@ -4,6 +4,8 @@
         #:jingle)
   (:import-from #:jonathan
                 #:to-json)
+  (:import-from #:website/lib/env
+                #:dev-mode-p)
   (:import-from #:website/helper
                 #:api-request-p)
   (:import-from #:website/components/metadata
@@ -16,7 +18,7 @@
 
 (defmethod jingle:process-response :around ((app jingle:app) result)
   (when (eq (request-method *request*) :get)
-    (if (context :no-cache)
+    (if (or (context :no-cache) (dev-mode-p))
         (set-response-header :cache-control "private, no-store, must-revalidate")
         (set-response-header :cache-control "public, max-age=60")))
   (cond ((api-request-p)
@@ -31,7 +33,9 @@
                                      (~metadata :metadata (context :metadata))
                                      (~scripts))
                                    (body
-                                     :hx-ext "head-support, response-targets, preload"
+                                     :hx-ext (<>
+                                               "head-support, response-targets, "
+                                               (and (not (dev-mode-p)) "preload"))
                                      :hx-boost "true" :hx-swap "transition:true"
                                      :hx-target-404 "body" :hx-target-5* "body"
                                      (~layout result)))))))))
