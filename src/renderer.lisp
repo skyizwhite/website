@@ -28,7 +28,7 @@
          (set-response-header :content-type "text/html; charset=utf-8")
          (call-next-method app
                            (render-to-string
-                            (hsx (html :lang "ja"
+                            (hsx (html :lang "en"
                                    (head
                                      (~metadata :metadata (context :metadata))
                                      (~scripts))

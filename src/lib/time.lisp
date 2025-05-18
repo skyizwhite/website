@@ -4,9 +4,10 @@
                 #:reread-timezone-repository
                 #:find-timezone-by-location-name
                 #:parse-timestring
-                #:format-timestring)
+                #:format-timestring
+                #:+asctime-format+)
   (:export #:datetime
-           #:jp-datetime))
+           #:asctime))
 (in-package #:website/lib/time)
 
 (reread-timezone-repository)
@@ -19,8 +20,7 @@
                      :format '(:year "-" (:month 2) "-" (:day 2) " "
                                (:hour 2) ":" (:min 2))))
 
-(defun jp-datetime (timestring)
+(defun asctime (timestring)
   (format-timestring nil
                      (parse-timestring timestring)
-                     :format '(:year "年" :month "月" :day "日" " "
-                               :hour "時" :min "分")))
+                     :format +asctime-format+))
