@@ -3,11 +3,11 @@
   (:import-from #:microcms
                 #:define-list-client
                 #:define-object-client)
-  (:import-from #:function-cache
-                #:defcached)
   (:import-from #:website/lib/env
                 #:microcms-service-domain
                 #:microcms-api-key)
+  (:import-from #:website/lib/cache
+                #:memorize)
   (:export #:get-about
            #:get-works
            #:get-blog-list
@@ -16,13 +16,6 @@
 
 (setf microcms:*service-domain* (microcms-service-domain))
 (setf microcms:*api-key* (microcms-api-key))
-
-(defmacro memorize (name)
-  (let ((origin (gensym)))
-    `(progn
-       (setf (fdefinition ',origin) (fdefinition ',name))
-       (defcached ,name (&key query)
-         (,origin :query query)))))
 
 (define-object-client about)
 (memorize get-about)

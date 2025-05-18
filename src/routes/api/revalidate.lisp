@@ -1,8 +1,6 @@
 (defpackage #:website/routes/api/revalidate
   (:use #:cl
         #:jingle)
-  (:import-from #:function-cache
-                #:clear-cache)
   (:import-from #:website/lib/env
                 #:microcms-webhook-key)
   (:import-from #:website/helper
@@ -10,6 +8,8 @@
   (:import-from #:website/lib/cms
                 #:get-about
                 #:get-works)
+  (:import-from #:website/lib/cache
+                #:clear-cache)
   (:export #:handle-post))
 (in-package #:website/routes/api/revalidate)
 
