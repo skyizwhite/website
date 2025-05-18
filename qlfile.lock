@@ -7,9 +7,9 @@
   :initargs (:%version :latest)
   :version "ql-2024-10-12"))
 ("cl-jingle" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/dnaeon/cl-jingle.git")
+  :version "git-100c55d33afc78cbbbde4daca0af9e57548c6275"))
 ("clack" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)

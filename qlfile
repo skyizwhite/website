@@ -1,5 +1,5 @@
 ql fiveam
-ql cl-jingle
+git cl-jingle https://github.com/dnaeon/cl-jingle.git
 ql clack
 git hsx https://github.com/skyizwhite/hsx.git
 git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
