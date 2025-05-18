@@ -1,13 +1,11 @@
 (defpackage #:website/routes/about
   (:use #:cl
         #:hsx
-        #:jingle
-        #:access)
+        #:jingle)
   (:import-from #:website/lib/cms
                 #:get-about)
-  (:import-from #:website/lib/time
-                #:datetime
-                #:jp-datetime)
+  (:import-from #:website/components/article
+                #:~article)
   (:export #:handle-get))
 (in-package #:website/routes/about)
 
@@ -19,14 +17,8 @@
   (with-request-params ((draft-key "draft-key" nil)) params
     (setf (context :no-cache) draft-key)
     (let ((about (get-about :query (list :draft-key draft-key))))
-      (hsx
-       (<>
-         (and draft-key (hsx (p :class "text-lg text-pink-500" "下書きモード")))
-         (article :class "prose max-w-none"
-           (h1 "About")
-           (raw! (getf about :content))
-           (p :class "text-right"
-             "（最終更新："
-             (|time| :datetime (datetime (getf about :revised-at))
-                     (jp-datetime (getf about :revised-at)))
-             "）")))))))
+      (~article
+        :title "About"
+        :content (getf about :content)
+        :revised-at (getf about :revised-at)
+        :draft-p draft-key))))
