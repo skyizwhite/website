@@ -33,9 +33,8 @@
                                      (~metadata :metadata (context :metadata))
                                      (~scripts))
                                    (body
-                                     :hx-ext (<>
-                                               "head-support, response-targets, "
-                                               (and (not (dev-mode-p)) "preload"))
+                                     :hx-ext (clsx "head-support, response-targets,"
+                                                   (and (not (dev-mode-p)) "preload"))
                                      :hx-boost "true" :hx-swap "transition:true"
                                      :hx-target-404 "body" :hx-target-5* "body"
                                      (~layout result)))))))))

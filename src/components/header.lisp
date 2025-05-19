@@ -46,9 +46,8 @@
              :class "h-1 w-8 rounded-full bg-black transition duration-400"
              :|:class| "open && '-rotate-45 -translate-y-2.5'")))
        (nav
-         :class (<>
-                  "fixed flex flex-col items-center justify-center "
-                  "z-10 top-0 right-0 w-full h-full gap-16 bg-gray-200")
+         :class (clsx "fixed flex flex-col items-center justify-center"
+                      "z-10 top-0 right-0 w-full h-full gap-16 bg-gray-200")
          :x-show "open"
          :x-transition.opacity t
          :|x-transition:enter.duration.300ms| t
