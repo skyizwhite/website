@@ -26,12 +26,13 @@
 (defcomp ~sp-header ()
   (hsx
    (header
-     :id "sp-header" :x-data "{ open: false }"
+     :x-data "{ open: false }"
      :class "flex md:hidden justify-between py-2 border-b-1 top-0 bg-white"     
      (p :class "z-20 text-2xl font-bold"
        (a :preload "mousedown" :href "/" "skyizwhite"))
      (div
        (button
+         :aria-label "Open menu"
          :class "z-20 size-8 flex flex-col justify-center cursor-pointer relative"
          :type "button"
          :@click "open = !open"
