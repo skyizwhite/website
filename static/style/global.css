@@ -11,13 +11,6 @@
   }
 }
 
-@supports (font-variation-settings: medium) {
-  :root {
-    font-family: "Zen Maru Gothic", sans-serif;
-  }
-}
-
-
 @supports (font-variation-settings: bold) {
   :root {
     font-family: "Zen Maru Gothic", sans-serif;

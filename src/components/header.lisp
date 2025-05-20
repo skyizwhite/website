@@ -16,7 +16,7 @@
      (p :class "z-20 text-3xl font-bold"
        (a :preload "mouseover" :href "/" "skyizwhite"))
      (nav :class "flex items-end"
-       (ul :preload "mouseover" :class "flex gap-4 text-xl font-medium"
+       (ul :preload "mouseover" :class "flex gap-4 text-xl font-bold"
          (loop
            :for (href label) :in *nav-menu* :collect
               (if (string= href (request-uri *request*))
@@ -56,7 +56,7 @@
            "Menu")
          (ul 
            :preload "mousedown"
-           :class "flex flex-col h-fit gap-8 text-3xl font-medium"
+           :class "flex flex-col h-fit gap-8 text-3xl font-bold"
            (loop
              :for (href label) :in (append '(("/" "home")) *nav-menu*) :collect
                 (if (string= href (request-uri *request*))
