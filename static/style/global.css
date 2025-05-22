@@ -5,18 +5,6 @@
   font-family: "Zen Maru Gothic", sans-serif;
 }
 
-@supports (font-variation-settings: normal) {
-  :root {
-    font-family: "Zen Maru Gothic", sans-serif;
-  }
-}
-
-@supports (font-variation-settings: bold) {
-  :root {
-    font-family: "Zen Maru Gothic", sans-serif;
-  }
-}
-
 @view-transition {
   navigation: auto;
 }
