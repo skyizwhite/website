@@ -25,7 +25,7 @@
         :description "The personal website of Akira Tempaku (paku)"
         :canonical nil
         :type "website"
-        :image (list :url (path->url "/img/og.jpg")
+        :image (list :url (path->url "/assets/img/og.jpg")
                      :height 1024
                      :width 1024)
         :error nil))
@@ -56,9 +56,9 @@
                      (meta :property "og:image:width" :content (getf image :width))
                      (meta :property "og:image:height" :content (getf image :height))
                      (link :rel "canonical" :href (path->url (or canonical path))))))
-         (link :rel "icon" :type "image/png" :href "/img/favicon-96x96.png" :sizes "96x96")
-         (link :rel "icon" :type "image/svg+xml" :href "/img/favicon.svg")
-         (link :rel "shortcut icon" :href "/img/favicon.ico")
-         (link :rel "apple-touch-icon" :sizes "180x180" :href "/img/apple-touch-icon.png")
+         (link :rel "icon" :type "image/png" :href "/assets/img/favicon-96x96.png" :sizes "96x96")
+         (link :rel "icon" :type "image/svg+xml" :href "/assets/img/favicon.svg")
+         (link :rel "shortcut icon" :href "/assets/img/favicon.ico")
+         (link :rel "apple-touch-icon" :sizes "180x180" :href "/assets/img/apple-touch-icon.png")
          (meta :name "apple-mobile-web-app-title" :content "skyizwhite")
-         (link :rel "manifest" :href "/img/site.webmanifest"))))))
+         (link :rel "manifest" :href "/assets/img/site.webmanifest"))))))

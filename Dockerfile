@@ -13,7 +13,7 @@ RUN mkdir -p ./bin \
   && chmod +x tailwindcss-linux-x64 \
   && mv tailwindcss-linux-x64 ${TW_BIN}
 
-RUN ${TW_BIN} -i ./static/style/global.css -o ./static/style/dist.css --minify
+RUN ${TW_BIN} -i ./assets/style/global.css -o ./assets/style/dist.css --minify
 
 RUN qlot install --quiet --no-color
 

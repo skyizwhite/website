@@ -21,8 +21,7 @@
                                        app
                                        :debug (string= (website-env) "dev"))))
     (install-middleware app *trim-trailing-slash*)
-    (static-path app "/img/" "static/img/")
-    (static-path app "/style/" "static/style/")
+    (static-path app "/assets/" "assets/")
     (configure app)))
 
 *app*

@@ -1,7 +1,7 @@
 TW_VERSION=4.1.3
 TW_BIN=./bin/tailwindcss
-STYLE_SRC=./static/style/global.css
-STYLE_DIST=./static/style/dist.css
+STYLE_SRC=./assets/style/global.css
+STYLE_DIST=./assets/style/dist.css
 
 UNAME_S := $(shell uname -s)
 

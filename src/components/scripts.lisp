@@ -13,7 +13,7 @@
 (defcomp ~scripts ()
   (hsx
    (<>
-     (link :rel "stylesheet" :href (bust-cache "/style/dist.css"))
+     (link :rel "stylesheet" :href (bust-cache "/assets/style/dist.css"))
      (link :rel "preconnect" :href "https://fonts.gstatic.com" :crossorigin t)
      (link :rel "preconnect" :href "https://fonts.googleapis.com")
      (link

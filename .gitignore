@@ -1,4 +1,4 @@
 .qlot
 bin/tailwindcss
-static/style/dist.css
+assets/style/dist.css
 .env

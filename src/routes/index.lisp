@@ -11,19 +11,19 @@
 (defparameter *links*
   '(("Keyoxide"
      "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
-     "/img/icon/key.svg")
+     "/assets/img/icon/key.svg")
     ("GitHub"
      "https://github.com/skyizwhite"
-     "/img/icon/github.svg")
+     "/assets/img/icon/github.svg")
     ("Forgejo"
      "https://code.skyizwhite.dev/paku"
-     "/img/icon/forgejo.svg")
+     "/assets/img/icon/forgejo.svg")
     ("Fediverse"
      "https://himagine.club/@skyizwhite"
-     "/img/icon/discussion.svg")
+     "/assets/img/icon/discussion.svg")
     ("Status"
      "https://status.skyizwhite.dev"
-     "/img/icon/server.svg")))
+     "/assets/img/icon/server.svg")))
 
 (defun handle-get (params)
   (declare (ignore params))
