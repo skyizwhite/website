@@ -7,7 +7,11 @@
   (:export #:~article))
 (in-package #:website/components/article)
 
-(defcomp ~article (&key title content revised-at draft-p)
+(defcomp ~article (&key title
+                        content
+                        published-at
+                        revised-at
+                        draft-p)
   (hsx
    (<>
      (and draft-p (hsx (p :class "text-lg text-pink-500" "Draft Mode")))
@@ -15,7 +19,19 @@
        (h1 title)
        (raw! content)
        (p :class "text-right"
-         "(Last updated: "
-         (|time| :datetime (datetime revised-at)
-                 (asctime revised-at))
-         ")")))))
+         (and published-at
+              (hsx
+               (span
+                 "(Published: "
+                 (|time| :datetime (datetime published-at)
+                         (asctime published-at))
+                 ")")))
+         (and revised-at
+              (hsx
+               (<>
+                 (br)
+                 (span
+                   "(Last updated: "
+                   (|time| :datetime (datetime revised-at)
+                           (asctime revised-at))
+                   ")")))))))))

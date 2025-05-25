@@ -2,9 +2,11 @@
   (:use #:cl)
   (:import-from #:function-cache
                 #:defcached
-                #:clear-cache)
+                #:clear-cache
+                #:clear-cache-partial-arguments)
   (:export #:memorize
-           #:clear-cache))
+           #:clear-cache
+           #:clear-cache-partial-artuments))
 (in-package #:website/lib/cache)
 
 (defmacro memorize (name)

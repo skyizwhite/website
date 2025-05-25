@@ -9,9 +9,13 @@
   (:import-from #:website/lib/cache
                 #:memorize)
   (:export #:get-about
+           #:*get-about-cache*
            #:get-works
+           #:*get-works-cache*
            #:get-blog-list
-           #:get-blog-detail))
+           #:*get-blog-list-cache*
+           #:get-blog-detail
+           #:*get-blog-detail-cache*))
 (in-package #:website/lib/cms)
 
 (setf microcms:*service-domain* (microcms-service-domain))

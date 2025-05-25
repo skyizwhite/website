@@ -13,6 +13,7 @@
     :error t))
 
 (defun handle-not-found ()
+  (set-response-status :not-found)
   (setf (context :metadata) *metadata*)
   (if (api-request-p)
       '(:|message| "404 Not Found")
