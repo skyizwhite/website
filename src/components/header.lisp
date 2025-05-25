@@ -5,10 +5,13 @@
   (:export #:~header))
 (in-package #:website/components/header)
 
-(defparameter *nav-menu*
+(defparameter *pc-menu*
   '(("/about" "about")
     ("/works" "works")
     ("/blog" "blog")))
+
+(defparameter *sp-menu*
+  (cons '("/" "home") *pc-menu*))
 
 (defcomp ~pc-header ()
   (hsx
@@ -18,7 +21,7 @@
      (nav :class "flex items-end"
        (ul :preload "mouseover" :class "flex gap-4 text-xl font-bold"
          (loop
-           :for (href label) :in *nav-menu* :collect
+           :for (href label) :in *pc-menu* :collect
               (if (string= href (request-uri *request*))
                   (hsx (li :class "text-pink-500" label))
                   (hsx (li (a :href href :class "hover:text-pink-500" label))))))))))
@@ -59,7 +62,7 @@
            :preload "mousedown"
            :class "flex flex-col h-fit gap-8 text-3xl font-bold"
            (loop
-             :for (href label) :in (append '(("/" "home")) *nav-menu*) :collect
+             :for (href label) :in *sp-menu* :collect
                 (if (string= href (request-uri *request*))
                     (hsx (li :class "text-pink-500" label))
                     (hsx (li (a :href href :class "hover:text-pink-500" label)))))))))))
