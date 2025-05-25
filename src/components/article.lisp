@@ -18,20 +18,18 @@
      (article :class "prose max-w-none"
        (h1 title)
        (raw! content)
-       (p :class "text-right"
+       (p :class "text-right text-sm text-gray-500"
          (and published-at
               (hsx
                (span
-                 "(Published: "
+                 "Published: "
                  (|time| :datetime (datetime published-at)
-                         (asctime published-at))
-                 ")")))
+                         (asctime published-at)))))
          (and revised-at
               (hsx
                (<>
                  (br)
                  (span
-                   "(Last updated: "
+                   "Last updated: "
                    (|time| :datetime (datetime revised-at)
-                           (asctime revised-at))
-                   ")")))))))))
+                           (asctime revised-at)))))))))))

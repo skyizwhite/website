@@ -32,7 +32,7 @@
                    :href (format nil "/blog/~a" (getf item :id))
                    (span :class "font-bold"
                      "･ " (getf item :title))
-                   (span :class "text-sm text-gray-400 ml-2"
+                   (span :class "text-sm text-gray-500 ml-2"
                      "(" (asctime (getf item :published-at)) ")"))))))
        ;TODO: pagenation
        ))))

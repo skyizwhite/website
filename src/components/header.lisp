@@ -12,7 +12,7 @@
 
 (defcomp ~pc-header ()
   (hsx
-   (header :class "hidden md:flex justify-between py-4 border-b-1 top-0 bg-stone-100"
+   (header :class "hidden md:flex justify-between py-4 border-b-1 top-0 bg-white"
      (p :class "z-20 text-3xl font-bold"
        (a :preload "mouseover" :href "/" "skyizwhite"))
      (nav :class "flex items-end"
@@ -27,7 +27,7 @@
   (hsx
    (header
      :x-data "{ open: false }"
-     :class "flex md:hidden justify-between py-2 border-b-1 top-0 bg-stone-100"     
+     :class "flex md:hidden justify-between py-2 border-b-1 top-0 bg-white"
      (p :class "z-20 text-2xl font-bold"
        (a :preload "mousedown" :href "/" "skyizwhite"))
      (div

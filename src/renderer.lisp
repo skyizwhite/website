@@ -37,5 +37,4 @@
                                                    (and (not (dev-mode-p)) "preload"))
                                      :hx-boost "true" :hx-swap "transition:true"
                                      :hx-target-404 "body" :hx-target-5* "body"
-                                     :class "bg-stone-100"
                                      (~layout result)))))))))
