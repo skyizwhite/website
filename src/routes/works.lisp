@@ -3,7 +3,7 @@
         #:hsx
         #:jingle)
   (:import-from #:website/lib/cms
-                #:get-works)
+                #:fetch-works)
   (:import-from #:website/components/article
                 #:~article)
   (:export #:handle-get))
@@ -16,7 +16,7 @@
   (setf (context :metadata) *metadata*)
   (with-request-params ((draft-key "draft-key" nil)) params
     (setf (context :no-cache) draft-key)
-    (let ((works (get-works :query (list :draft-key draft-key))))
+    (let ((works (fetch-works :draft-key draft-key)))
       (~article
         :title "Works"
         :content (getf works :content)

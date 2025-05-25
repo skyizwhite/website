@@ -3,7 +3,7 @@
         #:hsx
         #:jingle)
   (:import-from #:website/lib/cms
-                #:get-blog-detail)
+                #:fetch-blog-detail)
   (:import-from #:website/routes/not-found
                 #:handle-not-found)
   (:import-from #:website/components/article
@@ -15,7 +15,7 @@
   (with-request-params ((id :id nil)
                         (draft-key "draft-key" nil)) params
     (setf (context :no-cache) draft-key)
-    (let ((blog (get-blog-detail id :query (list :draft-key draft-key))))
+    (let ((blog (fetch-blog-detail id :draft-key draft-key)))
       (unless blog
         (return-from handle-get (handle-not-found)))
       (setf (context :metadata) (list :title (getf blog :title)

@@ -3,7 +3,7 @@
         #:hsx
         #:jingle)
   (:import-from #:website/lib/cms
-                #:get-blog-list)
+                #:fetch-blog-list)
   (:import-from #:website/lib/time
                 #:asctime)
   (:export #:handle-get))
@@ -15,9 +15,7 @@
 (defun handle-get (params)
   (declare (ignore params))
   (setf (context :metadata) *metadata*)
-  (let ((blogs (getf (get-blog-list :query '(:fields "id,title,publishedAt"
-                                             :limit 100))
-                     :contents)))
+  (let ((blogs (fetch-blog-list :page 1)))
     (hsx
      (section
        (h1 :class "font-bold text-4xl mb-8"
