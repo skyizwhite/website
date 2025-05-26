@@ -15,7 +15,7 @@
 (defun handle-get (params)
   (setf (context :metadata) *metadata*)
   (with-request-params ((draft-key "draft-key" nil)) params
-    (setf (context :no-cache) draft-key)
+    (setf (context :cache) (if draft-key :ssr :isr))
     (let ((works (fetch-works :draft-key draft-key)))
       (~article
         :title "Works"

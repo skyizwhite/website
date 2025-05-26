@@ -14,10 +14,10 @@
 (defun handle-get (params)
   (with-request-params ((id :id nil)
                         (draft-key "draft-key" nil)) params
-    (setf (context :no-cache) draft-key)
     (let ((blog (fetch-blog-detail id :draft-key draft-key)))
       (unless blog
         (return-from handle-get (handle-not-found)))
+      (setf (context :cache) (if draft-key :ssr :isr))
       (setf (context :metadata) (list :title (getf blog :title)
                                       :description (getf blog :description)
                                       :type "article"))

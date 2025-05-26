@@ -1,7 +1,8 @@
 (defpackage #:website/routes/index
   (:use #:cl
         #:hsx
-        #:access)
+        #:access
+        #:jingle)
   (:import-from #:website/lib/cms
                 #:get-about)
   (:export #:handle-get
@@ -27,6 +28,7 @@
 
 (defun handle-get (params)
   (declare (ignore params))
+  (setf (context :cache) :sg)
   (hsx
    (div :class "flex flex-col items-center justify-center h-full"
      (img 

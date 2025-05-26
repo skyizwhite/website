@@ -14,6 +14,7 @@
 
 (defun handle-get (params)
   (declare (ignore params))
+  (setf (context :cache) :isr)
   (setf (context :metadata) *metadata*)
   (let ((blogs (fetch-blog-list :page 1)))
     (hsx

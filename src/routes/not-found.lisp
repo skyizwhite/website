@@ -14,6 +14,7 @@
 
 (defun handle-not-found ()
   (set-response-status :not-found)
+  (setf (context :cache) :ssr)
   (setf (context :metadata) *metadata*)
   (if (api-request-p)
       '(:|message| "404 Not Found")
