@@ -8,7 +8,7 @@
   (:import-from #:clack-errors
                 #:*clack-error-middleware*)
   (:import-from #:website/lib/env
-                #:website-env)
+                #:dev-mode-p)
   (:import-from #:website/renderer)
   (:export #:*app*))
 (in-package #:website/app)
@@ -19,7 +19,7 @@
     (install-middleware app (lambda (app)
                               (funcall *clack-error-middleware*
                                        app
-                                       :debug (string= (website-env) "dev"))))
+                                       :debug (dev-mode-p))))
     (install-middleware app *trim-trailing-slash*)
     (static-path app "/assets/" "assets/")
     (configure app)))

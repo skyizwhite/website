@@ -20,7 +20,7 @@
      (section
        (h1 :class "font-bold text-4xl mb-8"
          "Blog")
-       (ul :preload "mouseover" :class "flex flex-col gap-y-2"
+       (ul :class "flex flex-col gap-y-2"
          (loop
            :for item :in blogs :collect
               (hsx

@@ -17,9 +17,9 @@
   (hsx
    (header :class "hidden md:flex justify-between py-4 border-b-1 top-0 bg-white"
      (p :class "z-20 text-3xl font-bold"
-       (a :preload "mouseover" :href "/" "skyizwhite"))
+       (a :href "/" "skyizwhite"))
      (nav :class "flex items-end"
-       (ul :preload "mouseover" :class "flex gap-4 text-xl font-bold"
+       (ul :class "flex gap-4 text-xl font-bold"
          (loop
            :for (href label) :in *pc-menu* :collect
               (if (string= href (request-uri *request*))
@@ -32,7 +32,7 @@
      :x-data "{ open: false }"
      :class "flex md:hidden justify-between py-2 border-b-1 top-0 bg-white"
      (p :class "z-20 text-2xl font-bold"
-       (a :preload "mousedown" :href "/" "skyizwhite"))
+       (a :href "/" "skyizwhite"))
      (div
        (button
          :aria-label "Open menu"
@@ -58,9 +58,7 @@
          :|x-transition:leave.duration.300ms| t
          (h2 :class "text-5xl font-bold"
            "Menu")
-         (ul 
-           :preload "mousedown"
-           :class "flex flex-col h-fit gap-8 text-3xl font-bold"
+         (ul :class "flex flex-col h-fit gap-8 text-3xl font-bold"
            (loop
              :for (href label) :in *sp-menu* :collect
                 (if (string= href (request-uri *request*))
