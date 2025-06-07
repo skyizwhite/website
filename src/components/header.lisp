@@ -29,7 +29,7 @@
 (defcomp ~sp-header ()
   (hsx
    (header
-     :x-data "{ open: false }"
+     :data-signals-open "false"
      :class "flex md:hidden justify-between py-2 border-b-1 top-0 bg-white"
      (p :class "z-20 text-2xl font-bold"
        (a :href "/" "skyizwhite"))
@@ -38,24 +38,23 @@
          :aria-label "Open menu"
          :class "z-20 size-8 flex flex-col justify-center cursor-pointer relative"
          :type "button"
-         :@click "open = !open"
+         :data-on-click "$open = !$open"
          (div :class "grid justify-items-center gap-1.5"
            (span
              :class "h-1 w-8 rounded-full bg-black transition duration-400"
-             :|:class| "open && 'rotate-45 translate-y-2.5'")
+             :data-class "{'rotate-45 translate-y-2.5': $open}")
            (span
              :class "h-1 w-8 rounded-full bg-black transition duration-400"
-             :|:class| "open && 'scale-x-0'")
+             :data-class "{'scale-x-0': $open}")
            (span
              :class "h-1 w-8 rounded-full bg-black transition duration-400"
-             :|:class| "open && '-rotate-45 -translate-y-2.5'")))
+             :data-class "{'-rotate-45 -translate-y-2.5': $open}")))
        (nav
+         :|data-show.duration_300ms| "$open"
          :class (clsx "fixed flex flex-col items-center justify-center"
-                      "z-10 top-0 right-0 w-full h-full gap-16 bg-gray-200")
-         :x-show "open"
-         :x-transition.opacity t
-         :|x-transition:enter.duration.300ms| t
-         :|x-transition:leave.duration.300ms| t
+                      "z-10 top-0 right-0 w-full h-full gap-16 bg-gray-200"
+                      "transition duration-300 opacity-0")
+         :data-class "{'opacity-100': $open}"
          (h2 :class "text-5xl font-bold"
            "Menu")
          (ul :class "flex flex-col h-fit gap-8 text-3xl font-bold"
