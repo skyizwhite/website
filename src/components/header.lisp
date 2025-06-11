@@ -41,21 +41,21 @@
          :@click "open = !open"
          (div :class "grid justify-items-center gap-1.5"
            (span
-             :class "h-1 w-8 rounded-full bg-black transition duration-400"
+             :class "h-1 w-8 rounded-full bg-black transition duration-200"
              :|:class| "open && 'rotate-45 translate-y-2.5'")
            (span
-             :class "h-1 w-8 rounded-full bg-black transition duration-400"
+             :class "h-1 w-8 rounded-full bg-black transition duration-200"
              :|:class| "open && 'scale-x-0'")
            (span
-             :class "h-1 w-8 rounded-full bg-black transition duration-400"
+             :class "h-1 w-8 rounded-full bg-black transition duration-200"
              :|:class| "open && '-rotate-45 -translate-y-2.5'")))
        (nav
          :class (clsx "fixed flex flex-col items-center justify-center"
                       "z-10 top-0 right-0 w-full h-full gap-16 bg-gray-200")
          :x-show "open"
-         :x-transition.opacity t
-         :|x-transition:enter.duration.300ms| t
-         :|x-transition:leave.duration.300ms| t
+         :x-transition t
+         :|x-transition:enter.duration.200ms| t
+         :|x-transition:leave.duration.200ms| t
          (h2 :class "text-5xl font-bold"
            "Menu")
          (ul :class "flex flex-col h-fit gap-8 text-3xl font-bold"

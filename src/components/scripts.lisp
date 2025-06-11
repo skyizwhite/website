@@ -23,5 +23,5 @@
        :onload "this.onload=null;this.rel='stylesheet'")
      (noscript
        (link :rel "stylesheet" :href *google-font-url*))
-     (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js")
+     ;(script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js")
      (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" :defer t))))
