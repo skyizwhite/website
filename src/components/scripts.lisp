@@ -14,13 +14,18 @@
   (hsx
    (<>
      (link :rel "stylesheet" :href (bust-cache "/assets/style/dist.css"))
-     (link :rel "preconnect" :href "https://fonts.gstatic.com" :crossorigin t)
      (link :rel "preconnect" :href "https://fonts.googleapis.com")
+     (link :rel "preconnect" :href "https://fonts.gstatic.com" :crossorigin t)
      (link
        :rel "preload"
-       :href *google-font-url*
        :as "style"
-       :onload "this.onload=null;this.rel='stylesheet'")
+       :fetchpriority "high"
+       :href *google-font-url*)
+     (link
+       :rel "stylesheet"
+       :href *google-font-url*
+       :media "print"
+       :onload "this.media='all'")
      (noscript
        (link :rel "stylesheet" :href *google-font-url*))
      ;(script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js")
