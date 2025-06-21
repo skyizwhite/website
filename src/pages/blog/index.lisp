@@ -1,21 +1,22 @@
-(defpackage #:website/routes/blog/index
+(defpackage #:website/pages/blog/index
   (:use #:cl
         #:hsx
-        #:jingle)
+        #:jingle
+        #:website/helper)
   (:import-from #:website/lib/cms
                 #:fetch-blog-list)
   (:import-from #:website/lib/time
                 #:asctime)
   (:export #:handle-get))
-(in-package #:website/routes/blog/index)
+(in-package #:website/pages/blog/index)
 
 (defparameter *metadata*
   (list :title "blog"))
 
 (defun handle-get (params)
   (declare (ignore params))
-  (setf (context :cache) :isr)
-  (setf (context :metadata) *metadata*)
+  (set-cache :isr)
+  (set-metadata *metadata*)
   (let ((blogs (fetch-blog-list :page 1)))
     (hsx
      (section

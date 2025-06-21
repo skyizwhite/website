@@ -1,17 +1,17 @@
-(defpackage #:website/routes/api/revalidate
+(defpackage #:website/api/revalidate
   (:use #:cl
         #:jingle
         #:access)
   (:import-from #:website/lib/env
                 #:microcms-webhook-key)
   (:import-from #:website/helper
-                #:get-request-body-plist)
+                #:request-body-json->plist)
   (:import-from #:website/lib/cms
                 #:clear-about-cache
                 #:clear-works-cache
                 #:clear-blog-cache)
   (:export #:handle-post))
-(in-package #:website/routes/api/revalidate)
+(in-package #:website/api/revalidate)
 
 (defun handle-post (params)
   (declare (ignore params))
@@ -19,7 +19,7 @@
                    (microcms-webhook-key))
     (set-response-status :unauthorized)
     (return-from handle-post '(:|message| "Invalid token")))
-  (let* ((body (get-request-body-plist))
+  (let* ((body (request-body-json->plist))
          (api (getf body :|api|))
          (id (getf body :|id|))
          (old-draft-key (accesses body :|contents| :|old| :|draftKey|))

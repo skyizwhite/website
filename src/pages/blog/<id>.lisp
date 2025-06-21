@@ -1,15 +1,16 @@
-(defpackage #:website/routes/blog/<id>
+(defpackage #:website/pages/blog/<id>
   (:use #:cl
         #:hsx
-        #:jingle)
+        #:jingle
+        #:website/helper)
   (:import-from #:website/lib/cms
                 #:fetch-blog-detail)
-  (:import-from #:website/routes/not-found
+  (:import-from #:website/pages/not-found
                 #:handle-not-found)
   (:import-from #:website/components/article
                 #:~article)
   (:export #:handle-get))
-(in-package #:website/routes/blog/<id>)
+(in-package #:website/pages/blog/<id>)
 
 (defun handle-get (params)
   (with-request-params ((id :id nil)
@@ -17,10 +18,10 @@
     (let ((blog (fetch-blog-detail id :draft-key draft-key)))
       (unless blog
         (return-from handle-get (handle-not-found)))
-      (setf (context :cache) (if draft-key :ssr :isr))
-      (setf (context :metadata) (list :title (getf blog :title)
-                                      :description (getf blog :description)
-                                      :type "article"))
+      (set-cache (if draft-key :ssr :isr))
+      (set-metadata (list :title (getf blog :title)
+                          :description (getf blog :description)
+                          :type "article"))
       (hsx
        (~article
          :title (getf blog :title)

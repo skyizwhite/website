@@ -1,21 +1,22 @@
-(defpackage #:website/routes/about
+(defpackage #:website/pages/about
   (:use #:cl
         #:hsx
-        #:jingle)
+        #:jingle
+        #:website/helper)
   (:import-from #:website/lib/cms
                 #:fetch-about)
   (:import-from #:website/components/article
                 #:~article)
   (:export #:handle-get))
-(in-package #:website/routes/about)
+(in-package #:website/pages/about)
 
 (defparameter *metadata*
   (list :title "about"))
 
 (defun handle-get (params)
-  (setf (context :metadata) *metadata*)
+  (set-metadata *metadata*)
   (with-request-params ((draft-key "draft-key" nil)) params
-    (setf (context :cache) (if draft-key :ssr :isr))
+    (set-cache (if draft-key :ssr :isr))
     (let ((about (fetch-about :draft-key draft-key)))
       (~article
         :title "About"

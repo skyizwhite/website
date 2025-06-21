@@ -1,13 +1,14 @@
-(defpackage #:website/routes/index
+(defpackage #:website/pages/index
   (:use #:cl
         #:hsx
         #:access
-        #:jingle)
+        #:jingle
+        #:website/helper)
   (:import-from #:website/lib/cms
                 #:get-about)
   (:export #:handle-get
            #:handle-head))
-(in-package #:website/routes/index)
+(in-package #:website/pages/index)
 
 (defparameter *links*
   '(("Keyoxide"
@@ -28,7 +29,7 @@
 
 (defun handle-get (params)
   (declare (ignore params))
-  (setf (context :cache) :sg)
+  (set-cache :sg)
   (hsx
    (div :class "flex flex-col items-center justify-center h-full"
      (img 

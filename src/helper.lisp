@@ -5,18 +5,12 @@
                 #:make-flexi-stream)
   (:import-from #:jonathan
                 #:parse)
-  (:export #:api-request-p
-           #:get-request-body-plist))
+  (:export #:request-body-json->plist
+           #:set-metadata
+           #:set-cache))
 (in-package #:website/helper)
 
-(defun starts-with-p (prefix string)
-  (let ((pos (search prefix string :start1 0 :end1 (length prefix) :start2 0)))
-    (and pos (= pos 0))))
-
-(defun api-request-p ()
-  (starts-with-p "/api/" (request-uri *request*)))
-
-(defun get-request-body-plist ()
+(defun request-body-json->plist ()
   (parse
    (let ((text-stream (make-flexi-stream (request-raw-body *request*)
                                          :external-format :utf-8)))
@@ -24,3 +18,9 @@
        (loop :for char := (read-char text-stream nil)
              :while char
              :do (write-char char out))))))
+
+(defun set-metadata (metadata)
+  (setf (context :metadata) metadata))
+
+(defun set-cache (strategy)
+  (setf (context :cache) strategy))

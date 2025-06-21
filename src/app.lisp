@@ -1,27 +1,71 @@
 (defpackage #:website/app
   (:use #:cl
-        #:jingle)
+        #:jingle
+        #:hsx)
+  (:import-from #:jonathan
+                #:to-json)
   (:import-from #:ningle-fbr
                 #:set-routes)
+  (:import-from #:lack/middleware/mount
+                #:*lack-middleware-mount*)
   (:import-from #:lack-mw
                 #:*trim-trailing-slash*)
   (:import-from #:clack-errors
                 #:*clack-error-middleware*)
+  (:import-from #:website/components/metadata
+                #:~metadata)
+  (:import-from #:website/components/scripts
+                #:~scripts)
+  (:import-from #:website/components/layout
+                #:~layout)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
-  (:import-from #:website/renderer)
   (:export #:*app*))
 (in-package #:website/app)
 
+(defparameter *page-app* (make-app))
+(set-routes *page-app* :system :website :target-dir-path "pages")
+
+(defmethod jingle:process-response :around ((app (eql *page-app*)) result)
+  (set-response-header :content-type "text/html; charset=utf-8")
+  (when (eq (request-method *request*) :get)
+    (let ((strategy (context :cache)))
+      (cond ((dev-mode-p)
+             (set-response-header :cache-control "private, no-store, must-revalidate"))
+            ((eq strategy :ssr)
+             (set-response-header :cache-control "public, max-age=0, must-revalidate"))
+            ((eq strategy :isr)
+             (set-response-header :cache-control "public, max-age=0, s-maxage=60, stale-while-revalidate=60"))
+            ((eq strategy :sg)
+             (set-response-header :cache-control "public, max-age=0, s-maxage=31536000, must-revalidate")))))
+  (call-next-method app
+                    (render-to-string
+                     (hsx (html :lang "en"
+                            (head
+                              (~metadata :metadata (context :metadata))
+                              (~scripts))
+                            (body
+                              (~layout result)))))))
+
+(defparameter *api-app* (make-app))
+(set-routes *api-app* :system :website :target-dir-path "api")
+
+(defmethod jingle:process-response :around ((app (eql *api-app*)) result)
+  (set-response-header :content-type "application/json; charset=utf-8") 
+  (call-next-method app (to-json result)))
+
+(defun with-args (middleware &rest args)
+  (lambda (app)
+    (apply middleware app args)))
+
 (defparameter *app*
-  (let ((app (make-app)))
-    (set-routes app :system :website :target-dir-path "routes")
-    (install-middleware app (lambda (app)
-                              (funcall *clack-error-middleware*
-                                       app
-                                       :debug (dev-mode-p))))
-    (install-middleware app *trim-trailing-slash*)
-    (static-path app "/assets/" "assets/")
-    (configure app)))
+  (progn
+    (install-middleware *page-app*
+                        (with-args *lack-middleware-mount* "/api" *api-app*))
+    (install-middleware *page-app* 
+                        (with-args *clack-error-middleware* :debug (dev-mode-p)))
+    (install-middleware *page-app* *trim-trailing-slash*)
+    (static-path *page-app* "/assets/" "assets/")
+    (configure *page-app*)))
 
 *app*
