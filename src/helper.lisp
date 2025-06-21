@@ -5,6 +5,8 @@
                 #:make-flexi-stream)
   (:import-from #:jonathan
                 #:parse)
+  (:import-from #:website/lib/env
+                #:dev-mode-p)
   (:export #:request-body-json->plist
            #:set-metadata
            #:set-cache))
@@ -23,4 +25,11 @@
   (setf (context :metadata) metadata))
 
 (defun set-cache (strategy)
-  (setf (context :cache) strategy))
+  (cond ((dev-mode-p)
+         (set-response-header :cache-control "private, no-store, must-revalidate"))
+        ((eq strategy :ssr)
+         (set-response-header :cache-control "public, max-age=0, must-revalidate"))
+        ((eq strategy :isr)
+         (set-response-header :cache-control "public, max-age=0, s-maxage=60, stale-while-revalidate=60"))
+        ((eq strategy :sg)
+         (set-response-header :cache-control "public, max-age=0, s-maxage=31536000, must-revalidate"))))
