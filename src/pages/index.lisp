@@ -39,7 +39,7 @@
        (h1 :class "font-bold text-2xl text-center"
          "Akira Tempaku")
        (p :class "text-xl"
-         "Web developer"))
+         "Software Engineer"))
      (div :class "flex flex-col gap-2 items-left"
        (loop
          :for (name url icon) :in *links*
