@@ -39,7 +39,7 @@
          :class "z-20 size-8 flex flex-col justify-center cursor-pointer relative"
          :type "button"
          :@click "open = !open"
-         (div :class "grid justify-items-center gap-1.5"
+         (span :class "grid justify-items-center gap-1.5"
            (span
              :class "h-1 w-8 rounded-full bg-black transition duration-200"
              :|:class| "open && 'rotate-45 translate-y-2.5'")
