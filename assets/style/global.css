@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  font-family: "Zen Maru Gothic", sans-serif;
+  font-family: "Baloo 2", sans-serif;
 }
 
 @view-transition {
