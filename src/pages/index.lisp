@@ -48,7 +48,7 @@
                          :target "_blank" 
                          :class "flex items-center gap-2 text-lg hover:text-pink-500"
                          :rel "me"
-                         (img :src icon :alt name :class "size-4 mt-1")
+                         (img :src icon :alt name :class "size-4")
                          (span name))))))))
 
 ; for health check
