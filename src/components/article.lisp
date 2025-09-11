@@ -25,11 +25,11 @@
                  "Published: "
                  (|time| :datetime (datetime published-at)
                          (asctime published-at)))))
+         (and published-at revised-at
+              (hsx (br)))
          (and revised-at
               (hsx
-               (<>
-                 (br)
-                 (span
-                   "Last updated: "
-                   (|time| :datetime (datetime revised-at)
-                           (asctime revised-at)))))))))))
+               (span
+                 "Last updated: "
+                 (|time| :datetime (datetime revised-at)
+                         (asctime revised-at))))))))))
