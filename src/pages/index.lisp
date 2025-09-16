@@ -23,6 +23,9 @@
     ("Fediverse"
      "https://himagine.club/@skyizwhite"
      "/assets/img/icon/discussion.svg")
+    ("Tech Notes"
+     "https://note.skyizwhite.dev/share/fhZYyHoXV7cv"
+     "/assets/img/icon/note.svg")
     ("Status"
      "https://status.skyizwhite.dev"
      "/assets/img/icon/server.svg")))
