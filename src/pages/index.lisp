@@ -11,10 +11,7 @@
 (in-package #:website/pages/index)
 
 (defparameter *links*
-  '(("Keyoxide"
-     "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
-     "/assets/img/icon/key.svg")
-    ("GitHub"
+  '(("GitHub"
      "https://github.com/skyizwhite"
      "/assets/img/icon/github.svg")
     ("Forgejo"
@@ -22,10 +19,16 @@
      "/assets/img/icon/forgejo.svg")
     ("Fediverse"
      "https://himagine.club/@skyizwhite"
-     "/assets/img/icon/discussion.svg")
-    ("Tech Notes"
+     "/assets/img/icon/fediverse.svg")
+    ("Matrix"
+     "https://matrix.to/#/@paku:matrix.skyizwhite.dev"
+     "/assets/img/icon/matrix.svg")
+    ("Notes"
      "https://note.skyizwhite.dev/share/fhZYyHoXV7cv"
      "/assets/img/icon/note.svg")
+    ("Keyoxide"
+     "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
+     "/assets/img/icon/key.svg")
     ("Status"
      "https://status.skyizwhite.dev"
      "/assets/img/icon/server.svg")))
@@ -35,15 +38,16 @@
   (set-cache :sg)
   (hsx
    (div :class "flex flex-col items-center justify-center h-full"
-     (img 
-       :src "/assets/img/avatar.webp"
-       :alt "avatar" :class "size-40 rounded-xl shadow-sm")
-     (div :class "flex flex-col items-center gap-2 py-6"
-       (h1 :class "font-bold text-2xl text-center"
-         "Akira Tempaku")
-       (p :class "text-xl"
-         "Software Engineer"))
-     (div :class "flex flex-col gap-2 items-left"
+     (div :class "md:flex md:gap-12 md:items-center"
+       (img 
+         :src "/assets/img/avatar.webp"
+         :alt "avatar" :class "size-40 rounded-xl shadow-sm")
+       (div :class "flex flex-col items-center gap-2 py-6"
+         (h1 :class "font-bold text-2xl text-center"
+           "Akira Tempaku")
+         (p :class "text-xl"
+           "Software Engineer")))
+     (div :class "grid grid-cols-2 gap-4 md:mt-12"
        (loop
          :for (name url icon) :in *links*
          :collect (hsx (a 
