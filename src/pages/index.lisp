@@ -11,24 +11,27 @@
 (in-package #:website/pages/index)
 
 (defparameter *links*
-  '(("GitHub"
-     "https://github.com/skyizwhite"
-     "/assets/img/icon/github.svg")
-    ("Forgejo"
-     "https://code.skyizwhite.dev/paku"
-     "/assets/img/icon/forgejo.svg")
+  '(("Keyoxide"
+     "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
+     "/assets/img/icon/key.svg")
+    ("Email"
+     "mailto:paku@skyizwhite.dev"
+     "/assets/img/icon/email.svg")
     ("Fediverse"
      "https://himagine.club/@skyizwhite"
      "/assets/img/icon/fediverse.svg")
     ("Matrix"
      "https://matrix.to/#/@paku:matrix.skyizwhite.dev"
      "/assets/img/icon/matrix.svg")
+    ("GitHub"
+     "https://github.com/skyizwhite"
+     "/assets/img/icon/github.svg")
+    ("Forgejo"
+     "https://code.skyizwhite.dev/paku"
+     "/assets/img/icon/forgejo.svg")
     ("Notes"
      "https://note.skyizwhite.dev/share/fhZYyHoXV7cv"
      "/assets/img/icon/note.svg")
-    ("Keyoxide"
-     "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
-     "/assets/img/icon/key.svg")
     ("Status"
      "https://status.skyizwhite.dev"
      "/assets/img/icon/server.svg")))
