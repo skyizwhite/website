@@ -30,14 +30,14 @@
                      :width 1024)
         :error nil))
 
-(defcomp ~metadata (&key metadata)
+(defcomp ~metadata ()
   (destructuring-bind (&key title
                             description
                             canonical
                             type
                             image
                             error)
-      (complete-metadata metadata)
+      (complete-metadata (context :metadata))
     (let ((path (request-uri *request*)))
       (hsx
        (<>

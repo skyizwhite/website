@@ -12,14 +12,10 @@
                 #:*trim-trailing-slash*)
   (:import-from #:clack-errors
                 #:*clack-error-middleware*)
-  (:import-from #:website/components/metadata
-                #:~metadata)
-  (:import-from #:website/components/scripts
-                #:~scripts)
-  (:import-from #:website/components/layout
-                #:~layout)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
+  (:import-from #:website/document
+                #:~document)
   (:export #:*app*))
 (in-package #:website/app)
 
@@ -28,14 +24,8 @@
 
 (defmethod jingle:process-response :around ((app (eql *page-app*)) result)
   (set-response-header :content-type "text/html; charset=utf-8")
-  (call-next-method app
-                    (render-to-string
-                     (hsx (html :lang "en"
-                            (head
-                              (~metadata :metadata (context :metadata))
-                              (~scripts))
-                            (body
-                              (~layout result)))))))
+  (call-next-method app (render-to-string
+                         (hsx (~document result)))))
 
 (defparameter *api-app* (make-app))
 (set-routes *api-app* :system :website :target-dir-path "api")
@@ -50,12 +40,10 @@
 
 (defparameter *app*
   (progn
-    (install-middleware *page-app* 
-                        (with-args *clack-error-middleware* :debug (dev-mode-p)))
+    (install-middleware *page-app* (with-args *clack-error-middleware* :debug (dev-mode-p)))
     (install-middleware *page-app* *trim-trailing-slash*)
     (static-path *page-app* "/assets/" "assets/")
-    (install-middleware *page-app*
-                        (with-args *lack-middleware-mount* "/api" *api-app*))
+    (install-middleware *page-app* (with-args *lack-middleware-mount* "/api" *api-app*))
     (configure *page-app*)))
 
 *app*
