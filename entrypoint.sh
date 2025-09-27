@@ -17,6 +17,8 @@ for i in {1..20}; do
 done
 
 if [[ -n "$CLOUDFLARE_ZONE_ID" && -n "$CLOUDFLARE_API_KEY" ]]; then
+  echo "Waiting for rolling update..."
+  sleep 60
   echo "Purging Cloudflare cache..."
   curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
     -H "Content-Type: application/json" \
