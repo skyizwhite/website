@@ -58,7 +58,7 @@
                          :target "_blank" 
                          :class "flex items-center gap-2 text-lg hover:text-pink-500"
                          :rel "me"
-                         (img :src icon :alt name :class "size-4")
+                         (img :src icon :alt "" :class "size-4" :aria-hidden "true")
                          (span name))))))))
 
 ; for health check
