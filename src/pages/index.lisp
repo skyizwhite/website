@@ -17,9 +17,9 @@
     ("Email"
      "mailto:paku@skyizwhite.dev"
      "/assets/img/icon/email.svg")
-    ("Fediverse"
+    ("ActivityPub"
      "https://himagine.club/@skyizwhite"
-     "/assets/img/icon/fediverse.svg")
+     "/assets/img/icon/activitypub.svg")
     ("Matrix"
      "https://matrix.to/#/@paku:matrix.skyizwhite.dev"
      "/assets/img/icon/matrix.svg")
