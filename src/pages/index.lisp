@@ -11,12 +11,12 @@
 (in-package #:website/pages/index)
 
 (defparameter *links*
-  '(("Keyoxide"
-     "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
-     "/assets/img/icon/key.svg")
-    ("Email"
+  '(("Email"
      "mailto:paku@skyizwhite.dev"
      "/assets/img/icon/email.svg")
+    ("Keyoxide"
+     "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
+     "/assets/img/icon/key.svg")
     ("ActivityPub"
      "https://himagine.club/@skyizwhite"
      "/assets/img/icon/activitypub.svg")
@@ -50,16 +50,21 @@
            "Akira Tempaku")
          (p :class "text-xl"
            "Software Engineer")))
-     (div :class "grid grid-cols-2 gap-4 md:mt-12"
+     (div :class "grid grid-cols-2 gap-x-4 md:gap-x-12 gap-y-4 md:mt-12"
        (loop
-         :for (name url icon) :in *links*
-         :collect (hsx (a 
-                         :href url 
-                         :target "_blank" 
-                         :class "flex items-center gap-2 text-lg hover:text-pink-500"
-                         :rel "me"
-                         (img :src icon :alt "" :class "size-4" :aria-hidden "true")
-                         (span name))))))))
+         :for (name url icon-url) :in *links*
+         :for i :from 0
+         :collect
+            (let ((icon (hsx (img
+                               :src icon-url :alt ""
+                               :class "size-4" :aria-hidden "true"))))
+              (hsx (a
+                     :href url :target "_blank" :rel "me"
+                     :class (clsx "flex items-center gap-2 text-lg hover:text-pink-500"
+                                  (and (evenp i) "justify-end"))
+                     (and (oddp i) icon)
+                     (span name)
+                     (and (evenp i) icon)))))))))
 
 ; for health check
 (defun handle-head (params)
