@@ -35,6 +35,7 @@
          "menu"))
      (nav
        :class "fixed flex flex-col z-10 top-0 right-0 p-2 w-full h-full bg-gray-200"
+       :x-cloak t
        :x-show "open"
        :x-transition t
        :|x-transition:enter.duration.200ms| t
