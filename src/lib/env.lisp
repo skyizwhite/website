@@ -9,7 +9,9 @@
            #:dev-mode-p))
 (in-package #:website/lib/env)
 
-(load-env (merge-pathnames "./.env"))
+(let ((env-path "./.env"))
+  (when (probe-file env-path)
+    (load-env env-path)))
 
 (defmacro env-var (name var)
   `(defun ,name ()
