@@ -1,7 +1,7 @@
 ("quicklisp" .
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
-  :version "2024-10-12"))
+  :version "2025-06-22"))
 ("fiveam" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -9,19 +9,19 @@
 ("cl-jingle" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/dnaeon/cl-jingle.git")
-  :version "git-100c55d33afc78cbbbde4daca0af9e57548c6275"))
+  :version "git-38afac3ca7413c12415cd4cea3a9a90f1c630ac0"))
 ("clack" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2024-10-12"))
+  :version "ql-2025-06-22"))
 ("hsx" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-22001ef3e229ce9cfb52d3ea30a3b70460dbff04"))
+  :version "git-af6c297fad01bd9c27bccfa8bf0143a9ee0ee02c"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-19aae06f7ff17f16f008133a3bf234b89ab7de1e"))
+  :version "git-09fc1024b035ce5aa65e369e2df9b9a380ba00fa"))
 ("lack-mw" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
@@ -41,7 +41,7 @@
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2024-10-12"))
+  :version "ql-2025-06-22"))
 ("function-cache" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -53,7 +53,7 @@
 ("access" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2024-10-12"))
+  :version "ql-2025-06-22"))
 ("flexi-streams" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
