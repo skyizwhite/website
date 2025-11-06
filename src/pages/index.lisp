@@ -4,8 +4,6 @@
         #:access
         #:jingle
         #:website/helper)
-  (:import-from #:website/lib/cms
-                #:get-about)
   (:export #:handle-get
            #:handle-head))
 (in-package #:website/pages/index)
