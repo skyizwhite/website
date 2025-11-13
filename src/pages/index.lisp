@@ -43,11 +43,9 @@
        (img 
          :src "/assets/img/avatar.webp"
          :alt "avatar" :class "size-40 rounded-xl shadow-sm")
-       (div :class "flex flex-col items-center gap-2 py-6"
+       (div :class "flex flex-col items-center py-6"
          (h1 :class "font-bold text-2xl text-center"
-           "Akira Tempaku")
-         (p :class "text-xl"
-           "Software Engineer")))
+           "Akira Tempaku")))
      (div :class "grid grid-cols-2 gap-x-4 md:gap-x-12 gap-y-4 md:mt-12"
        (loop
          :for (name url icon-url) :in *links*
