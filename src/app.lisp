@@ -40,6 +40,7 @@
 
 (defparameter *app*
   (progn
+    (clear-middlewares *page-app*)
     (install-middleware *page-app* (with-args *clack-error-middleware* :debug (dev-mode-p)))
     (install-middleware *page-app* *trim-trailing-slash*)
     (static-path *page-app* "/assets/" "assets/")
