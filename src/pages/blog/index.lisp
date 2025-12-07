@@ -7,13 +7,13 @@
                 #:fetch-blog-list)
   (:import-from #:website/lib/time
                 #:asctime)
-  (:export #:handle-get))
+  (:export #:@get))
 (in-package #:website/pages/blog/index)
 
 (defparameter *metadata*
   (list :title "blog"))
 
-(defun handle-get (params)
+(defun @get (params)
   (declare (ignore params))
   (set-cache :isr)
   (set-metadata *metadata*)

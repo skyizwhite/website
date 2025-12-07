@@ -9,7 +9,7 @@
 ("cl-jingle" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/dnaeon/cl-jingle.git")
-  :version "git-38afac3ca7413c12415cd4cea3a9a90f1c630ac0"))
+  :version "git-1843700188d8d7265f203b704e214f2cfca5baa9"))
 ("clack" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -21,7 +21,7 @@
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-09fc1024b035ce5aa65e369e2df9b9a380ba00fa"))
+  :version "git-920b0bbc167630107b16e841afcc1a7e612efd8d"))
 ("lack-mw" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
@@ -58,3 +58,7 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2024-10-12"))
+("named-readtables" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/melisgl/named-readtables")
+  :version "git-6eea56674442b884a4fee6ede4c8aad63541aa5b"))

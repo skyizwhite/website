@@ -4,8 +4,8 @@
         #:access
         #:jingle
         #:website/helper)
-  (:export #:handle-get
-           #:handle-head))
+  (:export #:@get
+           #:@head))
 (in-package #:website/pages/index)
 
 (defparameter *links*
@@ -34,7 +34,7 @@
      "https://status.skyizwhite.dev"
      "/assets/img/icon/server.svg")))
 
-(defun handle-get (params)
+(defun @get (params)
   (declare (ignore params))
   (set-cache :sg)
   (hsx
@@ -63,5 +63,5 @@
                      (and (evenp i) icon)))))))))
 
 ; for health check
-(defun handle-head (params)
+(defun @head (params)
   (declare (ignore params)))

@@ -20,7 +20,7 @@
 (in-package #:website/app)
 
 (defparameter *page-app* (make-app))
-(set-routes *page-app* :system :website :target-dir-path "pages")
+(set-routes *page-app* :system :website :dir "pages")
 
 (defmethod jingle:process-response :around ((app (eql *page-app*)) result)
   (set-response-header :content-type "text/html; charset=utf-8")
@@ -28,7 +28,7 @@
                          (hsx (~document result)))))
 
 (defparameter *api-app* (make-app))
-(set-routes *api-app* :system :website :target-dir-path "api")
+(set-routes *api-app* :system :website :dir "api")
 
 (defmethod jingle:process-response :around ((app (eql *api-app*)) result)
   (set-response-header :content-type "application/json; charset=utf-8") 

@@ -3,7 +3,7 @@
         #:hsx
         #:jingle
         #:website/helper)
-  (:export #:handle-not-found))
+  (:export #:@not-found))
 (in-package #:website/pages/not-found)
 
 (defparameter *metadata*
@@ -11,7 +11,7 @@
     :description "The page you are looking for may have been deleted or the URL might be incorrect."
     :error t))
 
-(defun handle-not-found ()
+(defun @not-found ()
   (set-response-status :not-found)
   (set-cache :ssr)
   (set-metadata *metadata*)

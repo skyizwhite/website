@@ -7,13 +7,13 @@
                 #:fetch-works)
   (:import-from #:website/components/article
                 #:~article)
-  (:export #:handle-get))
+  (:export #:@get))
 (in-package #:website/pages/works)
 
 (defparameter *metadata*
   (list :title "works"))
 
-(defun handle-get (params)
+(defun @get (params)
   (set-metadata *metadata*)
   (with-request-params ((draft-key "draft-key" nil)) params
     (set-cache (if draft-key :ssr :isr))

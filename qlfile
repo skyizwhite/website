@@ -12,3 +12,4 @@ ql function-cache
 ql jonathan
 ql access
 ql flexi-streams
+git named-readtables https://github.com/melisgl/named-readtables

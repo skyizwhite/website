@@ -10,15 +10,15 @@
                 #:clear-about-cache
                 #:clear-works-cache
                 #:clear-blog-cache)
-  (:export #:handle-post))
+  (:export #:@post))
 (in-package #:website/api/revalidate)
 
-(defun handle-post (params)
+(defun @post (params)
   (declare (ignore params))
   (unless (string= (car (get-request-header "X-MICROCMS-WEBHOOK-KEY"))
                    (microcms-webhook-key))
     (set-response-status :unauthorized)
-    (return-from handle-post '(:|message| "Invalid token")))
+    (return-from @post '(:|message| "Invalid token")))
   (let* ((body (request-body-json->plist))
          (api (getf body :|api|))
          (id (getf body :|id|))
@@ -28,7 +28,7 @@
           ((string= api "works") (clear-works-cache new-draft-key))
           ((string= api "blog") (clear-blog-cache id old-draft-key new-draft-key))
           (t (set-response-status :bad-request)
-             (return-from handle-post '(:|message| "Unknown API"))))
+             (return-from @post '(:|message| "Unknown API"))))
     (list :|api| api
           :|id| id
           :|old-draft-key| old-draft-key
