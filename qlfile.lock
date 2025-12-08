@@ -46,18 +46,10 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2023-10-21"))
-("jonathan" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2020-09-25"))
 ("access" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2025-06-22"))
-("flexi-streams" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2024-10-12"))
 ("named-readtables" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/melisgl/named-readtables")

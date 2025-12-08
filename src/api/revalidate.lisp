@@ -4,8 +4,6 @@
         #:access)
   (:import-from #:website/lib/env
                 #:microcms-webhook-key)
-  (:import-from #:website/helper
-                #:request-body-json->plist)
   (:import-from #:website/lib/cms
                 #:clear-about-cache
                 #:clear-works-cache
@@ -19,11 +17,11 @@
                    (microcms-webhook-key))
     (set-response-status :unauthorized)
     (return-from @post '(:|message| "Invalid token")))
-  (let* ((body (request-body-json->plist))
-         (api (getf body :|api|))
-         (id (getf body :|id|))
-         (old-draft-key (accesses body :|contents| :|old| :|draftKey|))
-         (new-draft-key (accesses body :|contents| :|new| :|draftKey|)))
+  (let* ((body (request-body-parameters *request*))
+         (api (accesses body "api"))
+         (id (accesses body "id"))
+         (old-draft-key (accesses body "contents" "old" "draftKey"))
+         (new-draft-key (accesses body "contents" "new" "draftKey")))
     (cond ((string= api "about") (clear-about-cache new-draft-key))
           ((string= api "works") (clear-works-cache new-draft-key))
           ((string= api "blog") (clear-blog-cache id old-draft-key new-draft-key))
