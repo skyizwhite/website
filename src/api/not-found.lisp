@@ -5,5 +5,4 @@
 (in-package #:website/api/not-found)
 
 (defun @not-found ()
-  (set-response-status :not-found)
   '(:|message| "Not found"))

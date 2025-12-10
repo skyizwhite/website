@@ -12,7 +12,6 @@
     :error t))
 
 (defun @not-found ()
-  (set-response-status :not-found)
   (set-cache :ssr)
   (set-metadata *metadata*)
   (hsx
