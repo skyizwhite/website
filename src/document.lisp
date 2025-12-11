@@ -19,7 +19,7 @@
        (link
          :rel "stylesheet"
          :href "https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap")
-       (link :rel "stylesheet" :href (bust-cache "/assets/style/dist.css"))
+       (link :rel "stylesheet" :href (bust-cache "/assets/style/global.css"))
        ;(script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" :defer t))
      (body
