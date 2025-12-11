@@ -1,6 +1,3 @@
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
-
 :root {
   font-family: "Baloo 2", sans-serif;
 }
