@@ -17,7 +17,7 @@
 ("hsx" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-af6c297fad01bd9c27bccfa8bf0143a9ee0ee02c"))
+  :version "git-ab696df6cf74b9844979c457c9359f98e7a0cea4"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
@@ -37,7 +37,7 @@
 ("microcms" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/microcms-lisp-sdk")
-  :version "git-bdedc0f81109beef04aead37b398a1ebb32fd052"))
+  :version "git-56fe67389778c21ac0df34635564d28ccf42e6dc"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
