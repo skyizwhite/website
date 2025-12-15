@@ -1,7 +1,6 @@
 (defpackage #:website/pages/not-found
   (:use #:cl
         #:hsx
-        #:jingle
         #:website/helper)
   (:export #:@not-found))
 (in-package #:website/pages/not-found)
@@ -12,11 +11,6 @@
     :error t))
 
 (defun @not-found ()
-  (set-cache :ssr)
   (set-metadata *metadata*)
   (hsx
-   (div :class "flex flex-col h-full items-center justify-center gap-y-6"
-     (h1 :class "font-bold text-2xl"
-       "404 Not Found")
-     (a :href "/" :class "text-lg text-pink-500 hover:underline"
-       "Back to TOP"))))
+   (h1 "404 Not Found")))

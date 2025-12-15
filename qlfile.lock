@@ -2,10 +2,6 @@
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
   :version "2025-06-22"))
-("fiveam" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2024-10-12"))
 ("cl-jingle" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/dnaeon/cl-jingle.git")
@@ -17,7 +13,7 @@
 ("hsx" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-af6c297fad01bd9c27bccfa8bf0143a9ee0ee02c"))
+  :version "git-6acf8697f7df5237402e2421e2ab0220fcb037a6"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
@@ -37,7 +33,7 @@
 ("microcms" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/microcms-lisp-sdk")
-  :version "git-bdedc0f81109beef04aead37b398a1ebb32fd052"))
+  :version "git-56fe67389778c21ac0df34635564d28ccf42e6dc"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -50,7 +46,3 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2025-06-22"))
-("named-readtables" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/melisgl/named-readtables")
-  :version "git-6eea56674442b884a4fee6ede4c8aad63541aa5b"))
