@@ -9,24 +9,24 @@
 (in-package #:website/pages/index)
 
 (defparameter *links*
-  '(("Email"
-     "mailto:paku@skyizwhite.dev"
-     "/assets/img/icon/email.svg")
-    ("Keyoxide"
+  '(("Keyoxide"
      "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
      "/assets/img/icon/key.svg")
-    ("ActivityPub"
-     "https://himagine.club/@skyizwhite"
-     "/assets/img/icon/activitypub.svg")
-    ("Matrix"
-     "https://matrix.to/#/@paku:matrix.skyizwhite.dev"
-     "/assets/img/icon/matrix.svg")
     ("GitHub"
      "https://github.com/skyizwhite"
      "/assets/img/icon/github.svg")
-    ("Forgejo"
-     "https://code.skyizwhite.dev/paku"
-     "/assets/img/icon/forgejo.svg")
+    ("Email"
+     "mailto:paku@skyizwhite.dev"
+     "/assets/img/icon/email.svg")
+    ("ActivityPub"
+     "https://himagine.club/@skyizwhite"
+     "/assets/img/icon/activitypub.svg")
+    ("Signal"
+     "https://signal.me/#eu/DuMA5nfb3EhFlp-6j4vBgtBIAUIcaF4Td2g3mopS7ZIA3VmmRrdLC5GoEgo8W446"
+     "/assets/img/icon/signal.svg")
+    ("Matrix"
+     "https://matrix.to/#/@paku:skyizwhite.dev"
+     "/assets/img/icon/matrix.svg")
     ("Notes"
      "https://note.skyizwhite.dev/share/fhZYyHoXV7cv"
      "/assets/img/icon/note.svg")
@@ -53,7 +53,7 @@
          :collect
             (let ((icon (hsx (img
                                :src icon-url :alt ""
-                               :class "size-4" :aria-hidden "true"))))
+                               :class "size-6" :aria-hidden "true"))))
               (hsx (a
                      :href url :target "_blank" :rel "me"
                      :class (clsx "flex items-center gap-2 text-lg hover:text-pink-500"
