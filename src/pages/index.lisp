@@ -15,20 +15,20 @@
     ("GitHub"
      "https://github.com/skyizwhite"
      "/assets/img/icon/github.svg")
-    ("Email"
-     "mailto:paku@skyizwhite.dev"
-     "/assets/img/icon/email.svg")
     ("ActivityPub"
      "https://himagine.club/@skyizwhite"
      "/assets/img/icon/activitypub.svg")
-    ("Signal"
-     "https://signal.me/#eu/DuMA5nfb3EhFlp-6j4vBgtBIAUIcaF4Td2g3mopS7ZIA3VmmRrdLC5GoEgo8W446"
-     "/assets/img/icon/signal.svg")
     ("Matrix"
      "https://matrix.to/#/@paku:skyizwhite.dev"
      "/assets/img/icon/matrix.svg")
+    ("Signal"
+     "https://signal.me/#eu/DuMA5nfb3EhFlp-6j4vBgtBIAUIcaF4Td2g3mopS7ZIA3VmmRrdLC5GoEgo8W446"
+     "/assets/img/icon/signal.svg")
+    ("Email"
+     "mailto:paku@skyizwhite.dev"
+     "/assets/img/icon/email.svg")
     ("Notes"
-     "https://note.skyizwhite.dev/share/fhZYyHoXV7cv"
+     "https://note.skyizwhite.dev/share/4SxzocRlB095"
      "/assets/img/icon/note.svg")
     ("Status"
      "https://status.skyizwhite.dev"
@@ -45,7 +45,9 @@
          :alt "avatar" :class "size-40 rounded-xl shadow-sm")
        (div :class "flex flex-col items-center py-6"
          (h1 :class "font-bold text-2xl text-center"
-           "Akira Tempaku")))
+           "Akira Tempaku")
+         (p :class "text-lg text-gray-500"
+           "Software Engineer")))
      (div :class "grid grid-cols-2 gap-x-4 md:gap-x-12 gap-y-4 md:mt-12"
        (loop
          :for (name url icon-url) :in *links*
