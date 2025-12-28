@@ -11,9 +11,6 @@
    (html :lang "ja"
      (head
        (~metadata)
-       (link
-         :rel "stylesheet"
-         :href (add-cache-buster "/assets/style/global.css"))
        (script :type "module"
          (raw!
            "import sprae from 'https://cdn.jsdelivr.net/npm/sprae@12.3.5/+esm';"
