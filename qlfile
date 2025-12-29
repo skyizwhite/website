@@ -1,11 +1,11 @@
-git cl-jingle https://github.com/dnaeon/cl-jingle.git
+ultralisp skyizwhite-hsx
+ultralisp skyizwhite-ningle-fbr
+ultralisp skyizwhite-microcms-lisp-sdk
+ultralisp skyizwhite-lack-mw
 ql clack
-git hsx https://github.com/skyizwhite/hsx.git
-git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
-git lack-mw https://github.com/skyizwhite/lack-mw.git
 ql cl-dotenv
 ql clack-errors
-git microcms https://github.com/skyizwhite/microcms-lisp-sdk
 ql local-time
 ql function-cache
 ql access
+github dnaeon/cl-jingle

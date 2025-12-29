@@ -2,26 +2,26 @@
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
   :version "2025-06-22"))
-("cl-jingle" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/dnaeon/cl-jingle.git")
-  :version "git-1843700188d8d7265f203b704e214f2cfca5baa9"))
+("skyizwhite-hsx" .
+ (:class qlot/source/ultralisp:source-ultralisp
+  :initargs (:%version :latest)
+  :version "ultralisp-20251229042000"))
+("skyizwhite-ningle-fbr" .
+ (:class qlot/source/ultralisp:source-ultralisp
+  :initargs (:%version :latest)
+  :version "ultralisp-20251229042000"))
+("skyizwhite-microcms-lisp-sdk" .
+ (:class qlot/source/ultralisp:source-ultralisp
+  :initargs (:%version :latest)
+  :version "ultralisp-20251229042000"))
+("skyizwhite-lack-mw" .
+ (:class qlot/source/ultralisp:source-ultralisp
+  :initargs (:%version :latest)
+  :version "ultralisp-20251229042000"))
 ("clack" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2025-06-22"))
-("hsx" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-6acf8697f7df5237402e2421e2ab0220fcb037a6"))
-("ningle-fbr" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-920b0bbc167630107b16e841afcc1a7e612efd8d"))
-("lack-mw" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
-  :version "git-77a0f436635e5beadaba3765492832704a015a3c"))
 ("cl-dotenv" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -30,10 +30,6 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2019-08-13"))
-("microcms" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/skyizwhite/microcms-lisp-sdk")
-  :version "git-56fe67389778c21ac0df34635564d28ccf42e6dc"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -46,3 +42,7 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2025-06-22"))
+("cl-jingle" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "dnaeon/cl-jingle" :ref nil :branch nil :tag nil)
+  :version "github-1843700188d8d7265f203b704e214f2cfca5baa9"))
