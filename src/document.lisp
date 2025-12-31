@@ -10,12 +10,21 @@
   (hsx
    (html :lang "ja"
      (head
-       (~metadata)
-       (script :type "module"
-         (raw!
-           "import sprae from 'https://cdn.jsdelivr.net/npm/sprae@12.3.5/+esm';"
-           "sprae(document.body);")))
+       (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js")
+       (style *style*)
+       (~metadata))
      (body children))))
 
-(defun add-cache-buster (url)
-  (format nil "~a?v=~a" url #.(get-universal-time)))
+(defparameter *style* "
+@view-transition {
+  navigation: auto;
+}
+
+body {
+  background-color: black;
+}
+
+h1,p {
+  color: red;
+}
+")

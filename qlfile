@@ -1,11 +1,11 @@
-ultralisp skyizwhite-hsx
-ultralisp skyizwhite-ningle-fbr
-ultralisp skyizwhite-microcms-lisp-sdk
-ultralisp skyizwhite-lack-mw
 ql clack
+ql cl-jingle
 ql cl-dotenv
 ql clack-errors
 ql local-time
 ql function-cache
 ql access
-github dnaeon/cl-jingle
+ultralisp skyizwhite-hsx
+ultralisp skyizwhite-ningle-fbr
+ultralisp skyizwhite-microcms-lisp-sdk
+ultralisp skyizwhite-lack-mw

@@ -13,4 +13,6 @@
 (defun @not-found ()
   (set-metadata *metadata*)
   (hsx
-   (h1 "404 Not Found")))
+   (div
+     (h1 "404 Not Found")
+     (a :href "/" "Back to TOP"))))

@@ -24,8 +24,10 @@
 
 (defmethod jingle:process-response :around ((app (eql *page-app*)) result)
   (set-response-header :content-type "text/html; charset=utf-8")
-  (call-next-method app (render-to-string
-                         (hsx (~document result)))))
+  (call-next-method app
+                    (render-to-string (if (string= (car (get-request-header "HX-Request")) "true")
+                                          (hsx result)
+                                          (hsx (~document result))))))
 
 (defparameter *api-app* (make-app))
 (set-routes *api-app* :system :website :dir "api")

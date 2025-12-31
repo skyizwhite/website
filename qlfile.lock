@@ -1,27 +1,15 @@
 ("quicklisp" .
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
-  :version "2025-06-22"))
-("skyizwhite-hsx" .
- (:class qlot/source/ultralisp:source-ultralisp
-  :initargs (:%version :latest)
-  :version "ultralisp-20251229042000"))
-("skyizwhite-ningle-fbr" .
- (:class qlot/source/ultralisp:source-ultralisp
-  :initargs (:%version :latest)
-  :version "ultralisp-20251229042000"))
-("skyizwhite-microcms-lisp-sdk" .
- (:class qlot/source/ultralisp:source-ultralisp
-  :initargs (:%version :latest)
-  :version "ultralisp-20251229042000"))
-("skyizwhite-lack-mw" .
- (:class qlot/source/ultralisp:source-ultralisp
-  :initargs (:%version :latest)
-  :version "ultralisp-20251229042000"))
+  :version "2026-01-01"))
 ("clack" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2025-06-22"))
+("cl-jingle" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2026-01-01"))
 ("cl-dotenv" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -33,7 +21,7 @@
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2025-06-22"))
+  :version "ql-2026-01-01"))
 ("function-cache" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -42,7 +30,19 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2025-06-22"))
-("cl-jingle" .
- (:class qlot/source/github:source-github
-  :initargs (:repos "dnaeon/cl-jingle" :ref nil :branch nil :tag nil)
-  :version "github-1843700188d8d7265f203b704e214f2cfca5baa9"))
+("skyizwhite-hsx" .
+ (:class qlot/source/ultralisp:source-ultralisp
+  :initargs (:%version :latest)
+  :version "ultralisp-20260101221500"))
+("skyizwhite-ningle-fbr" .
+ (:class qlot/source/ultralisp:source-ultralisp
+  :initargs (:%version :latest)
+  :version "ultralisp-20260101221500"))
+("skyizwhite-microcms-lisp-sdk" .
+ (:class qlot/source/ultralisp:source-ultralisp
+  :initargs (:%version :latest)
+  :version "ultralisp-20260101221500"))
+("skyizwhite-lack-mw" .
+ (:class qlot/source/ultralisp:source-ultralisp
+  :initargs (:%version :latest)
+  :version "ultralisp-20260101221500"))
