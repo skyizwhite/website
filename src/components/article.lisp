@@ -17,7 +17,6 @@
      (and draft-p (hsx (p :class "text-lg text-pink-500" "Draft Mode")))
      (article :class "prose max-w-none"
        (h1 title)
-       (raw! content)
        (p :class "text-right text-sm text-gray-500"
          (and published-at
               (hsx
@@ -32,4 +31,5 @@
                (span
                  "Last updated: "
                  (|time| :datetime (datetime revised-at)
-                         (asctime revised-at))))))))))
+                         (asctime revised-at))))))
+       (raw! content)))))
