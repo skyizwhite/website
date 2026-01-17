@@ -13,6 +13,7 @@
 
 (defun @not-found ()
   (set-cache :ssr)
+  (set-response-status :not-found)
   (set-metadata *metadata*)
   (hsx
    (div :class "flex flex-col h-full items-center justify-center gap-y-6"
