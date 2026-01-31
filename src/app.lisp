@@ -9,6 +9,7 @@
   (:import-from #:lack/middleware/mount
                 #:*lack-middleware-mount*)
   (:import-from #:lack-mw
+                #:with-args
                 #:*trim-trailing-slash*)
   (:import-from #:clack-errors
                 #:*clack-error-middleware*)
@@ -33,10 +34,6 @@
 (defmethod jingle:process-response :around ((app (eql *api-app*)) result)
   (set-response-header :content-type "application/json; charset=utf-8") 
   (call-next-method app (to-json result)))
-
-(defun with-args (middleware &rest args)
-  (lambda (app)
-    (apply middleware app args)))
 
 (defparameter *app*
   (progn

@@ -25,7 +25,7 @@
 ("lack-mw" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
-  :version "git-77a0f436635e5beadaba3765492832704a015a3c"))
+  :version "git-0bada4eafa7264b82c86d71c621fac5128440c67"))
 ("cl-dotenv" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
