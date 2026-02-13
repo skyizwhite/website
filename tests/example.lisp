@@ -1,10 +1,8 @@
 (defpackage #:website-tests/example
   (:use #:cl
-        #:fiveam))
+        #:rove))
 (in-package #:website-tests/example)
 
-(def-suite example-test)
-(in-suite example-test)
-
-(test adder-test
-  (is (= (+ 1 1) 2)))
+(deftest example
+  (testing "something..."
+    (ok (= (+ 1 1) 2))))

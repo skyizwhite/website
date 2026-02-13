@@ -2,10 +2,6 @@
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
   :version "2025-06-22"))
-("fiveam" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2024-10-12"))
 ("cl-jingle" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/dnaeon/cl-jingle.git")
@@ -54,3 +50,7 @@
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/melisgl/named-readtables")
   :version "git-6eea56674442b884a4fee6ede4c8aad63541aa5b"))
+("rove" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/fukamachi/rove")
+  :version "git-1a4474901e7ab49e8184241dd88e74c95233195a"))
