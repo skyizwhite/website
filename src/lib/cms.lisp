@@ -1,8 +1,6 @@
 (defpackage #:website/lib/cms
   (:use #:cl)
-  (:import-from #:microcms
-                #:define-list-client
-                #:define-object-client)
+  (:import-from #:microcms)
   (:import-from #:function-cache
                 #:defcached
                 #:clear-cache
@@ -23,25 +21,21 @@
 (setf microcms:*service-domain* (microcms-service-domain))
 (setf microcms:*api-key* (microcms-api-key))
 
-(define-object-client about)
-(define-object-client works)
-(define-list-client blog)
-
 (defcached fetch-about (&key draft-key)
-  (get-about :query (list :draft-key draft-key)))
+  (microcms:get-object "about" :query (list :draft-key draft-key)))
 
 (defcached fetch-works (&key draft-key)
-  (get-works :query (list :draft-key draft-key)))
+  (microcms:get-object "works" :query (list :draft-key draft-key)))
 
 (defcached fetch-blog-list (&key page)
   ;TODO: pagenation
   (declare (ignore page))
-  (getf (get-blog-list :query '(:fields "id,title,publishedAt"
-                                :limit 100))
+  (getf (microcms:get-list "blog" :query '(:fields "id,title,publishedAt"
+                                           :limit 100))
         :contents))
 
 (defcached fetch-blog-detail (id &key draft-key)
-  (get-blog-detail id :query (list :draft-key draft-key)))
+  (microcms:get-item "blog" id :query (list :draft-key draft-key)))
 
 (defun clear-about-cache (new-draft-key)
   (if new-draft-key

@@ -33,7 +33,7 @@
 ("microcms" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/microcms-lisp-sdk")
-  :version "git-56fe67389778c21ac0df34635564d28ccf42e6dc"))
+  :version "git-e55d6accb171e008a7c4be9aed0bea15b9eebae5"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
