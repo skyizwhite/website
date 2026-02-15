@@ -11,14 +11,14 @@
 
 (defcomp ~document (&key children)
   (hsx
-   (html :lang "en"
+   (html :lang "ja"
      (head
        (~metadata)
        (link :rel "preconnect" :href "https://fonts.googleapis.com")
        (link :rel "preconnect" :href "https://fonts.gstatic.com" :crossorigin t)
        (link
          :rel "stylesheet"
-         :href "https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap")
+         :href "https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&family=Noto+Sans+JP:wght@400;600&display=swap")
        (link :rel "stylesheet" :href (bust-cache "/assets/style/dist.css"))
        ;(script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js")
        (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" :defer t))

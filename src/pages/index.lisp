@@ -38,7 +38,7 @@
   (declare (ignore params))
   (set-cache :sg)
   (hsx
-   (div :class "flex flex-col items-center justify-center h-full"
+   (div :class "flex flex-col items-center justify-center h-full font-baloo"
      (div :class "md:flex md:gap-12 md:items-center"
        (img 
          :src "/assets/img/avatar.webp"

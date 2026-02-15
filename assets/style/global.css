@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  font-family: "Baloo 2", sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 @view-transition {
@@ -11,4 +11,8 @@
 
 [x-cloak] { 
   display: none !important
+}
+
+.font-baloo {
+  font-family: "Baloo 2";
 }

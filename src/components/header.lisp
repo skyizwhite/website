@@ -58,7 +58,7 @@
 
 (defcomp ~header ()
   (hsx
-   (header :class "flex justify-between py-2 md:py-4 border-b-1 top-0 bg-white"
+   (header :class "flex justify-between py-2 md:py-4 border-b-1 top-0 bg-white font-baloo"
      (a :href "/" :class "flex items-center gap-2 z-20"
        (img 
          :src "/assets/img/logo.png" :class "h-7 md:h-9 aspect-auto"
