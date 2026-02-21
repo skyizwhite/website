@@ -6,7 +6,7 @@
   (:import-from #:website/lib/cms
                 #:fetch-blog-list)
   (:import-from #:website/lib/time
-                #:asctime)
+                #:jp-datetime)
   (:export #:@get))
 (in-package #:website/pages/blog/index)
 
@@ -33,6 +33,6 @@
                    (span :class "font-bold"
                      "･ " (getf item :title))
                    (span :class "text-sm text-gray-500 ml-2"
-                     "(" (asctime (getf item :published-at)) ")"))))))
+                     "(" (jp-datetime (getf item :published-at)) ")"))))))
        ;TODO: pagenation
        ))))

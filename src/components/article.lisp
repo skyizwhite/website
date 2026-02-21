@@ -3,7 +3,7 @@
         #:hsx)
   (:import-from #:website/lib/time
                 #:datetime
-                #:asctime)
+                #:jp-datetime)
   (:export #:~article))
 (in-package #:website/components/article)
 
@@ -21,15 +21,15 @@
          (and published-at
               (hsx
                (span
-                 "Published: "
+                 "公開日時："
                  (|time| :datetime (datetime published-at)
-                         (asctime published-at)))))
+                         (jp-datetime published-at)))))
          (and published-at revised-at
               (hsx (br)))
          (and revised-at
               (hsx
                (span
-                 "Last updated: "
+                 "更新日時："
                  (|time| :datetime (datetime revised-at)
-                         (asctime revised-at))))))
+                         (jp-datetime revised-at))))))
        (raw! content)))))
