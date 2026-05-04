@@ -21,15 +21,9 @@
     ("Matrix"
      "https://matrix.to/#/@paku:skyizwhite.dev"
      "/assets/img/icon/matrix.svg")
-    ("Signal"
-     "https://signal.me/#eu/DuMA5nfb3EhFlp-6j4vBgtBIAUIcaF4Td2g3mopS7ZIA3VmmRrdLC5GoEgo8W446"
-     "/assets/img/icon/signal.svg")
     ("Email"
      "mailto:paku@skyizwhite.dev"
      "/assets/img/icon/email.svg")
-    ("Notes"
-     "https://note.skyizwhite.dev/share/4SxzocRlB095"
-     "/assets/img/icon/note.svg")
     ("Status"
      "https://status.skyizwhite.dev"
      "/assets/img/icon/server.svg")))
