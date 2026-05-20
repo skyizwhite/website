@@ -1,11 +1,11 @@
 ("quicklisp" .
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
-  :version "2025-06-22"))
+  :version "2026-01-01"))
 ("cl-jingle" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/dnaeon/cl-jingle.git")
-  :version "git-1843700188d8d7265f203b704e214f2cfca5baa9"))
+  :version "git-10e10bb749b46b944f0d1daf95540f9dc806b41a"))
 ("clack" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -13,11 +13,11 @@
 ("hsx" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-ab696df6cf74b9844979c457c9359f98e7a0cea4"))
+  :version "git-313c247ca01fbdcfb8e17ae5e00d05c437cde6d0"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-920b0bbc167630107b16e841afcc1a7e612efd8d"))
+  :version "git-8f670f46d41e73bbd88eb69c5b3bf7fcba42d5fd"))
 ("lack-mw" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
@@ -33,11 +33,11 @@
 ("microcms" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/microcms-lisp-sdk")
-  :version "git-e55d6accb171e008a7c4be9aed0bea15b9eebae5"))
+  :version "git-5d9bceeb22b212ef2ac6707dab07658cb71071b3"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2025-06-22"))
+  :version "ql-2026-01-01"))
 ("function-cache" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -49,8 +49,8 @@
 ("named-readtables" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/melisgl/named-readtables")
-  :version "git-6eea56674442b884a4fee6ede4c8aad63541aa5b"))
+  :version "git-609a591989927f30b9be76ed510bf1fbcdb53682"))
 ("rove" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/fukamachi/rove")
-  :version "git-1a4474901e7ab49e8184241dd88e74c95233195a"))
+  :version "git-27c17044e647367ce8379c11b2f937e5024fb220"))
