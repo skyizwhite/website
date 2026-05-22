@@ -51,7 +51,7 @@
             (hsx
              (a
                :href url :target "_blank" :rel "me noopener"
-               :class (clsx "group relative flex items-center gap-3 px-4 py-3 rounded-2xl"
+               :class (clsx "group flex items-center gap-3 px-4 py-3 rounded-2xl"
                             "border border-base surface"
                             "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
                             "transition-all duration-200")
