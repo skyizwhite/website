@@ -120,7 +120,7 @@ body {
 }
 
 @utility accent-text {
-  background-image: linear-gradient(135deg, #db1f60 0%, #f96894 100%);
+  background-image: linear-gradient(135deg, #f43f74 0%, #ff8db1 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
