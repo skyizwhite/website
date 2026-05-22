@@ -124,7 +124,7 @@
                   "border-b border-zinc-800/60")
      (div :class "max-w-[760px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between"
        (a :href "/" :class "group"
-         (span :class "font-display text-xl font-bold tracking-tight group-hover:accent-text transition-all"
+         (span :class "font-display text-xl font-bold tracking-tight group-hover:accent-text"
            "skyizwhite"))
        (div :class "flex items-center gap-2"
          (~pc-nav)

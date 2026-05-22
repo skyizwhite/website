@@ -37,7 +37,7 @@
                                   "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
                                   "transition-all duration-200")
                      (div :class "sm:flex items-baseline justify-between gap-4"
-                       (h2 :class "font-display font-semibold text-base sm:text-lg text-fg group-hover:accent-text transition-all"
+                       (h2 :class "font-display font-semibold text-base sm:text-lg text-fg group-hover:accent-text"
                          (getf item :title))
                        (and published-at
                             (hsx
