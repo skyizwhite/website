@@ -58,7 +58,7 @@
                (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
                                   "bg-muted group-hover:accent-gradient transition-colors")
                  (img :src icon-url :alt ""
-                      :class "size-4 icon-invert group-hover:invert group-hover:brightness-0 group-hover:brightness-200"
+                      :class "size-4 icon-invert"
                       :aria-hidden "true"))
                (span :class "text-sm font-display font-semibold tracking-wide"
                  name))))))))
