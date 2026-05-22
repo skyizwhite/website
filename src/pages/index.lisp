@@ -32,31 +32,36 @@
   (declare (ignore params))
   (set-cache :sg)
   (hsx
-   (div :class "flex flex-col items-center justify-center h-full font-baloo"
-     (div :class "md:flex md:gap-12 md:items-center"
-       (img 
-         :src "/assets/img/avatar.webp"
-         :alt "avatar" :class "size-40 rounded-xl shadow-sm")
-       (div :class "flex flex-col items-center py-6"
-         (h1 :class "font-bold text-2xl text-center"
-           "Akira Tempaku")
-         (p :class "text-lg text-gray-500"
-           "Software Engineer")))
-     (div :class "grid grid-cols-2 gap-x-4 md:gap-x-12 gap-y-4 md:mt-12"
+   (section :class "flex flex-col items-center text-center pt-6 sm:pt-10"
+     (div :class "relative mb-8"
+       (div :class "absolute -inset-1 rounded-[28px] accent-gradient opacity-70 blur-md")
+       (div :class "relative rounded-[24px] p-[2px] accent-gradient"
+         (img
+           :src "/assets/img/avatar.webp"
+           :alt "avatar"
+           :class "block size-40 sm:size-44 rounded-[22px] bg-base object-cover")))
+     (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
+       "Akira Tempaku")
+     (p :class "mt-2 text-sm uppercase tracking-[0.35em] text-muted font-display"
+       "Software Engineer")
+     (div :class "mt-12 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
        (loop
          :for (name url icon-url) :in *links*
-         :for i :from 0
          :collect
-            (let ((icon (hsx (img
-                               :src icon-url :alt ""
-                               :class "size-6" :aria-hidden "true"))))
-              (hsx (a
-                     :href url :target "_blank" :rel "me"
-                     :class (clsx "flex items-center gap-2 text-lg hover:text-pink-500"
-                                  (and (evenp i) "justify-end"))
-                     (and (oddp i) icon)
-                     (span name)
-                     (and (evenp i) icon)))))))))
+            (hsx
+             (a
+               :href url :target "_blank" :rel "me noopener"
+               :class (clsx "group relative flex items-center gap-3 px-4 py-3 rounded-2xl"
+                            "border border-token surface"
+                            "hover:border-token-strong hover:-translate-y-0.5 hover:shadow-glow"
+                            "transition-all duration-200")
+               (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
+                                  "bg-muted group-hover:accent-gradient transition-colors")
+                 (img :src icon-url :alt ""
+                      :class "size-4 icon-invert group-hover:invert group-hover:brightness-0 group-hover:brightness-200"
+                      :aria-hidden "true"))
+               (span :class "text-sm font-display font-semibold tracking-wide"
+                 name))))))))
 
 ; for health check
 (defun @head (params)

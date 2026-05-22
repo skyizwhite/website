@@ -1,18 +1,187 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Baloo 2", ui-sans-serif, system-ui, sans-serif;
+
+  --color-accent-50:  #fdf2ff;
+  --color-accent-100: #fae4ff;
+  --color-accent-200: #f6c8ff;
+  --color-accent-300: #f098ff;
+  --color-accent-400: #e864ff;
+  --color-accent-500: #d22cff;
+  --color-accent-600: #b410e8;
+  --color-accent-700: #930bbf;
+  --color-accent-800: #790f9a;
+  --color-accent-900: #65117c;
+
+  --color-ink-50:  #fafafa;
+  --color-ink-100: #f4f4f5;
+  --color-ink-200: #e4e4e7;
+  --color-ink-300: #d4d4d8;
+  --color-ink-400: #a1a1aa;
+  --color-ink-500: #71717a;
+  --color-ink-600: #52525b;
+  --color-ink-700: #3f3f46;
+  --color-ink-800: #27272a;
+  --color-ink-900: #18181b;
+  --color-ink-950: #09090b;
+
+  --shadow-glow: 0 10px 40px -10px rgba(210, 44, 255, 0.35);
+}
+
 :root {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: var(--font-sans);
+  color-scheme: light dark;
+
+  --bg-base: #fafafa;
+  --bg-elevated: #ffffff;
+  --bg-muted: #f4f4f5;
+  --fg-base: #18181b;
+  --fg-muted: #52525b;
+  --fg-subtle: #71717a;
+  --border-base: rgba(24, 24, 27, 0.08);
+  --border-strong: rgba(24, 24, 27, 0.14);
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(24, 24, 27, 0.06);
+
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(210, 44, 255, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(99, 102, 241, 0.08), transparent 60%),
+    var(--bg-base);
+  background-attachment: fixed;
+}
+
+.dark {
+  --bg-base: #09090b;
+  --bg-elevated: #18181b;
+  --bg-muted: #27272a;
+  --fg-base: #fafafa;
+  --fg-muted: #a1a1aa;
+  --fg-subtle: #71717a;
+  --border-base: rgba(250, 250, 250, 0.08);
+  --border-strong: rgba(250, 250, 250, 0.14);
+  --glass-bg: rgba(24, 24, 27, 0.6);
+  --glass-border: rgba(250, 250, 250, 0.06);
+
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(210, 44, 255, 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(99, 102, 241, 0.12), transparent 60%),
+    var(--bg-base);
+}
+
+body {
+  color: var(--fg-base);
+  min-height: 100svh;
 }
 
 @view-transition {
   navigation: auto;
 }
 
-[x-cloak] { 
-  display: none !important
+[x-cloak] {
+  display: none !important;
 }
 
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* legacy alias kept for any leftover usage */
 .font-baloo {
-  font-family: "Baloo 2";
+  font-family: var(--font-display);
+}
+
+@utility glass {
+  background-color: var(--glass-bg);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-color: var(--glass-border);
+}
+
+@utility surface {
+  background-color: var(--bg-elevated);
+  border-color: var(--border-base);
+}
+
+@utility text-fg {
+  color: var(--fg-base);
+}
+
+@utility text-muted {
+  color: var(--fg-muted);
+}
+
+@utility text-subtle {
+  color: var(--fg-subtle);
+}
+
+@utility border-token {
+  border-color: var(--border-base);
+}
+
+@utility border-token-strong {
+  border-color: var(--border-strong);
+}
+
+@utility bg-base {
+  background-color: var(--bg-base);
+}
+
+@utility bg-muted {
+  background-color: var(--bg-muted);
+}
+
+@utility accent-gradient {
+  background-image: linear-gradient(135deg, #d22cff 0%, #6366f1 100%);
+}
+
+@utility accent-text {
+  background-image: linear-gradient(135deg, #d22cff 0%, #6366f1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* dark-mode icon inversion for monochrome SVG icons */
+.icon-invert {
+  filter: none;
+  transition: filter 0.2s ease;
+}
+.dark .icon-invert {
+  filter: invert(1) brightness(1.2);
+}
+
+/* prose tweaks */
+.prose {
+  --tw-prose-body: var(--fg-base);
+  --tw-prose-headings: var(--fg-base);
+  --tw-prose-lead: var(--fg-muted);
+  --tw-prose-links: #b410e8;
+  --tw-prose-bold: var(--fg-base);
+  --tw-prose-counters: var(--fg-subtle);
+  --tw-prose-bullets: var(--fg-subtle);
+  --tw-prose-hr: var(--border-base);
+  --tw-prose-quotes: var(--fg-base);
+  --tw-prose-quote-borders: var(--border-strong);
+  --tw-prose-captions: var(--fg-subtle);
+  --tw-prose-kbd: var(--fg-base);
+  --tw-prose-code: var(--fg-base);
+  --tw-prose-pre-code: #e4e4e7;
+  --tw-prose-pre-bg: #18181b;
+  --tw-prose-th-borders: var(--border-strong);
+  --tw-prose-td-borders: var(--border-base);
+}
+
+.dark .prose {
+  --tw-prose-links: #f098ff;
+}
+
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 180ms;
+  transition-timing-function: ease;
 }
