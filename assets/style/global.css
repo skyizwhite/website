@@ -99,11 +99,11 @@ body {
   color: var(--fg-subtle);
 }
 
-@utility border-token {
+@utility border-base {
   border-color: var(--border-base);
 }
 
-@utility border-token-strong {
+@utility border-strong {
   border-color: var(--border-strong);
 }
 

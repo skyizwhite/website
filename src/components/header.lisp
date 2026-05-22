@@ -77,7 +77,7 @@
                       "bg-zinc-950"
                       "border-l border-zinc-800"
                       "shadow-2xl shadow-black/20")
-         (div :class "flex items-center justify-between h-14 px-4 border-b border-token"
+         (div :class "flex items-center justify-between h-14 px-4 border-b border-base"
            (span :class "text-xs uppercase tracking-[0.3em] text-subtle font-display"
              "menu")
            (button
@@ -110,7 +110,7 @@
                                             (if active
                                                 "accent-gradient opacity-100"
                                                 "bg-zinc-700 opacity-0 group-hover:opacity-100"))))))))))
-         (div :class "px-4 py-4 border-t border-token text-[11px] text-subtle font-display tracking-widest uppercase"
+         (div :class "px-4 py-4 border-t border-base text-[11px] text-subtle font-display tracking-widest uppercase"
            "skyizwhite.dev"))))))
 
 (defcomp ~header ()

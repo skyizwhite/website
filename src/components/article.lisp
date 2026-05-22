@@ -23,7 +23,7 @@
              (span :class "size-1.5 rounded-full bg-accent-500 animate-pulse")
              "Draft Mode")))
      (article :class "prose max-w-none"
-       (header :class "not-prose mb-10 pb-6 border-b border-token"
+       (header :class "not-prose mb-10 pb-6 border-b border-base"
          (h1 :class "font-display font-bold text-3xl sm:text-4xl tracking-tight text-fg"
            title)
          (div :class "mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-subtle font-display tracking-wide"

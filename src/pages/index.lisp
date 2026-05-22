@@ -52,8 +52,8 @@
              (a
                :href url :target "_blank" :rel "me noopener"
                :class (clsx "group relative flex items-center gap-3 px-4 py-3 rounded-2xl"
-                            "border border-token surface"
-                            "hover:border-token-strong hover:-translate-y-0.5 hover:shadow-glow"
+                            "border border-base surface"
+                            "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
                             "transition-all duration-200")
                (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
                                   "bg-muted group-hover:accent-gradient transition-colors")
