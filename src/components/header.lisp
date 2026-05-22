@@ -46,7 +46,7 @@
                                     "text-muted hover:text-fg"))
                    label
                    (and active
-                        (hsx (span :class "absolute inset-x-3 -bottom-px h-px accent-gradient"))))))))))))
+                        (hsx (span :class "absolute inset-x-3 -bottom-px h-px bg-accent-500"))))))))))))
 
 (defcomp ~mobile-drawer ()
   (hsx
