@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
   --font-sans: "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Baloo 2", ui-sans-serif, system-ui, sans-serif;
@@ -35,27 +33,8 @@
 
 :root {
   font-family: var(--font-sans);
-  color-scheme: light dark;
+  color-scheme: dark;
 
-  --bg-base: #fafafa;
-  --bg-elevated: #ffffff;
-  --bg-muted: #f4f4f5;
-  --fg-base: #18181b;
-  --fg-muted: #52525b;
-  --fg-subtle: #71717a;
-  --border-base: rgba(24, 24, 27, 0.08);
-  --border-strong: rgba(24, 24, 27, 0.14);
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(24, 24, 27, 0.06);
-
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(244, 63, 116, 0.10), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(255, 138, 177, 0.10), transparent 60%),
-    var(--bg-base);
-  background-attachment: fixed;
-}
-
-.dark {
   --bg-base: #09090b;
   --bg-elevated: #18181b;
   --bg-muted: #27272a;
@@ -71,6 +50,7 @@
     radial-gradient(ellipse 80% 60% at 50% -10%, rgba(244, 63, 116, 0.20), transparent 60%),
     radial-gradient(ellipse 60% 50% at 100% 100%, rgba(255, 138, 177, 0.14), transparent 60%),
     var(--bg-base);
+  background-attachment: fixed;
 }
 
 body {
@@ -146,12 +126,8 @@ body {
   color: transparent;
 }
 
-/* dark-mode icon inversion for monochrome SVG icons */
+/* invert monochrome SVG icons for the dark theme */
 .icon-invert {
-  filter: none;
-  transition: filter 0.2s ease;
-}
-.dark .icon-invert {
   filter: invert(1) brightness(1.2);
 }
 
@@ -160,7 +136,7 @@ body {
   --tw-prose-body: var(--fg-base);
   --tw-prose-headings: var(--fg-base);
   --tw-prose-lead: var(--fg-muted);
-  --tw-prose-links: #db1f60;
+  --tw-prose-links: #fc9bb8;
   --tw-prose-bold: var(--fg-base);
   --tw-prose-counters: var(--fg-subtle);
   --tw-prose-bullets: var(--fg-subtle);
@@ -174,10 +150,6 @@ body {
   --tw-prose-pre-bg: #18181b;
   --tw-prose-th-borders: var(--border-strong);
   --tw-prose-td-borders: var(--border-base);
-}
-
-.dark .prose {
-  --tw-prose-links: #fc9bb8;
 }
 
 * {

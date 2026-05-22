@@ -24,25 +24,11 @@
 
 (defun icon-button-class ()
   (clsx "inline-flex items-center justify-center size-9 rounded-full"
-        "border border-zinc-200/80 dark:border-zinc-800/80"
-        "bg-white/60 dark:bg-zinc-900/60"
-        "hover:bg-white dark:hover:bg-zinc-900"
-        "hover:border-zinc-300 dark:hover:border-zinc-700"
+        "border border-zinc-800/80"
+        "bg-zinc-900/60"
+        "hover:bg-zinc-900"
+        "hover:border-zinc-700"
         "cursor-pointer transition-colors"))
-
-(defcomp ~theme-toggle ()
-  (hsx
-   (button
-     :type "button"
-     :aria-label "Toggle theme"
-     :@click "$store.theme.toggle()"
-     :class (icon-button-class)
-     (img :src "/assets/img/icon/sun.svg"
-       :class "size-4 icon-invert hidden dark:block"
-       :alt "" :aria-hidden "true")
-     (img :src "/assets/img/icon/moon.svg"
-       :class "size-4 icon-invert block dark:hidden"
-       :alt "" :aria-hidden "true"))))
 
 (defcomp ~pc-nav ()
   (hsx
@@ -73,7 +59,7 @@
          :@click "close()"
          :|x-transition.opacity.duration.200ms| t
          :class (clsx "fixed inset-0 z-40"
-                      "bg-zinc-950/40 dark:bg-black/60"
+                      "bg-black/60"
                       "backdrop-blur-sm"))
        ; drawer panel
        (aside
@@ -88,8 +74,8 @@
          :class (clsx "fixed top-0 right-0 bottom-0 z-50"
                       "w-[78%] max-w-xs"
                       "flex flex-col"
-                      "bg-white dark:bg-zinc-950"
-                      "border-l border-zinc-200 dark:border-zinc-800"
+                      "bg-zinc-950"
+                      "border-l border-zinc-800"
                       "shadow-2xl shadow-black/20")
          (div :class "flex items-center justify-between h-14 px-4 border-b border-token"
            (span :class "text-xs uppercase tracking-[0.3em] text-subtle font-display"
@@ -116,14 +102,14 @@
                                       "font-display font-semibold text-2xl tracking-tight"
                                       "transition-colors"
                                       (if active
-                                          "bg-zinc-100 dark:bg-zinc-900 text-fg"
-                                          "text-muted hover:text-fg hover:bg-zinc-50 dark:hover:bg-zinc-900/60"))
+                                          "bg-zinc-900 text-fg"
+                                          "text-muted hover:text-fg hover:bg-zinc-900/60"))
                          (span :class (if active "accent-text" "")
                            label)
                          (span :class (clsx "size-1.5 rounded-full transition-opacity"
                                             (if active
                                                 "accent-gradient opacity-100"
-                                                "bg-zinc-300 dark:bg-zinc-700 opacity-0 group-hover:opacity-100"))))))))))
+                                                "bg-zinc-700 opacity-0 group-hover:opacity-100"))))))))))
          (div :class "px-4 py-4 border-t border-token text-[11px] text-subtle font-display tracking-widest uppercase"
            "skyizwhite.dev"))))))
 
@@ -133,16 +119,15 @@
      :x-data *header-alpine-data*
      :@keydown.escape.window "close()"
      :class (clsx "sticky top-0 z-30 w-full"
-                  "bg-white/70 dark:bg-zinc-950/70"
+                  "bg-zinc-950/70"
                   "backdrop-blur-xl saturate-150"
-                  "border-b border-zinc-200/60 dark:border-zinc-800/60")
+                  "border-b border-zinc-800/60")
      (div :class "max-w-[760px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between"
        (a :href "/" :class "group"
          (span :class "font-display text-xl font-bold tracking-tight group-hover:accent-text transition-all"
            "skyizwhite"))
        (div :class "flex items-center gap-2"
          (~pc-nav)
-         (~theme-toggle)
          (button
            :aria-label "Open menu"
            :class (clsx "md:hidden" (icon-button-class))

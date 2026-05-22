@@ -19,7 +19,7 @@
            (div :class (clsx "inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full"
                              "border border-accent-500/30 bg-accent-500/10"
                              "text-xs font-display font-semibold uppercase tracking-widest"
-                             "text-accent-600 dark:text-accent-300")
+                             "text-accent-300")
              (span :class "size-1.5 rounded-full bg-accent-500 animate-pulse")
              "Draft Mode")))
      (article :class "prose max-w-none"
