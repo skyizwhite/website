@@ -27,22 +27,23 @@
        (ul :class "flex flex-col gap-2"
          (loop
            :for item :in blogs :collect
-              (hsx
-               (li
-                 (a
-                   :href (format nil "/blog/~a" (getf item :id))
-                   :class (clsx "group block p-4 sm:p-5 rounded-2xl"
-                                "border border-base surface"
-                                "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
-                                "transition-all duration-200")
-                   (div :class "sm:flex items-baseline justify-between gap-4"
-                     (h2 :class "font-display font-semibold text-base sm:text-lg text-fg group-hover:accent-text transition-all"
-                       (getf item :title))
-                     (and (getf item :published-at)
-                          (hsx
-                           (|time|
-                            :datetime (datetime (getf item :published-at))
-                            :class "shrink-0 text-xs text-subtle font-display tracking-wide"
-                            (jp-datetime (getf item :published-at)))))))))))
+              (let ((published-at (getf item :published-at)))
+                (hsx
+                 (li
+                   (a
+                     :href (format nil "/blog/~a" (getf item :id))
+                     :class (clsx "group block p-4 sm:p-5 rounded-2xl"
+                                  "border border-base surface"
+                                  "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
+                                  "transition-all duration-200")
+                     (div :class "sm:flex items-baseline justify-between gap-4"
+                       (h2 :class "font-display font-semibold text-base sm:text-lg text-fg group-hover:accent-text transition-all"
+                         (getf item :title))
+                       (and published-at
+                            (hsx
+                             (|time|
+                              :datetime (datetime published-at)
+                              :class "shrink-0 text-xs text-subtle font-display tracking-wide"
+                              (jp-datetime published-at)))))))))))
        ;TODO: pagenation
        ))))
