@@ -152,7 +152,9 @@ body {
   --tw-prose-td-borders: var(--border-base);
 }
 
-* {
+a,
+button,
+[role="button"] {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-duration: 180ms;
   transition-timing-function: ease;
