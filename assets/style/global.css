@@ -43,8 +43,6 @@
   --fg-subtle: #71717a;
   --border-base: rgba(250, 250, 250, 0.08);
   --border-strong: rgba(250, 250, 250, 0.14);
-  --glass-bg: rgba(24, 24, 27, 0.6);
-  --glass-border: rgba(250, 250, 250, 0.06);
 
   background:
     radial-gradient(ellipse 80% 60% at 50% -10%, rgba(244, 63, 116, 0.20), transparent 60%),
@@ -73,13 +71,6 @@ body {
 /* legacy alias kept for any leftover usage */
 .font-baloo {
   font-family: var(--font-display);
-}
-
-@utility glass {
-  background-color: var(--glass-bg);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  border-color: var(--glass-border);
 }
 
 @utility surface {
