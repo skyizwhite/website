@@ -8,6 +8,8 @@
                 #:set-routes)
   (:import-from #:lack/middleware/mount
                 #:*lack-middleware-mount*)
+  (:import-from #:lack/middleware/accesslog
+                #:*lack-middleware-accesslog*)
   (:import-from #:lack-mw
                 #:with-args
                 #:*trim-trailing-slash*)
@@ -39,6 +41,7 @@
   (progn
     (clear-middlewares *page-app*)
     (install-middleware *page-app* (with-args *clack-error-middleware* :debug (dev-mode-p)))
+    (install-middleware *page-app* *lack-middleware-accesslog*)
     (install-middleware *page-app* *trim-trailing-slash*)
     (static-path *page-app* "/assets/" "assets/")
     (install-middleware *page-app* (with-args *lack-middleware-mount* "/api" *api-app*))
