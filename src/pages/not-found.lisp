@@ -25,9 +25,10 @@
        (p :class "text-sm text-muted"
          "お探しのページは削除されたか、URL が間違っている可能性があります。"))
      (a :href "/"
-        :class (clsx "mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
-                     "accent-gradient text-white font-display font-semibold text-sm"
-                     "hover:shadow-glow hover:-translate-y-0.5 transition-all duration-200")
-       (img :src "/assets/img/icon/arrow-left.svg"
-            :class "size-4" :alt "" :aria-hidden "true")
+       :class (clsx "mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
+                    "accent-gradient text-white font-display font-semibold text-sm"
+                    "hover:shadow-glow hover:-translate-y-0.5 transition-all duration-200")
+       (img
+         :src "/assets/img/icon/arrow-left.svg"
+         :class "size-4" :alt "" :aria-hidden "true")
        "Back to home"))))

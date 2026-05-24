@@ -57,9 +57,9 @@
                             "transition-all duration-200")
                (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
                                   "bg-muted group-hover:accent-gradient transition-colors")
-                 (img :src icon-url :alt ""
-                      :class "size-4 icon-invert"
-                      :aria-hidden "true"))
+                 (img
+                   :src icon-url :alt "" :aria-hidden "true"
+                   :class "size-4 icon-invert"))
                (span :class "text-sm font-display font-semibold tracking-wide"
                  name))))))))
 
