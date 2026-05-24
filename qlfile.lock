@@ -21,7 +21,7 @@
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-8f670f46d41e73bbd88eb69c5b3bf7fcba42d5fd"))
+  :version "git-878246991b774e50b40047a251140e402713b4af"))
 ("lack-mw" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
