@@ -14,8 +14,7 @@
            #:fetch-blog-detail
            #:clear-about-cache
            #:clear-works-cache
-           #:clear-blog-list-cache
-           #:clear-blog-detail-cache))
+           #:clear-blog-cache))
 (in-package #:website/lib/cms)
 
 (setf microcms:*service-domain* (microcms-service-domain))

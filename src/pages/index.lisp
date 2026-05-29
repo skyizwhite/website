@@ -1,8 +1,6 @@
 (defpackage #:website/pages/index
   (:use #:cl
         #:hsx
-        #:access
-        #:jingle
         #:website/helper)
   (:export #:@get
            #:@head))

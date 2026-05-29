@@ -68,11 +68,6 @@ body {
   font-family: var(--font-display);
 }
 
-/* legacy alias kept for any leftover usage */
-.font-baloo {
-  font-family: var(--font-display);
-}
-
 @utility surface {
   background-color: var(--bg-elevated);
   border-color: var(--border-base);

@@ -2,10 +2,10 @@
   (:use #:cl)
   (:import-from #:cl-dotenv
                 #:load-env)
-  (:export #:website-env
-           #:website-url
+  (:export #:website-url
            #:microcms-service-domain
            #:microcms-api-key
+           #:microcms-webhook-key
            #:dev-mode-p))
 (in-package #:website/lib/env)
 
