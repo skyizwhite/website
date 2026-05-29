@@ -1,0 +1,5 @@
+.git
+.qlot
+.env
+bin/tailwindcss
+assets/style/dist.css
