@@ -1,4 +1,4 @@
-TW_VERSION=4.1.3
+TW_VERSION=4.3.0
 TW_BIN=./bin/tailwindcss
 STYLE_SRC=./assets/style/global.css
 STYLE_DIST=./assets/style/dist.css

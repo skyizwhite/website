@@ -1,6 +1,6 @@
 FROM fukamachi/qlot
 
-ARG TW_VERSION=4.1.3
+ARG TW_VERSION=4.3.0
 ARG TW_BIN=./bin/tailwindcss
 
 WORKDIR /app
