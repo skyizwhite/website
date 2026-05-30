@@ -20,7 +20,7 @@ A server-rendered site built in **Common Lisp**, sourcing content from a headles
 | Interactivity | [Alpine.js](https://alpinejs.dev/) (CDN) |
 | CDN | Cloudflare |
 | Task runner | [just](https://github.com/casey/just) |
-| Deployment | Docker |
+| Deployment | [Coolify](https://coolify.io/) (Docker) |
 
 ## Architecture
 
@@ -101,4 +101,4 @@ CLOUDFLARE_API_KEY
 
 ## Deployment
 
-The `Dockerfile` builds the system with qlot, minifies the Tailwind CSS, and runs `entrypoint.sh`, which serves the app with Woo on port `3000` and purges the Cloudflare cache after the rolling update completes.
+Deployed on [Coolify](https://coolify.io/), which builds the `Dockerfile` and runs the container. The `Dockerfile` builds the system with qlot, minifies the Tailwind CSS, and runs `entrypoint.sh`, which serves the app with Woo on port `3000` and purges the Cloudflare cache after the rolling update completes.
