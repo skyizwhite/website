@@ -24,7 +24,7 @@
     (with-request-params ((id "id" nil)) params
       (hsx
        (form
-         :class "like-form not-prose mt-12 flex justify-center animate-fade-rise"
+         :class "like-form not-prose animate-fade-rise"
          :hx-patch (update-likes)
          :hx-swap "outerHTML"
          :hx-disabled-elt "find button"
@@ -59,7 +59,9 @@
            :draft-p draft-key)
          (and (not draft-key)
               (hsx (div
-                     :class "mt-12 flex justify-center"
+                     ;; Fixed-height container reserved up front so lazily
+                     ;; revealed like content swaps in without shifting layout.
+                     :class "mt-12 flex items-center justify-center h-[2.625rem]"
                      :hx-get (get-likes :id id)
                      :hx-trigger "revealed"
-                     :hx-swap "outerHTML"))))))))
+                     :hx-swap "innerHTML"))))))))

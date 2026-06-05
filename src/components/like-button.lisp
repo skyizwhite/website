@@ -62,7 +62,7 @@
 ;; with the "Thank you!" toast floating just above it.
 (defcomp ~like-result (&key likes)
   (hsx
-   (div :class "not-prose relative mt-12 flex justify-center animate-fade-rise"
+   (div :class "not-prose relative animate-fade-rise"
      (~like-toast)
      (div :class (clsx *pill-class*
                        "border border-accent-500/40 bg-accent-500/10 text-accent-200")
