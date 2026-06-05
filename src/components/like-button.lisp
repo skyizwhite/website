@@ -37,9 +37,15 @@
        :alt "" :aria-hidden "true"))))
 
 ;; Transient "Thank you!" toast shown once after a like is recorded.
-;; Alpine fades it in on insertion (htmx swap) and auto-dismisses after a few
+;; Alpine slides it in on insertion (htmx swap) and auto-dismisses after a few
 ;; seconds. Absolutely positioned above the like pill -- it expects a
 ;; `relative` ancestor (the `~like-result` container) as its offset parent.
+;;
+;; The entrance animates `transform` only (no opacity): a `backdrop-filter`
+;; (the pill's `backdrop-blur`) is suppressed while any ancestor has
+;; `opacity < 1`, so an opacity fade-in would render the frosted background as
+;; fully transparent until the fade completed. Keeping opacity at 1 throughout
+;; lets the blur paint from the first frame; opacity is only used on leave.
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
    (div
@@ -47,7 +53,12 @@
      :x-init "$nextTick(() => (show = true)); setTimeout(() => (show = false), 3000)"
      :x-show "show"
      :x-cloak t
-     :|x-transition.opacity.duration.300ms| t
+     :|x-transition:enter| "transition ease-out duration-300"
+     :|x-transition:enter-start| "translate-y-1"
+     :|x-transition:enter-end| "translate-y-0"
+     :|x-transition:leave| "transition ease-in duration-300"
+     :|x-transition:leave-start| "opacity-100"
+     :|x-transition:leave-end| "opacity-0"
      :role "status"
      :aria-live "polite"
      :class "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-max pointer-events-none"
@@ -60,11 +71,17 @@
 
 ;; Liked state: a non-interactive pill shown after the like is recorded,
 ;; with the "Thank you!" toast floating just above it.
+;;
+;; `animate-fade-rise` lives on the pill, not this container: it animates
+;; opacity 0->1, and a `backdrop-filter` (the toast's `backdrop-blur`) is
+;; suppressed while any ancestor has `opacity < 1`. Keeping the fade off the
+;; toast's ancestor lets its frosted background paint from the first frame.
 (defcomp ~like-result (&key likes)
   (hsx
-   (div :class "not-prose relative animate-fade-rise"
+   (div :class "not-prose relative"
      (~like-toast)
      (div :class (clsx *pill-class*
-                       "border border-accent-500/40 bg-accent-500/10 text-accent-200")
+                       "border border-accent-500/40 bg-accent-500/10 text-accent-200"
+                       "animate-fade-rise")
        (~heart "size-5")
        (span likes)))))
