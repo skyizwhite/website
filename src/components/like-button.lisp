@@ -50,7 +50,7 @@
      :|x-transition.opacity.duration.300ms| t
      :role "status"
      :aria-live "polite"
-     :class "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 pointer-events-none"
+     :class "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-max pointer-events-none"
      (div :class (clsx *pill-class*
                        "whitespace-nowrap"
                        "border border-accent-500/40 bg-accent-500/10 text-accent-200"
