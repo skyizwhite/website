@@ -29,6 +29,20 @@
   --color-ink-950: #09090b;
 
   --shadow-glow: 0 10px 40px -10px rgba(244, 63, 116, 0.35);
+
+  /* soft fade + rise used for lazily-revealed content (e.g. the like button) */
+  --animate-fade-rise: fade-rise 0.5s ease-out both;
+
+  @keyframes fade-rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 :root {
@@ -144,4 +158,29 @@ button,
   transition-property: background-color, border-color, color, fill, stroke;
   transition-duration: 180ms;
   transition-timing-function: ease;
+}
+
+/* like button: while the PATCH request is in flight (htmx adds `htmx-request`
+   to the form), fade the heart/count out and the spinner in. */
+.like-content,
+.like-spinner {
+  transition: opacity 150ms ease;
+}
+
+.like-spinner {
+  opacity: 0;
+}
+
+.like-form.htmx-request .like-content {
+  opacity: 0;
+}
+
+.like-form.htmx-request .like-spinner {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-rise {
+    animation: none;
+  }
 }

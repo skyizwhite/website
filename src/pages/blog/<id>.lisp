@@ -13,34 +13,31 @@
                 #:@not-found)
   (:import-from #:website/components/article
                 #:~article)
+  (:import-from #:website/components/like-button
+                #:~like-button
+                #:~like-result)
   (:export #:@get))
 (in-package #:website/pages/blog/<id>)
 
 (defaction get-likes :get (params)
   (with-htmx
     (with-request-params ((id "id" nil)) params
-      (let ((likes (fetch-blog-likes id)))
-        (hsx
-         (form 
-           :hx-patch (update-likes)
-           :hx-swap "outerHTML"
-           (input :type "hidden" :name "id" :value id)
-           (button :type "submit"
-             ;heart icon
-             likes
-             )))))))
+      (hsx
+       (form
+         :class "like-form not-prose mt-12 flex justify-center animate-fade-rise"
+         :hx-patch (update-likes)
+         :hx-swap "outerHTML"
+         :hx-disabled-elt "find button"
+         (input :type "hidden" :name "id" :value id)
+         (~like-button :likes (fetch-blog-likes id)))))))
 
 (defaction update-likes :patch (params)
   (with-htmx
     (with-request-params ((id "id" nil)) params
-      (let* ((oldLikes (fetch-blog-likes id))
-             (newLikes (+ oldLikes 1)))
-        (update-blog-likes id newLikes)
-        (hsx  
-         (div
-           ;heart icon
-           newLikes
-           ))))))
+      (let ((new-likes (+ (fetch-blog-likes id) 1)))
+        (update-blog-likes id new-likes)
+        (hsx
+         (~like-result :likes new-likes))))))
 
 (defun @get (params)
   (with-request-params ((id :id nil)
@@ -60,7 +57,9 @@
            :published-at (getf blog :published-at)
            :revised-at (getf blog :revised-at)
            :draft-p draft-key)
-         (div
-           :hx-get (get-likes :id id)
-           :hx-trigger "revealed"
-           :hx-swap "outerHTML"))))))
+         (and (not draft-key)
+              (hsx (div
+                     :class "mt-12 flex justify-center"
+                     :hx-get (get-likes :id id)
+                     :hx-trigger "revealed"
+                     :hx-swap "outerHTML"))))))))
