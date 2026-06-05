@@ -13,11 +13,12 @@ A server-rendered site built in **Common Lisp**, sourcing content from a headles
 | Web stack | [Clack](https://github.com/fukamachi/clack) / [Lack](https://github.com/fukamachi/lack) |
 | HTTP server | [Woo](https://github.com/fukamachi/woo) (production), Hunchentoot (development) |
 | Routing framework | [jingle](https://github.com/dnaeon/cl-jingle) + [ningle-fbr](https://github.com/skyizwhite/ningle-fbr) (file-based routing) |
+| Server actions | [ningle-actions](https://github.com/skyizwhite/ningle-actions) — htmx-driven server-side actions |
 | View / templating | [hsx](https://github.com/skyizwhite/hsx) — JSX-like HTML as Lisp s-expressions |
 | Content | [microCMS](https://microcms.io/) via [microcms-lisp-sdk](https://github.com/skyizwhite/microcms-lisp-sdk) |
 | Caching | [function-cache](https://github.com/AccelerationNet/function-cache) (in-memory) + HTTP `Cache-Control` |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) v4 (standalone binary) |
-| Interactivity | [Alpine.js](https://alpinejs.dev/) (CDN) |
+| Interactivity | [htmx](https://htmx.org/) (hypermedia) + [Alpine.js](https://alpinejs.dev/) (CDN) |
 | CDN | Cloudflare |
 | Task runner | [just](https://github.com/casey/just) |
 | Deployment | [Coolify](https://coolify.io/) (Docker) |
@@ -32,20 +33,24 @@ Cloudflare (CDN)
       │
   Lack middleware  ── accesslog, trailing-slash, error pages, /assets static
       │
-  ┌───┴─────────────────────────┐
-  │                             │
-*page-app*  (HTML)         *api-app*  (JSON, mounted at /api)
-  │                             │
-  ▼                             ▼
-~document → hsx render     revalidate webhook
-  │
-  ▼
+  ┌───┴──────────┬──────────────────────┐
+  │              │                      │
+*page-app*   *actions-app*          *api-app*  (JSON, /api)
+  (HTML)      (htmx HTML fragments)       │
+  │              │                      ▼
+  ▼              ▼                 revalidate webhook
+~document    defaction handlers
+  → hsx render   → hsx fragment
+  │              │
+  └──────┬───────┘
+         ▼
 microCMS  ←─ function-cache (memoized fetches)
 ```
 
 - **Package-inferred system.** Each file is its own package (`:class :package-inferred-system`); dependencies are resolved from `import-from` clauses.
 - **File-based routing.** `ningle-fbr` maps files under `src/pages/` to HTML routes and `src/api/` to JSON routes. A file exporting `@get` / `@head` / `@post` becomes a handler; `<id>.lisp` is a dynamic segment.
-- **Two sub-apps.** `*page-app*` wraps every result in `~document` and renders it to an HTML string; `*api-app*` serializes results to JSON and is mounted under `/api`.
+- **Three sub-apps.** `*page-app*` wraps every result in `~document` and renders it to an HTML string; `*actions-app*` (from `ningle-actions`) renders results as bare HTML fragments for htmx swaps; `*api-app*` serializes results to JSON and is mounted under `/api`.
+- **htmx server actions.** `ningle-actions` `defaction` declares a server endpoint that returns an HTML fragment. A page emits the matching htmx attributes (`hx-get` / `hx-patch` / `hx-trigger` / `hx-swap`) and the action's URL via the action's function name, so the markup and its handler stay colocated. The blog **like button** (`src/components/like-button.lisp`, wired up in `src/pages/blog/<id>.lisp`) uses this: the pill is lazily loaded on `revealed`, a `PATCH` records the like to the microCMS `likes` field, and the response swaps in the liked state with an Alpine-driven "Thank you!" toast.
 - **CMS-backed content.** `src/lib/cms.lisp` fetches `about`, `works`, and `blog` content from microCMS. Calls are memoized with `function-cache`.
 - **Next.js-style cache control.** `set-cache` (in `src/helper.lisp`) sets `Cache-Control` per page using one of three strategies:
   - `:ssr` — always revalidate (`max-age=0, must-revalidate`)
@@ -62,9 +67,9 @@ src/
 ├── app.lisp           # app composition, middleware, sub-app mounting
 ├── document.lisp      # top-level HTML shell
 ├── helper.lisp        # set-metadata, set-cache helpers
-├── components/        # reusable hsx components (header, article, metadata)
+├── components/        # reusable hsx components (header, article, metadata, like-button)
 ├── lib/               # cms, env, time utilities
-├── pages/             # file-based HTML routes
+├── pages/             # file-based HTML routes (+ defaction handlers, e.g. blog likes)
 └── api/               # file-based JSON routes (revalidate, not-found)
 assets/                # styles, images, static files
 ```
