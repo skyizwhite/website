@@ -17,11 +17,15 @@
 ("hsx" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-313c247ca01fbdcfb8e17ae5e00d05c437cde6d0"))
+  :version "git-88cc54fe06012a6175e672ab53a0b11e1d07ec73"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
   :version "git-878246991b774e50b40047a251140e402713b4af"))
+("ningle-actions" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/skyizwhite/ningle-actions.git")
+  :version "git-06ff9d6918dc23bee3b48e6d8e80ae886ac2537f"))
 ("lack-mw" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")

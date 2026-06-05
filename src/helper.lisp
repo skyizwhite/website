@@ -4,7 +4,8 @@
   (:import-from #:website/lib/env
                 #:dev-mode-p)
   (:export #:set-metadata
-           #:set-cache))
+           #:set-cache
+           #:with-htmx))
 (in-package #:website/helper)
 
 (defun set-metadata (metadata)
@@ -19,3 +20,10 @@
          (set-response-header :cache-control "public, max-age=0, s-maxage=60, stale-while-revalidate=60"))
         ((eq strategy :sg)
          (set-response-header :cache-control "public, max-age=0, s-maxage=31536000, must-revalidate"))))
+
+(defmacro with-htmx (&body body)
+  `(cond ((get-request-header "HX-Request")
+          ,@body)
+         (t
+          (set-response-status 404)
+          nil)))

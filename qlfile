@@ -3,6 +3,7 @@ ql clack
 ql lack
 git hsx https://github.com/skyizwhite/hsx.git
 git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
+git ningle-actions https://github.com/skyizwhite/ningle-actions.git
 git lack-mw https://github.com/skyizwhite/lack-mw.git
 ql cl-dotenv
 ql clack-errors

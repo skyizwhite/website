@@ -12,6 +12,8 @@
            #:fetch-works
            #:fetch-blog-list
            #:fetch-blog-detail
+           #:fetch-blog-likes
+           #:update-blog-likes
            #:clear-about-cache
            #:clear-works-cache
            #:clear-blog-cache))
@@ -35,6 +37,13 @@
 
 (defcached fetch-blog-detail (id &key draft-key)
   (microcms:get-item "blog" id :query (list :draft-key draft-key)))
+
+(defun fetch-blog-likes (id)
+  (getf (microcms:get-item "blog" id :query (list :fields "likes"))
+        :likes))
+
+(defun update-blog-likes (id likes)
+  (microcms:update-item "blog" id (list :likes likes)))
 
 (defun clear-about-cache (new-draft-key)
   (if new-draft-key

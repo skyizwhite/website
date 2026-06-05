@@ -4,6 +4,9 @@
         #:hsx)
   (:import-from #:jonathan
                 #:to-json)
+  (:import-from #:ningle-actions
+                #:*actions-app*
+                #:*actions-middleware*)
   (:import-from #:ningle-fbr
                 #:set-routes)
   (:import-from #:lack/middleware/mount
@@ -21,6 +24,9 @@
                 #:~document)
   (:export #:*app*))
 (in-package #:website/app)
+
+(defmethod jingle:process-response :around ((app (eql *actions-app*)) result)
+  (call-next-method app (render-to-string (hsx (<> result)))))
 
 (defparameter *page-app* (make-app))
 (set-routes *page-app* :system :website :dir "pages")
@@ -44,6 +50,7 @@
     (install-middleware *page-app* *lack-middleware-accesslog*)
     (install-middleware *page-app* *trim-trailing-slash*)
     (static-path *page-app* "/assets/" "assets/")
+    (install-middleware *page-app* *actions-middleware*)
     (install-middleware *page-app* (with-args *lack-middleware-mount* "/api" *api-app*))
     (configure *page-app*)))
 
