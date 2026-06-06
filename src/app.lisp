@@ -26,15 +26,15 @@
 (in-package #:website/app)
 
 (defmethod jingle:process-response :around ((app (eql *actions-app*)) result)
-  (call-next-method app (render-to-string (hsx (<> result)))))
+  (set-response-header :content-type "text/html; charset=utf-8")
+  (call-next-method app (and result (hsx:render-to-string (hsx result)))))
 
 (defparameter *page-app* (make-app))
 (set-routes *page-app* :system :website :dir "pages")
 
 (defmethod jingle:process-response :around ((app (eql *page-app*)) result)
   (set-response-header :content-type "text/html; charset=utf-8")
-  (call-next-method app (render-to-string
-                         (hsx (~document result)))))
+  (call-next-method app (hsx:render-to-string (hsx (~document result)))))
 
 (defparameter *api-app* (make-app))
 (set-routes *api-app* :system :website :dir "api")
