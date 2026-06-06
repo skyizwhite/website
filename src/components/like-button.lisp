@@ -26,7 +26,7 @@
                   "active:scale-95 transition-all duration-200")
      (span :class "like-content inline-flex items-center gap-2.5"
        (~heart "size-5 transition-transform group-hover:scale-110")
-       (span likes))
+       (span :class "text-lg" likes))
      (img :src "/assets/img/icon/spinner.svg"
        :class "like-spinner absolute inset-0 m-auto size-5 animate-spin"
        :alt "" :aria-hidden "true"))))
@@ -52,7 +52,7 @@
                        "border border-accent-500/40 bg-accent-500/10 text-accent-200"
                        "backdrop-blur-md shadow-glow")
        (~heart "size-5")
-       (span message)))))
+       (span :class "text-lg" message)))))
 
 (defcomp ~like-result (&key likes)
   (hsx
@@ -61,4 +61,4 @@
      (div :class (clsx *pill-class*
                        "border border-accent-500/40 bg-accent-500/10 text-accent-200")
        (~heart "size-5")
-       (span likes)))))
+       (span :class "text-lg" likes)))))
