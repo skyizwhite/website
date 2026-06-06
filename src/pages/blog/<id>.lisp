@@ -8,7 +8,7 @@
   (:import-from #:website/lib/cms
                 #:fetch-blog-detail
                 #:fetch-blog-likes
-                #:update-blog-likes)
+                #:increment-likes)
   (:import-from #:website/pages/not-found
                 #:@not-found)
   (:import-from #:website/components/article
@@ -25,19 +25,17 @@
       (hsx
        (form
          :class "like-form not-prose animate-fade-rise"
-         :hx-patch (update-likes)
+         :hx-patch (add-like)
          :hx-swap "outerHTML"
          :hx-disabled-elt "find button"
          (input :type "hidden" :name "id" :value id)
          (~like-button :likes (fetch-blog-likes id)))))))
 
-(defaction update-likes :patch (params)
+(defaction add-like :patch (params)
   (with-htmx
     (with-request-params ((id "id" nil)) params
-      (let ((new-likes (+ (fetch-blog-likes id) 1)))
-        (update-blog-likes id new-likes)
-        (hsx
-         (~like-result :likes new-likes))))))
+      (hsx
+       (~like-result :likes (increment-likes id))))))
 
 (defun @get (params)
   (with-request-params ((id :id nil)

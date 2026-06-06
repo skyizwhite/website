@@ -14,6 +14,7 @@
            #:fetch-blog-detail
            #:fetch-blog-likes
            #:update-blog-likes
+           #:increment-likes
            #:clear-about-cache
            #:clear-works-cache
            #:clear-blog-cache))
@@ -44,6 +45,11 @@
 
 (defun update-blog-likes (id likes)
   (microcms:update-item "blog" id (list :likes likes)))
+
+(defun increment-likes (id)
+  (let ((new-likes (+ (fetch-blog-likes id) 1)))
+    (update-blog-likes id new-likes)
+    new-likes))
 
 ; For debugging
 (defun reset-blog-likes (id &optional (likes 0))
