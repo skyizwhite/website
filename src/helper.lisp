@@ -1,9 +1,6 @@
 (uiop:define-package #:website/helper
   (:use #:cl
         #:jingle)
-  (:import-from #:microcms
-                #:microcms-error
-                #:microcms-error-status)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
   (:import-from #:website/components/error-page
@@ -11,7 +8,6 @@
   (:export #:set-metadata
            #:set-cache
            #:with-htmx
-           #:with-cms-fallback
            #:error-action
            #:error-page))
 (in-package #:website/helper)
@@ -35,20 +31,6 @@
          (t
           (set-response-status 404)
           nil)))
-
-(defmacro with-cms-fallback (clauses &body body)
-  "Evaluate BODY. If microCMS signals a `microcms-error', dispatch on its
-HTTP status using CLAUSES, which share CASE's shape keyed on the status
-code (use T for the default):
-
-  (with-cms-fallback ((404 (error-page 404))
-                      (t   (error-page 500)))
-    ...)"
-  (let ((e (gensym "ERROR")))
-    `(handler-case (progn ,@body)
-       (microcms-error (,e)
-         (case (microcms-error-status ,e)
-           ,@clauses)))))
 
 (defun error-action (status &optional body)
   (set-response-status status)

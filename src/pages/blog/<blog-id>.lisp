@@ -6,6 +6,7 @@
   (:import-from #:ningle-actions
                 #:defaction)
   (:import-from #:website/lib/cms
+                #:with-cms-fallback
                 #:fetch-blog-detail
                 #:fetch-blog-likes
                 #:increment-blog-likes)

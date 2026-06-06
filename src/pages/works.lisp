@@ -4,6 +4,7 @@
         #:jingle
         #:website/helper)
   (:import-from #:website/lib/cms
+                #:with-cms-fallback
                 #:fetch-works)
   (:import-from #:website/components/article
                 #:~article)

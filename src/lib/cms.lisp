@@ -1,6 +1,8 @@
 (defpackage #:website/lib/cms
   (:use #:cl)
-  (:import-from #:microcms)
+  (:import-from #:microcms
+                #:microcms-error
+                #:microcms-error-status)
   (:import-from #:function-cache
                 #:defcached
                 #:clear-cache
@@ -8,7 +10,8 @@
   (:import-from #:website/lib/env
                 #:microcms-service-domain
                 #:microcms-api-key)
-  (:export #:fetch-about
+  (:export #:with-cms-fallback
+           #:fetch-about
            #:fetch-works
            #:fetch-blog-list
            #:fetch-blog-detail
@@ -22,6 +25,20 @@
 
 (setf microcms:*service-domain* (microcms-service-domain))
 (setf microcms:*api-key* (microcms-api-key))
+
+(defmacro with-cms-fallback (clauses &body body)
+  "Evaluate BODY. If microCMS signals a `microcms-error', dispatch on its
+HTTP status using CLAUSES, which share CASE's shape keyed on the status
+code (use T for the default):
+
+  (with-cms-fallback ((404 (error-page 404))
+                      (t   (error-page 500)))
+    ...)"
+  (let ((e (gensym "ERROR")))
+    `(handler-case (progn ,@body)
+       (microcms-error (,e)
+         (case (microcms-error-status ,e)
+           ,@clauses)))))
 
 (defcached fetch-about (&key draft-key)
   (microcms:get-object "about" :query (list :draft-key draft-key)))
