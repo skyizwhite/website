@@ -15,7 +15,7 @@
   (declare (ignore params))
   (unless (string= (car (get-request-header "X-MICROCMS-WEBHOOK-KEY"))
                    (microcms-webhook-key))
-    (set-response-status :unauthorized)
+    (set-response-status 401)
     (return-from @post '(:|message| "Invalid token")))
   (let* ((body (request-body-parameters *request*))
          (api (accesses body "api"))
@@ -25,7 +25,7 @@
     (cond ((string= api "about") (clear-about-cache new-draft-key))
           ((string= api "works") (clear-works-cache new-draft-key))
           ((string= api "blog") (clear-blog-cache id old-draft-key new-draft-key))
-          (t (set-response-status :bad-request)
+          (t (set-response-status 400)
              (return-from @post '(:|message| "Unknown API"))))
     (list :|api| api
           :|id| id

@@ -14,12 +14,14 @@
   (list :title "about"))
 
 (defun @get (params)
-  (set-metadata *metadata*)
-  (with-request-params ((draft-key "draft-key" nil)) params
-    (set-cache (if draft-key :ssr :isr))
-    (let ((about (fetch-about :draft-key draft-key)))
-      (~article
-        :title "About"
-        :content (getf about :content)
-        :revised-at (getf about :revised-at)
-        :draft-p draft-key))))
+  (with-cms-fallback ((404 (error-page 404))
+                      (t (error-page 500)))
+    (set-metadata *metadata*)
+    (with-request-params ((draft-key "draft-key" nil)) params
+      (set-cache (if draft-key :ssr :isr))
+      (let ((about (fetch-about :draft-key draft-key)))
+        (~article
+          :title "About"
+          :content (getf about :content)
+          :revised-at (getf about :revised-at)
+          :draft-p draft-key)))))
