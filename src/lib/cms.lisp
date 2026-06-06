@@ -45,6 +45,10 @@
 (defun update-blog-likes (id likes)
   (microcms:update-item "blog" id (list :likes likes)))
 
+; For debugging
+(defun reset-blog-likes (id &optional (likes 0))
+  (microcms:update-item "blog" id (list :likes likes)))
+
 (defun clear-about-cache (new-draft-key)
   (if new-draft-key
       (clear-cache-partial-arguments *fetch-about-cache* `(:draft-key ,new-draft-key))
