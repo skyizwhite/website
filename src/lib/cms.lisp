@@ -14,7 +14,7 @@
            #:fetch-blog-detail
            #:fetch-blog-likes
            #:update-blog-likes
-           #:increment-likes
+           #:increment-blog-likes
            #:clear-about-cache
            #:clear-works-cache
            #:clear-blog-cache))
@@ -46,7 +46,7 @@
 (defun update-blog-likes (id likes)
   (microcms:update-item "blog" id (list :likes likes)))
 
-(defun increment-likes (id)
+(defun increment-blog-likes (id)
   (let ((new-likes (+ (fetch-blog-likes id) 1)))
     (update-blog-likes id new-likes)
     new-likes))

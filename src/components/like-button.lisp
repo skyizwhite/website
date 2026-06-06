@@ -7,8 +7,7 @@
 (in-package #:website/components/like-button)
 
 (defparameter *pill-class*
-  "inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 font-display font-semibold text-sm tabular-nums"
-  "Shared shape/typography for both the interactive and liked states.")
+  "inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 font-display font-semibold text-sm tabular-nums")
 
 (defun ~heart (&optional (class "size-5"))
   (hsx
@@ -16,10 +15,6 @@
      :class class
      :alt "" :aria-hidden "true")))
 
-;; Interactive state: the submit button shown before liking.
-;; Presentational only -- the surrounding form (in the page) drives the request.
-;; While the request is in flight htmx puts `htmx-request` on that form, which
-;; (see global.css) fades `.like-content` out and the `.like-spinner` in.
 (defcomp ~like-button (&key likes)
   (hsx
    (button :type "submit"
@@ -36,16 +31,6 @@
        :class "like-spinner absolute inset-0 m-auto size-5 animate-spin"
        :alt "" :aria-hidden "true"))))
 
-;; Transient "Thank you!" toast shown once after a like is recorded.
-;; Alpine slides it in on insertion (htmx swap) and auto-dismisses after a few
-;; seconds. Absolutely positioned above the like pill -- it expects a
-;; `relative` ancestor (the `~like-result` container) as its offset parent.
-;;
-;; The entrance animates `transform` only (no opacity): a `backdrop-filter`
-;; (the pill's `backdrop-blur`) is suppressed while any ancestor has
-;; `opacity < 1`, so an opacity fade-in would render the frosted background as
-;; fully transparent until the fade completed. Keeping opacity at 1 throughout
-;; lets the blur paint from the first frame; opacity is only used on leave.
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
    (div
@@ -69,19 +54,11 @@
        (~heart "size-5")
        (span message)))))
 
-;; Liked state: a non-interactive pill shown after the like is recorded,
-;; with the "Thank you!" toast floating just above it.
-;;
-;; `animate-fade-rise` lives on the pill, not this container: it animates
-;; opacity 0->1, and a `backdrop-filter` (the toast's `backdrop-blur`) is
-;; suppressed while any ancestor has `opacity < 1`. Keeping the fade off the
-;; toast's ancestor lets its frosted background paint from the first frame.
 (defcomp ~like-result (&key likes)
   (hsx
    (div :class "not-prose relative"
      (~like-toast)
      (div :class (clsx *pill-class*
-                       "border border-accent-500/40 bg-accent-500/10 text-accent-200"
-                       "animate-fade-rise")
+                       "border border-accent-500/40 bg-accent-500/10 text-accent-200")
        (~heart "size-5")
        (span likes)))))
