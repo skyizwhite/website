@@ -10,13 +10,21 @@
                 #:fetch-blog-detail
                 #:fetch-blog-likes
                 #:increment-blog-likes)
+  (:import-from #:website/lib/liked-posts
+                #:liked-post-p
+                #:mark-post-liked)
   (:import-from #:website/components/article
                 #:~article)
   (:import-from #:website/components/like-button
                 #:~like-button
-                #:~like-result)
+                #:~like-toast)
   (:export #:@get))
 (in-package #:website/pages/blog/<blog-id>)
+
+;; Like state is per-visitor (it depends on their cookie), so these
+;; fragments must never be shared by a cache.
+(defun no-store ()
+  (set-response-header :cache-control "private, no-store"))
 
 (defaction get-likes :get (params)
   (block get-likes
@@ -24,16 +32,23 @@
       (with-request-params ((blog-id "blog-id" nil)) params
         (unless blog-id
           (return-from get-likes (error-action 400)))
+        (no-store)
         (with-cms-fallback ((404 (error-action 404))
                             (t (error-action 500)))
-          (hsx
-           (form
-             :class "like-form not-prose animate-fade-rise"
-             :hx-patch (add-like)
-             :hx-swap "outerHTML"
-             :hx-disabled-elt "find button"
-             (input :type "hidden" :name "blog-id" :value blog-id)
-             (~like-button :likes (fetch-blog-likes blog-id)))))))))
+          (if (liked-post-p blog-id)
+              ;; Already liked on a previous visit: show the liked state
+              ;; (no form, no toast).
+              (hsx
+               (div :class "not-prose animate-fade-rise"
+                 (~like-button :likes (fetch-blog-likes blog-id) :disabled t)))
+              (hsx
+               (form
+                 :class "like-form not-prose animate-fade-rise"
+                 :hx-patch (add-like)
+                 :hx-swap "outerHTML"
+                 :hx-disabled-elt "find button"
+                 (input :type "hidden" :name "blog-id" :value blog-id)
+                 (~like-button :likes (fetch-blog-likes blog-id))))))))))
 
 (defaction add-like :patch (params)
   (block add-like
@@ -41,9 +56,20 @@
       (with-request-params ((blog-id "blog-id" nil)) params
         (unless blog-id
           (return-from add-like (error-action 400)))
+        (no-store)
+        ;; Reject a repeat like from a visitor who already liked this post.
+        (when (liked-post-p blog-id)
+          (return-from add-like (error-action 409)))
         (with-cms-fallback ((404 (error-action 404))
                             (t (error-action 500)))
-          (hsx (~like-result :likes (increment-blog-likes blog-id))))))))
+          ;; First like from this visitor: record it, remember it in their
+          ;; cookie, and celebrate with the toast.
+          (let ((likes (increment-blog-likes blog-id)))
+            (mark-post-liked blog-id)
+            (hsx
+             (div :class "not-prose relative animate-fade-rise"
+               (~like-toast)
+               (~like-button :likes likes :disabled t)))))))))
 
 (defun @get (params)
   (with-request-params ((blog-id :blog-id nil)

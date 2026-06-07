@@ -51,6 +51,7 @@ microCMS  ←─ function-cache (memoized fetches)
 - **File-based routing.** `ningle-fbr` maps files under `src/pages/` to HTML routes and `src/api/` to JSON routes. A file exporting `@get` / `@head` / `@post` becomes a handler; `<id>.lisp` is a dynamic segment.
 - **Three sub-apps.** `*page-app*` wraps every result in `~document` and renders it to an HTML string; `*actions-app*` (from `ningle-actions`) renders results as bare HTML fragments for htmx swaps; `*api-app*` serializes results to JSON and is mounted under `/api`.
 - **htmx server actions.** `ningle-actions` `defaction` declares a server endpoint that returns an HTML fragment. A page emits the matching htmx attributes (`hx-get` / `hx-patch` / `hx-trigger` / `hx-swap`) and the action's URL via the action's function name, so the markup and its handler stay colocated. The blog **like button** (`src/components/like-button.lisp`, wired up in `src/pages/blog/<id>.lisp`) uses this: the pill is lazily loaded on `revealed`, a `PATCH` records the like to the microCMS `likes` field, and the response swaps in the liked state with an Alpine-driven "Thank you!" toast.
+- **One like per visitor.** Liked post ids are stored in a `liked_blogs` cookie (`src/lib/liked-posts.lisp` over the generic `src/lib/cookie.lisp`). On reveal the button is rendered in its disabled "already liked" state for returning visitors; the `PATCH` only increments for a first-time like (and returns `409` otherwise), then records the id in the cookie. These per-visitor fragments are served `Cache-Control: private, no-store` so the CDN never shares them.
 - **CMS-backed content.** `src/lib/cms.lisp` fetches `about`, `works`, and `blog` content from microCMS. Calls are memoized with `function-cache`.
 - **Next.js-style cache control.** `set-cache` (in `src/helper.lisp`) sets `Cache-Control` per page using one of three strategies:
   - `:ssr` — always revalidate (`max-age=0, must-revalidate`)
@@ -68,7 +69,7 @@ src/
 ├── document.lisp      # top-level HTML shell
 ├── helper.lisp        # set-metadata, set-cache helpers
 ├── components/        # reusable hsx components (header, article, metadata, like-button)
-├── lib/               # cms, env, time utilities
+├── lib/               # cms, env, time, cookie, liked-posts utilities
 ├── pages/             # file-based HTML routes (+ defaction handlers, e.g. blog likes)
 └── api/               # file-based JSON routes (revalidate, not-found)
 assets/                # styles, images, static files
