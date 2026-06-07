@@ -4,7 +4,8 @@
         #:jingle)
   (:import-from #:website/lib/env
                 #:website-url)
-  (:export #:~metadata))
+  (:export #:~metadata
+           #:complete-metadata))
 (in-package #:website/components/metadata)
 
 (defun path->url (path)
