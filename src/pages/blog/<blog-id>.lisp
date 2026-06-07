@@ -19,29 +19,31 @@
 (in-package #:website/pages/blog/<blog-id>)
 
 (defaction get-likes :get (params)
-  (with-htmx
-    (with-request-params ((blog-id "blog-id" nil)) params
-      (if blog-id
-          (with-cms-fallback ((404 (error-action 404))
-                              (t (error-action 500)))
-            (hsx
-             (form
-               :class "like-form not-prose animate-fade-rise"
-               :hx-patch (add-like)
-               :hx-swap "outerHTML"
-               :hx-disabled-elt "find button"
-               (input :type "hidden" :name "blog-id" :value blog-id)
-               (~like-button :likes (fetch-blog-likes blog-id)))))
-          (error-action 400)))))
+  (block get-likes
+    (with-htmx
+      (with-request-params ((blog-id "blog-id" nil)) params
+        (unless blog-id
+          (return-from get-likes (error-action 400)))
+        (with-cms-fallback ((404 (error-action 404))
+                            (t (error-action 500)))
+          (hsx
+           (form
+             :class "like-form not-prose animate-fade-rise"
+             :hx-patch (add-like)
+             :hx-swap "outerHTML"
+             :hx-disabled-elt "find button"
+             (input :type "hidden" :name "blog-id" :value blog-id)
+             (~like-button :likes (fetch-blog-likes blog-id)))))))))
 
 (defaction add-like :patch (params)
-  (with-htmx
-    (with-request-params ((blog-id "blog-id" nil)) params
-      (if blog-id
-          (with-cms-fallback ((404 (error-action 404))
-                              (t (error-action 500)))
-            (hsx (~like-result :likes (increment-blog-likes blog-id))))
-          (error-action 400)))))
+  (block add-like
+    (with-htmx
+      (with-request-params ((blog-id "blog-id" nil)) params
+        (unless blog-id
+          (return-from add-like (error-action 400)))
+        (with-cms-fallback ((404 (error-action 404))
+                            (t (error-action 500)))
+          (hsx (~like-result :likes (increment-blog-likes blog-id))))))))
 
 (defun @get (params)
   (with-request-params ((blog-id :blog-id nil)
