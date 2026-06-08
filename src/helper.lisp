@@ -4,7 +4,8 @@
   (:import-from #:website/lib/env
                 #:dev-mode-p)
   (:import-from #:website/components/error-page
-                #:~error-page)
+                #:~error-page
+                #:error-metadata)
   (:export #:set-metadata
            #:set-cache
            #:with-htmx
@@ -36,23 +37,8 @@
   (set-response-status status)
   body)
 
-(defparameter *error-info*
-  '((404 :title "Page not found"
-     :description "The page you are looking for may have been deleted or the URL might be incorrect."
-     :message "お探しのページは削除されたか、URL が間違っている可能性があります。")
-    (500 :title "Something went wrong"
-     :description "Something went wrong while loading this page. Please try again later."
-     :message "問題が発生しました。しばらくしてから再度お試しください。"))
-  "Per-status copy for the error page, keyed by HTTP status code.")
-
 (defun error-page (&optional (status 500))
-  (let ((info (cdr (assoc status *error-info*))))
-    (set-cache :ssr)
-    (set-response-status status)
-    (set-metadata (list :title (getf info :title)
-                        :description (getf info :description)
-                        :error t))
-    (~error-page
-      :status status
-      :title (getf info :title)
-      :message (getf info :message))))
+  (set-cache :ssr)
+  (set-response-status status)
+  (set-metadata (error-metadata status))
+  (~error-page :status status))
