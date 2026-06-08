@@ -4,13 +4,14 @@
   (:import-from #:website/lib/time
                 #:datetime
                 #:jp-datetime)
+  (:import-from #:website/components/title
+                #:~title)
   (:export #:~article))
 (in-package #:website/components/article)
 
 (defcomp ~article (&key title
                         content
                         published-at
-                        revised-at
                         draft-p)
   (hsx
    (<>
@@ -23,20 +24,11 @@
              (span :class "size-1.5 rounded-full bg-accent-500 animate-pulse")
              "Draft Mode")))
      (article :class "prose max-w-none"
-       (header :class "not-prose mb-10 pb-6 border-b border-base"
-         (h1 :class "font-display font-bold text-3xl sm:text-4xl tracking-tight text-fg"
-           title)
-         (div :class "mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-subtle font-display tracking-wide"
-           (and published-at
-                (hsx
-                 (span :class "inline-flex items-center gap-1.5"
-                   (span :class "uppercase opacity-70" "Published")
-                   (|time| :datetime (datetime published-at)
-                           (jp-datetime published-at)))))
-           (and revised-at
-                (hsx
-                 (span :class "inline-flex items-center gap-1.5"
-                   (span :class "uppercase opacity-70" "Updated")
-                   (|time| :datetime (datetime revised-at)
-                           (jp-datetime revised-at)))))))
+       (and published-at
+            (hsx
+             (div :class "not-prose mb-3 inline-flex items-center gap-1.5 text-xs text-subtle font-display tracking-wide"
+               (span :class "uppercase opacity-70" "Published")
+               (|time| :datetime (datetime published-at)
+                       (jp-datetime published-at)))))
+       (~title title)
        (raw! content)))))

@@ -24,5 +24,4 @@
         (~article
           :title "About"
           :content (getf about :content)
-          :revised-at (getf about :revised-at)
           :draft-p draft-key)))))

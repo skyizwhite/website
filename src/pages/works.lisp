@@ -24,5 +24,4 @@
         (~article
           :title "Works"
           :content (getf works :content)
-          :revised-at (getf works :revised-at)
           :draft-p draft-key)))))

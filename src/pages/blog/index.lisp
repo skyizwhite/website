@@ -9,6 +9,8 @@
   (:import-from #:website/lib/time
                 #:datetime
                 #:jp-datetime)
+  (:import-from #:website/components/title
+                #:~title)
   (:export #:@get))
 (in-package #:website/pages/blog/index)
 
@@ -24,9 +26,7 @@
     (let ((blogs (fetch-blog-list :page 1)))
       (hsx
        (section
-         (header :class "mb-10 pb-6 border-b border-base"
-           (h1 :class "font-display font-bold text-3xl sm:text-4xl tracking-tight"
-             "Blog"))
+         (~title "Blog")
          (ul :class "flex flex-col gap-2"
            (loop
              :for item :in blogs :collect

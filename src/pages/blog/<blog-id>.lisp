@@ -85,7 +85,6 @@
              :title (getf blog :title)
              :content (getf blog :content)
              :published-at (getf blog :published-at)
-             :revised-at (getf blog :revised-at)
              :draft-p draft-key)
            (and (not draft-key)
                 (hsx (div
