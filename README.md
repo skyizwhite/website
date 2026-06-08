@@ -13,7 +13,7 @@ A server-rendered site built in **Common Lisp**, sourcing content from a headles
 | Web stack | [Clack](https://github.com/fukamachi/clack) / [Lack](https://github.com/fukamachi/lack) |
 | HTTP server | [Woo](https://github.com/fukamachi/woo) (production), Hunchentoot (development) |
 | Routing framework | [jingle](https://github.com/dnaeon/cl-jingle) + [ningle-fbr](https://github.com/skyizwhite/ningle-fbr) (file-based routing) |
-| Server actions | [ningle-actions](https://github.com/skyizwhite/ningle-actions) — htmx-driven server-side actions |
+| Server actions | [ningle-actions](https://github.com/skyizwhite/ningle-actions) — htmx partial-update endpoints in an isolated `/actions` namespace |
 | View / templating | [hsx](https://github.com/skyizwhite/hsx) — JSX-like HTML as Lisp s-expressions |
 | Content | [microCMS](https://microcms.io/) via [microcms-lisp-sdk](https://github.com/skyizwhite/microcms-lisp-sdk) |
 | Caching | [function-cache](https://github.com/AccelerationNet/function-cache) (in-memory) + HTTP `Cache-Control` |
@@ -36,7 +36,7 @@ Cloudflare (CDN)
   ┌───┴──────────┬──────────────────────┐
   │              │                      │
 *page-app*   *actions-app*          *api-app*  (JSON, /api)
-  (HTML)      (htmx HTML fragments)       │
+  (HTML)      (HTML fragments, /actions)  │
   │              │                      ▼
   ▼              ▼                 revalidate webhook
 ~document    defaction handlers
@@ -48,9 +48,9 @@ microCMS  ←─ function-cache (memoized fetches)
 ```
 
 - **Package-inferred system.** Each file is its own package (`:class :package-inferred-system`); dependencies are resolved from `import-from` clauses.
-- **File-based routing.** `ningle-fbr` maps files under `src/pages/` to HTML routes and `src/api/` to JSON routes. A file exporting `@get` / `@head` / `@post` becomes a handler; `<id>.lisp` is a dynamic segment.
-- **Three sub-apps.** `*page-app*` wraps every result in `~document` and renders it to an HTML string; `*actions-app*` (from `ningle-actions`) renders results as bare HTML fragments for htmx swaps; `*api-app*` serializes results to JSON and is mounted under `/api`.
-- **htmx server actions.** `ningle-actions` `defaction` declares a server endpoint that returns an HTML fragment. A page emits the matching htmx attributes (`hx-get` / `hx-patch` / `hx-trigger` / `hx-swap`) and the action's URL via the action's function name, so the markup and its handler stay colocated. The blog **like button** (`src/components/like-button.lisp`, wired up in `src/pages/blog/<id>.lisp`) uses this: the pill is lazily loaded on `revealed`, a `PATCH` records the like to the microCMS `likes` field, and the response swaps in the liked state with an Alpine-driven "Thank you!" toast.
+- **File-based routing.** `ningle-fbr` maps files under `src/pages/` to HTML routes and `src/api/` to JSON routes. A file exporting `@get` / `@head` / `@post` becomes a handler; `<blog-id>.lisp` is a dynamic segment.
+- **Three sub-apps.** `*page-app*` wraps every result in `~document` and renders it to an HTML string; `*actions-app*` (from `ningle-actions`, plugged into the `*page-app*` middleware chain by `*actions-middleware*` and mounted under `/actions`) renders results as bare HTML fragments for htmx swaps; `*api-app*` serializes results to JSON and is mounted under `/api`.
+- **htmx server actions.** `ningle-actions` keeps fragment-update endpoints out of the meaningful page URL space by giving them their own isolated `/actions` namespace. `defaction` does two things at once: it registers an HTTP handler under an opaque, auto-generated `/actions/<id>` URL, and it defines a function of the same name that returns that URL (keyword arguments become URL-encoded query-string params, e.g. `(get-likes :blog-id blog-id)`). A page embeds that function's **return value** in its htmx attributes (`hx-get` / `hx-patch` / `hx-trigger` / `hx-swap`) instead of a URL literal, so the action URL never appears as a string anywhere and the handler and its view can't drift out of sync. The blog **like button** (`src/components/like-button.lisp`, wired up in `src/pages/blog/<blog-id>.lisp`) uses this: the pill is lazily loaded on `revealed`, a `PATCH` records the like to the microCMS `likes` field, and the response swaps in the liked state with an Alpine-driven "Thank you!" toast.
 - **One like per visitor.** Liked post ids are stored in a `liked_blogs` cookie (`src/lib/liked-posts.lisp` over the generic `src/lib/cookie.lisp`). On reveal the button is rendered in its disabled "already liked" state for returning visitors; the `PATCH` only increments for a first-time like (and returns `409` otherwise), then records the id in the cookie. These per-visitor fragments are served `Cache-Control: private, no-store` so the CDN never shares them.
 - **CMS-backed content.** `src/lib/cms.lisp` fetches `about`, `works`, and `blog` content from microCMS. Calls are memoized with `function-cache`.
 - **Next.js-style cache control.** `set-cache` (in `src/helper.lisp`) sets `Cache-Control` per page using one of three strategies:
