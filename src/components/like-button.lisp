@@ -49,11 +49,15 @@ submit button."
 ;; background fully transparent until the fade finished. Opacity is used only on
 ;; leave. A three-state `phase` keeps "before enter" (opacity 1, slid down) and
 ;; "leaving" (opacity 0) distinct -- a single boolean can't express both.
+;;
+;; The flip to `shown` is deferred by a double `requestAnimationFrame` so the
+;; browser paints the `init` (slid-down) state before the transition starts;
+;; a single frame gets coalesced with the insert and the slide-in is skipped.
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
    (div
      :nm-data "{ phase: 'init' }"
-     :nm-bind "{ oninit: () => { requestAnimationFrame(() => phase = 'shown'); setTimeout(() => phase = 'leaving', 3000); }, 'class.translate-y-1': () => phase === 'init', 'class.translate-y-0': () => phase !== 'init', 'class.opacity-0': () => phase === 'leaving' }"
+     :nm-bind "{ oninit: () => { requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown')); setTimeout(() => phase = 'leaving', 3000); }, 'class.translate-y-1': () => phase === 'init', 'class.translate-y-0': () => phase !== 'init', 'class.opacity-0': () => phase === 'leaving' }"
      :role "status"
      :aria-live "polite"
      :class (clsx "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-max pointer-events-none"
