@@ -67,11 +67,11 @@ src/
 ├── main.lisp          # start / stop / reload (REPL entry points)
 ├── app.lisp           # app composition, middleware, sub-app mounting
 ├── document.lisp      # top-level HTML shell
-├── helper.lisp        # set-metadata, set-cache helpers
-├── components/        # reusable hsx components (header, article, metadata, like-button)
-├── lib/               # cms, env, time, cookie, liked-posts utilities
+├── helper.lisp        # shared request/response helpers
+├── components/        # reusable hsx components
+├── lib/               # shared utility modules
 ├── pages/             # file-based HTML routes (+ defaction handlers, e.g. blog likes)
-└── api/               # file-based JSON routes (revalidate, not-found)
+└── api/               # file-based JSON routes
 assets/                # styles, images, static files
 ```
 
