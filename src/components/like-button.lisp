@@ -25,10 +25,7 @@
      :class class
      :alt "" :aria-hidden "true")))
 
-(defcomp ~like-button (&key likes disabled)
-  "The like pill. When DISABLED, renders the static \"already liked\" state
-(non-interactive, accent-colored, no spinner); otherwise the clickable
-submit button."
+(defcomp ~like-button (&key likes disabled bind)
   (if disabled
       (hsx
        (button :type "button"
@@ -40,13 +37,17 @@ submit button."
          (~heart "size-5")
          (span :class "text-lg" likes)))
       (hsx
-       (button :type "submit"
+       (button :type "button"
+         :id "like-form"
          :aria-label "Like this post"
+         :nm-data "{}"
+         :nm-bind bind
          :class (clsx *pill-class*
                       "group relative cursor-pointer text-fg"
                       "border border-strong bg-muted"
                       "hover:border-accent-500/60 hover:bg-accent-500/10 hover:text-accent-100"
-                      "active:scale-95 transition-all duration-200")
+                      "active:scale-95 transition-all duration-200"
+                      "animate-fade-rise")
          (span :class "like-content inline-flex items-center gap-2.5"
            (~heart "size-5 transition-transform group-hover:scale-110")
            (span :class "text-lg" likes))
