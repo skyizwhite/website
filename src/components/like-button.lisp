@@ -43,15 +43,21 @@ submit button."
            :class "like-spinner absolute inset-0 m-auto size-5 animate-spin"
            :alt "" :aria-hidden "true")))))
 
+;; The entrance animates `transform` only (opacity stays 1): a `backdrop-filter`
+;; (the pill's `backdrop-blur`) is suppressed while the element or any ancestor
+;; has `opacity < 1`, so fading the toast in by opacity would render the frosted
+;; background fully transparent until the fade finished. Opacity is used only on
+;; leave. A three-state `phase` keeps "before enter" (opacity 1, slid down) and
+;; "leaving" (opacity 0) distinct -- a single boolean can't express both.
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
    (div
-     :nm-data "{ show: false }"
-     :nm-bind "{ oninit: () => { requestAnimationFrame(() => show = true); setTimeout(() => show = false, 3000); }, 'class.opacity-100': () => show, 'class.opacity-0': () => !show, 'class.translate-y-0': () => show, 'class.translate-y-1': () => !show }"
+     :nm-data "{ phase: 'init' }"
+     :nm-bind "{ oninit: () => { requestAnimationFrame(() => phase = 'shown'); setTimeout(() => phase = 'leaving', 3000); }, 'class.translate-y-1': () => phase === 'init', 'class.translate-y-0': () => phase !== 'init', 'class.opacity-0': () => phase === 'leaving' }"
      :role "status"
      :aria-live "polite"
      :class (clsx "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-max pointer-events-none"
-                  "transition duration-300 ease-out opacity-0 translate-y-1")
+                  "transition duration-300 ease-out translate-y-1")
      (div :class (clsx *pill-class*
                        "whitespace-nowrap"
                        "border border-accent-500/40 bg-accent-500/10 text-accent-200"

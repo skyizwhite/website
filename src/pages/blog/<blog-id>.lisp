@@ -21,6 +21,33 @@
   (:export #:@get))
 (in-package #:website/pages/blog/<blog-id>)
 
+(defun @get (params)
+  (with-request-params ((blog-id :blog-id nil)
+                        (draft-key "draft-key" nil)) params
+    (with-cms-fallback ((404 (error-page 404))
+                        (t (error-page 500)))
+      (let ((blog (fetch-blog-detail blog-id :draft-key draft-key)))
+        (set-cache (if draft-key :ssr :isr))
+        (set-metadata (list :title (getf blog :title)
+                            :description (getf blog :description)
+                            :type "article"))
+        (hsx
+         (<>
+           (~article
+             :title (getf blog :title)
+             :content (getf blog :content)
+             :published-at (getf blog :published-at)
+             :draft-p draft-key)
+           (and (not draft-key)
+                ;; Lazy-load the like section once it scrolls into view
+                ;; (nomini has no "revealed" trigger, so observe it manually).
+                (hsx (div
+                       :id "like-section"
+                       :class "mt-12 flex items-center justify-center h-11"
+                       :nm-bind (format nil "{ oninit: (e) => { const io = new IntersectionObserver((es) => { if (es[0].isIntersecting) { io.disconnect(); $get('~a'); } }); io.observe(e.target); } }"
+                                        (get-likes :blog-id blog-id)))))))))))
+
+
 ;; Like state is per-visitor (it depends on their cookie), so these
 ;; fragments must never be shared by a cache.
 (defun no-store ()
@@ -72,33 +99,11 @@
         (let ((likes (increment-blog-likes blog-id)))
           (mark-post-liked blog-id)
           ;; id matches the submitting form, so this outer-swaps it in place.
+          ;; animate-fade-rise stays OFF this container (the toast's ancestor):
+          ;; it animates opacity, which would suppress the toast's backdrop-blur
+          ;; until the fade finished. It goes on the pill instead.
           (hsx
-           (div :id "like-form" :class "not-prose relative animate-fade-rise"
+           (div :id "like-form" :class "not-prose relative"
              (~like-toast)
-             (~like-button :likes likes :disabled t))))))))
-
-(defun @get (params)
-  (with-request-params ((blog-id :blog-id nil)
-                        (draft-key "draft-key" nil)) params
-    (with-cms-fallback ((404 (error-page 404))
-                        (t (error-page 500)))
-      (let ((blog (fetch-blog-detail blog-id :draft-key draft-key)))
-        (set-cache (if draft-key :ssr :isr))
-        (set-metadata (list :title (getf blog :title)
-                            :description (getf blog :description)
-                            :type "article"))
-        (hsx
-         (<>
-           (~article
-             :title (getf blog :title)
-             :content (getf blog :content)
-             :published-at (getf blog :published-at)
-             :draft-p draft-key)
-           (and (not draft-key)
-                ;; Lazy-load the like section once it scrolls into view
-                ;; (nomini has no "revealed" trigger, so observe it manually).
-                (hsx (div
-                       :id "like-section"
-                       :class "mt-12 flex items-center justify-center h-11"
-                       :nm-bind (format nil "{ oninit: (e) => { const io = new IntersectionObserver((es) => { if (es[0].isIntersecting) { io.disconnect(); $get('~a'); } }); io.observe(e.target); } }"
-                                        (get-likes :blog-id blog-id)))))))))))
+             (div :class "animate-fade-rise"
+               (~like-button :likes likes :disabled t)))))))))
