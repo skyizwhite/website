@@ -84,7 +84,6 @@
                          (hsx
                           (li
                            (a :href href
-                              :nm-bind "{ onclick: () => close() }"
                               :class (clsx "group flex items-center justify-between"
                                            "px-3 py-3 rounded-xl"
                                            "font-display font-semibold text-2xl tracking-tight"
