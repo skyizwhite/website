@@ -45,7 +45,7 @@
                        :data-action (get-likes :blog-id blog-id)
                        :nm-bind "{
                                    oninit: (e) => {
-　　　　　　　　　　　　　　　　　　 const action = $dataset().action;
+                                     const action = $dataset().action;
                                      const io = new IntersectionObserver((es) => {
                                        if (es[0].isIntersecting) {
                                          io.disconnect();
