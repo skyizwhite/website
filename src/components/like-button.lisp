@@ -8,17 +8,6 @@
 (defparameter *pill-class*
   "inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 font-display font-semibold text-sm tabular-nums")
 
-(defparameter *toast-bind*
-  "{
-    oninit: () => {
-      requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown'));
-      setTimeout(() => phase = 'leaving', 3000);
-    },
-    'class.translate-y-1': () => phase === 'init',
-    'class.translate-y-0': () => phase !== 'init',
-    'class.opacity-0': () => phase === 'leaving'
-  }")
-
 (defun ~heart (&optional (class "size-5"))
   (hsx
    (img :src "/assets/img/icon/heart.svg"
@@ -58,7 +47,15 @@
   (hsx
    (div
      :nm-data "{ phase: 'init' }"
-     :nm-bind *toast-bind*
+     :nm-bind "{
+       oninit: () => {
+         requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown'));
+         setTimeout(() => phase = 'leaving', 3000);
+       },
+       'class.translate-y-1': () => phase === 'init',
+       'class.translate-y-0': () => phase !== 'init',
+       'class.opacity-0': () => phase === 'leaving'
+     }"
      :role "status"
      :aria-live "polite"
      :class (clsx "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-max pointer-events-none"
