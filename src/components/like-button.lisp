@@ -40,7 +40,6 @@
        (button :type "button"
          :id "like-form"
          :aria-label "Like this post"
-         :nm-data "{}"
          :nm-bind bind
          :class (clsx *pill-class*
                       "group relative cursor-pointer text-fg"

@@ -42,22 +42,20 @@
                 (hsx (div
                        :id "like-section"
                        :class "mt-12 flex items-center justify-center h-11"
-                       :nm-bind (reveal-likes-bind blog-id))))))))))
-
-(defun reveal-likes-bind (blog-id)
-  (format nil "{
-    oninit: (e) => {
-      const io = new IntersectionObserver((es) => {
-        if (es[0].isIntersecting) {
-          io.disconnect();
-          $get('~a');
-        }
-      });
-      io.observe(e.target);
-    }
-  }"
-          (get-likes :blog-id blog-id)))
-
+                       :data-action (get-likes :blog-id blog-id)
+                       :nm-bind "{
+                                   oninit: (e) => {
+　　　　　　　　　　　　　　　　　　 const action = $dataset().action;
+                                     const io = new IntersectionObserver((es) => {
+                                       if (es[0].isIntersecting) {
+                                         io.disconnect();
+                                         $get(action);
+                                       }
+                                     });
+                                     io.observe(e.target);
+                                   }
+                                 }"
+                       )))))))))
 
 ;; Like state is per-visitor (it depends on their cookie), so these
 ;; fragments must never be shared by a cache.
@@ -80,22 +78,23 @@
                (div :class "not-prose animate-fade-rise"
                  (~like-button :likes (fetch-blog-likes blog-id) :disabled t))))
             (hsx
-             (div :id "like-section" :class "mt-12 flex items-center justify-center"
-               (~like-button :likes (fetch-blog-likes blog-id)
-                 :bind (like-button-bind blog-id)))))))))
-
-(defun like-button-bind (blog-id)
-  (format nil "{
-    onclick: () => $fetch('~a', 'PATCH', { 'blog-id': '~a' }),
-    'class.is-fetching': () => _nmFetching,
-    disabled: () => _nmFetching
-  }"
-          (add-like) blog-id))
+             (div
+               :id "like-section" :data-action (add-like) :data-blog_id blog-id
+               :nm-data "{}"
+               :class "mt-12 flex items-center justify-center"
+               (~like-button
+                 :likes (fetch-blog-likes blog-id)
+                 :bind "{
+                          onclick: () => $fetch($dataset().action, 'PATCH'),
+                          'class.is-fetching': () => _nmFetching,
+                          disabled: () => _nmFetching
+                        }"
+                 ))))))))
 
 
 (defaction add-like :patch (params)
   (with-nm-request
-    (with-request-params ((blog-id "blog-id" nil)) params
+    (with-request-params ((blog-id "blog_id" nil)) params
       (unless blog-id
         (return-from add-like (error-action 400)))
       (no-store)
