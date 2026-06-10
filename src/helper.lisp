@@ -8,7 +8,7 @@
                 #:error-metadata)
   (:export #:set-metadata
            #:set-cache
-           #:with-htmx
+           #:with-nm-request
            #:error-action
            #:error-page))
 (in-package #:website/helper)
@@ -26,8 +26,8 @@
         ((eq strategy :sg)
          (set-response-header :cache-control "public, max-age=0, s-maxage=31536000, must-revalidate"))))
 
-(defmacro with-htmx (&body body)
-  `(cond ((get-request-header "HX-Request")
+(defmacro with-nm-request (&body body)
+  `(cond ((get-request-header "nm-request")
           ,@body)
          (t
           (set-response-status 400)

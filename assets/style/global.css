@@ -74,10 +74,6 @@ body {
   navigation: auto;
 }
 
-[x-cloak] {
-  display: none !important;
-}
-
 .font-display {
   font-family: var(--font-display);
 }
@@ -160,8 +156,9 @@ button,
   transition-timing-function: ease;
 }
 
-/* like button: while the PATCH request is in flight (htmx adds `htmx-request`
-   to the form), fade the heart/count out and the spinner in. */
+/* like button: while the PATCH request is in flight (nomini toggles
+   `is-fetching` on the form via `_nmFetching`), fade the heart/count out
+   and the spinner in. */
 .like-content,
 .like-spinner {
   transition: opacity 150ms ease;
@@ -171,11 +168,11 @@ button,
   opacity: 0;
 }
 
-.like-form.htmx-request .like-content {
+.like-form.is-fetching .like-content {
   opacity: 0;
 }
 
-.like-form.htmx-request .like-spinner {
+.like-form.is-fetching .like-spinner {
   opacity: 1;
 }
 

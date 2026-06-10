@@ -46,19 +46,12 @@ submit button."
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
    (div
-     :x-data "{ show: false }"
-     :x-init "$nextTick(() => (show = true)); setTimeout(() => (show = false), 3000)"
-     :x-show "show"
-     :x-cloak t
-     :|x-transition:enter| "transition ease-out duration-300"
-     :|x-transition:enter-start| "translate-y-1"
-     :|x-transition:enter-end| "translate-y-0"
-     :|x-transition:leave| "transition ease-in duration-300"
-     :|x-transition:leave-start| "opacity-100"
-     :|x-transition:leave-end| "opacity-0"
+     :nm-data "{ show: false }"
+     :nm-bind "{ oninit: () => { requestAnimationFrame(() => show = true); setTimeout(() => show = false, 3000); }, 'class.opacity-100': () => show, 'class.opacity-0': () => !show, 'class.translate-y-0': () => show, 'class.translate-y-1': () => !show }"
      :role "status"
      :aria-live "polite"
-     :class "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-max pointer-events-none"
+     :class (clsx "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-max pointer-events-none"
+                  "transition duration-300 ease-out opacity-0 translate-y-1")
      (div :class (clsx *pill-class*
                        "whitespace-nowrap"
                        "border border-accent-500/40 bg-accent-500/10 text-accent-200"

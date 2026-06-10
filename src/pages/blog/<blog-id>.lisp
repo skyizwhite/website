@@ -27,30 +27,37 @@
   (set-response-header :cache-control "private, no-store"))
 
 (defaction get-likes :get (params)
-  (with-htmx
+  (with-nm-request
     (with-request-params ((blog-id "blog-id" nil)) params
       (unless blog-id
         (return-from get-likes (error-action 400)))
       (no-store)
       (with-cms-fallback ((404 (error-action 404))
                           (t (error-action 500)))
+        ;; nomini swaps by matching the fragment's id to a live element, so the
+        ;; response replaces the whole #like-section (default outer swap).
         (if (liked-post-p blog-id)
             ;; Already liked on a previous visit: show the liked state
             ;; (no form, no toast).
             (hsx
-             (div :class "not-prose animate-fade-rise"
-               (~like-button :likes (fetch-blog-likes blog-id) :disabled t)))
+             (div :id "like-section" :class "mt-12 flex items-center justify-center"
+               (div :class "not-prose animate-fade-rise"
+                 (~like-button :likes (fetch-blog-likes blog-id) :disabled t))))
             (hsx
-             (form
-               :class "like-form not-prose animate-fade-rise"
-               :hx-patch (add-like)
-               :hx-swap "outerHTML"
-               :hx-disabled-elt "find button"
-               (input :type "hidden" :name "blog-id" :value blog-id)
-               (~like-button :likes (fetch-blog-likes blog-id)))))))))
+             (div :id "like-section" :class "mt-12 flex items-center justify-center"
+               (form
+                 :id "like-form"
+                 :class "like-form not-prose animate-fade-rise"
+                 ;; nm-data scopes the proxy that nm-form (button disabling) and
+                 ;; nm-bind (submit + is-fetching class) share.
+                 :nm-data "{}"
+                 :nm-form t
+                 :nm-bind (format nil "{ 'onsubmit.prevent': () => $fetch('~a', 'PATCH', { 'blog-id': '~a' }), 'class.is-fetching': () => _nmFetching }"
+                                  (add-like) blog-id)
+                 (~like-button :likes (fetch-blog-likes blog-id))))))))))
 
 (defaction add-like :patch (params)
-  (with-htmx
+  (with-nm-request
     (with-request-params ((blog-id "blog-id" nil)) params
       (unless blog-id
         (return-from add-like (error-action 400)))
@@ -64,8 +71,9 @@
         ;; cookie, and celebrate with the toast.
         (let ((likes (increment-blog-likes blog-id)))
           (mark-post-liked blog-id)
+          ;; id matches the submitting form, so this outer-swaps it in place.
           (hsx
-           (div :class "not-prose relative animate-fade-rise"
+           (div :id "like-form" :class "not-prose relative animate-fade-rise"
              (~like-toast)
              (~like-button :likes likes :disabled t))))))))
 
@@ -87,8 +95,10 @@
              :published-at (getf blog :published-at)
              :draft-p draft-key)
            (and (not draft-key)
+                ;; Lazy-load the like section once it scrolls into view
+                ;; (nomini has no "revealed" trigger, so observe it manually).
                 (hsx (div
+                       :id "like-section"
                        :class "mt-12 flex items-center justify-center h-11"
-                       :hx-get (get-likes :blog-id blog-id)
-                       :hx-trigger "revealed"
-                       :hx-swap "innerHTML")))))))))
+                       :nm-bind (format nil "{ oninit: (e) => { const io = new IntersectionObserver((es) => { if (es[0].isIntersecting) { io.disconnect(); $get('~a'); } }); io.observe(e.target); } }"
+                                        (get-likes :blog-id blog-id)))))))))))

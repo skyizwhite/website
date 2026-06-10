@@ -21,8 +21,7 @@
        (link :rel "preload" :as "style" :fetchpriority "high" :href *google-fonts-url*)
        (link :rel "stylesheet" :href *google-fonts-url* :media "print" :onload "this.media='all'")
        (link :rel "stylesheet" :href (bust-cache "/assets/style/dist.css"))
-       (script :src "https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js")
-       (script :src "https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" :defer t)
+       (script :src (bust-cache "/assets/js/nomini.js") :defer t)
        (~metadata))
      (body :class (clsx "min-h-[100svh] flex flex-col antialiased text-fg"
                         "selection:bg-accent-500/20 selection:text-fg")

@@ -13,13 +13,11 @@
 (defparameter *sp-menu*
   (cons '("/" "home") *pc-menu*))
 
-(defparameter *header-alpine-data*
+(defparameter *header-nm-data*
   "{
     open: false,
-    init() {
-      this.$watch('open', v => { document.body.style.overflow = v ? 'hidden' : ''; });
-    },
-    close() { this.open = false; }
+    show() { this.open = true; document.body.style.overflow = 'hidden'; },
+    close() { this.open = false; document.body.style.overflow = ''; }
   }")
 
 (defun icon-button-class ()
@@ -50,54 +48,45 @@
 
 (defcomp ~mobile-drawer ()
   (hsx
-   (template :x-teleport "body"
-     (div :class "md:hidden"
-       ; backdrop
-       (div
-         :x-cloak t
-         :x-show "open"
-         :@click "close()"
-         :|x-transition.opacity.duration.200ms| t
-         :class (clsx "fixed inset-0 z-40"
-                      "bg-black/60"
-                      "backdrop-blur-sm"))
-       ; drawer panel
-       (aside
-         :x-cloak t
-         :x-show "open"
-         :|x-transition:enter| "transition ease-out duration-300"
-         :|x-transition:enter-start| "translate-x-full"
-         :|x-transition:enter-end| "translate-x-0"
-         :|x-transition:leave| "transition ease-in duration-200"
-         :|x-transition:leave-start| "translate-x-0"
-         :|x-transition:leave-end| "translate-x-full"
-         :class (clsx "fixed top-0 right-0 bottom-0 z-50"
-                      "w-[78%] max-w-xs"
-                      "flex flex-col"
-                      "bg-zinc-950"
-                      "border-l border-zinc-800"
-                      "shadow-2xl shadow-black/20")
-         (div :class "flex items-center justify-between h-14 px-4 border-b border-base"
-           (span :class "text-xs uppercase tracking-[0.3em] text-subtle font-display"
-             "menu")
-           (button
-             :aria-label "Close menu"
-             :type "button"
-             :@click "close()"
-             :class (icon-button-class)
-             (img :src "/assets/img/icon/close.svg"
-               :class "size-4 icon-invert"
-               :alt "" :aria-hidden "true")))
-         (nav :class "flex-1 overflow-y-auto px-4 py-8"
-           (ul :class "flex flex-col gap-1"
-             (loop
-               :for (href label) :in *sp-menu* :collect
-                  (let ((active (string= href (request-uri *request*))))
-                    (hsx
-                     (li
-                       (a :href href
-                         :@click "close()"
-                         :class (clsx "group flex items-center justify-between"
+   (div :class "md:hidden"
+     ; backdrop
+     (div
+       :nm-bind "{ onclick: () => close(), 'class.opacity-100': () => open, 'class.opacity-0': () => !open, 'class.pointer-events-none': () => !open }"
+       :class (clsx "fixed inset-0 z-40"
+                    "bg-black/60"
+                    "backdrop-blur-sm"
+                    "opacity-0 pointer-events-none transition-opacity duration-200"))
+     ; drawer panel
+     (aside
+       :nm-bind "{ 'class.translate-x-0': () => open, 'class.translate-x-full': () => !open }"
+       :class (clsx "fixed top-0 right-0 bottom-0 z-50"
+                    "w-[78%] max-w-xs"
+                    "flex flex-col"
+                    "bg-zinc-950"
+                    "border-l border-zinc-800"
+                    "shadow-2xl shadow-black/20"
+                    "translate-x-full transition-transform duration-300 ease-out")
+       (div :class "flex items-center justify-between h-14 px-4 border-b border-base"
+         (span :class "text-xs uppercase tracking-[0.3em] text-subtle font-display"
+           "menu")
+         (button
+           :aria-label "Close menu"
+           :type "button"
+           :nm-bind "{ onclick: () => close() }"
+           :class (icon-button-class)
+           (img :src "/assets/img/icon/close.svg"
+             :class "size-4 icon-invert"
+             :alt "" :aria-hidden "true")))
+       (nav :class "flex-1 overflow-y-auto px-4 py-8"
+         (ul :class "flex flex-col gap-1"
+           (loop
+             :for (href label) :in *sp-menu* :collect
+                (let ((active (string= href (request-uri *request*))))
+                  (hsx
+                   (li
+                     (a :href href
+                       :nm-bind "{ onclick: () => close() }"
+                       :class (clsx "group flex items-center justify-between"
                                       "px-3 py-3 rounded-xl"
                                       "font-display font-semibold text-2xl tracking-tight"
                                       "transition-colors"
@@ -111,29 +100,34 @@
                                                 "accent-gradient opacity-100"
                                                 "bg-zinc-700 opacity-0 group-hover:opacity-100"))))))))))
          (div :class "px-4 py-4 border-t border-base text-[11px] text-subtle font-display tracking-widest uppercase"
-           "skyizwhite.dev"))))))
+           "skyizwhite.dev")))))
 
 (defcomp ~header ()
   (hsx
-   (header
-     :x-data *header-alpine-data*
-     :@keydown.escape.window "close()"
-     :class (clsx "sticky top-0 z-30 w-full"
-                  "bg-zinc-950/70"
-                  "backdrop-blur-xl saturate-150"
-                  "border-b border-zinc-800/60")
-     (div :class "max-w-[760px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between"
-       (a :href "/" :class "group"
-         (span :class "font-display text-xl font-bold tracking-tight group-hover:accent-text"
-           "skyizwhite"))
-       (div :class "flex items-center gap-2"
-         (~pc-nav)
-         (button
-           :aria-label "Open menu"
-           :class (clsx "md:hidden" (icon-button-class))
-           :type "button"
-           :@click "open = true"
-           (img :src "/assets/img/icon/menu.svg"
-             :class "size-4 icon-invert"
-             :alt "" :aria-hidden "true"))))
+   ;; `display: contents` wrapper owns the nomini scope without generating a
+   ;; box, so the sticky header and the fixed drawer both resolve against the
+   ;; viewport (the header's `backdrop-blur` would otherwise trap the drawer).
+   (div
+     :class "contents"
+     :nm-data *header-nm-data*
+     :nm-bind "{ 'onkeydown.window': (e) => { if (e.key === 'Escape') close() } }"
+     (header
+       :class (clsx "sticky top-0 z-30 w-full"
+                    "bg-zinc-950/70"
+                    "backdrop-blur-xl saturate-150"
+                    "border-b border-zinc-800/60")
+       (div :class "max-w-[760px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between"
+         (a :href "/" :class "group"
+           (span :class "font-display text-xl font-bold tracking-tight group-hover:accent-text"
+             "skyizwhite"))
+         (div :class "flex items-center gap-2"
+           (~pc-nav)
+           (button
+             :aria-label "Open menu"
+             :class (clsx "md:hidden" (icon-button-class))
+             :type "button"
+             :nm-bind "{ onclick: () => show() }"
+             (img :src "/assets/img/icon/menu.svg"
+               :class "size-4 icon-invert"
+               :alt "" :aria-hidden "true")))))
      (~mobile-drawer))))
