@@ -8,6 +8,17 @@
 (defparameter *pill-class*
   "inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 font-display font-semibold text-sm tabular-nums")
 
+(defparameter *toast-bind*
+  "{
+    oninit: () => {
+      requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown'));
+      setTimeout(() => phase = 'leaving', 3000);
+    },
+    'class.translate-y-1': () => phase === 'init',
+    'class.translate-y-0': () => phase !== 'init',
+    'class.opacity-0': () => phase === 'leaving'
+  }")
+
 (defun ~heart (&optional (class "size-5"))
   (hsx
    (img :src "/assets/img/icon/heart.svg"
@@ -43,21 +54,11 @@ submit button."
            :class "like-spinner absolute inset-0 m-auto size-5 animate-spin"
            :alt "" :aria-hidden "true")))))
 
-;; The entrance animates `transform` only (opacity stays 1): a `backdrop-filter`
-;; (the pill's `backdrop-blur`) is suppressed while the element or any ancestor
-;; has `opacity < 1`, so fading the toast in by opacity would render the frosted
-;; background fully transparent until the fade finished. Opacity is used only on
-;; leave. A three-state `phase` keeps "before enter" (opacity 1, slid down) and
-;; "leaving" (opacity 0) distinct -- a single boolean can't express both.
-;;
-;; The flip to `shown` is deferred by a double `requestAnimationFrame` so the
-;; browser paints the `init` (slid-down) state before the transition starts;
-;; a single frame gets coalesced with the insert and the slide-in is skipped.
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
    (div
      :nm-data "{ phase: 'init' }"
-     :nm-bind "{ oninit: () => { requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown')); setTimeout(() => phase = 'leaving', 3000); }, 'class.translate-y-1': () => phase === 'init', 'class.translate-y-0': () => phase !== 'init', 'class.opacity-0': () => phase === 'leaving' }"
+     :nm-bind *toast-bind*
      :role "status"
      :aria-live "polite"
      :class (clsx "absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-max pointer-events-none"

@@ -21,6 +21,27 @@
   (:export #:@get))
 (in-package #:website/pages/blog/<blog-id>)
 
+(defun reveal-likes-bind (blog-id)
+  (format nil "{
+    oninit: (e) => {
+      const io = new IntersectionObserver((es) => {
+        if (es[0].isIntersecting) {
+          io.disconnect();
+          $get('~a');
+        }
+      });
+      io.observe(e.target);
+    }
+  }"
+          (get-likes :blog-id blog-id)))
+
+(defun like-submit-bind (blog-id)
+  (format nil "{
+    'onsubmit.prevent': () => $fetch('~a', 'PATCH', { 'blog-id': '~a' }),
+    'class.is-fetching': () => _nmFetching
+  }"
+          (add-like) blog-id))
+
 (defun @get (params)
   (with-request-params ((blog-id :blog-id nil)
                         (draft-key "draft-key" nil)) params
@@ -39,13 +60,10 @@
              :published-at (getf blog :published-at)
              :draft-p draft-key)
            (and (not draft-key)
-                ;; Lazy-load the like section once it scrolls into view
-                ;; (nomini has no "revealed" trigger, so observe it manually).
                 (hsx (div
                        :id "like-section"
                        :class "mt-12 flex items-center justify-center h-11"
-                       :nm-bind (format nil "{ oninit: (e) => { const io = new IntersectionObserver((es) => { if (es[0].isIntersecting) { io.disconnect(); $get('~a'); } }); io.observe(e.target); } }"
-                                        (get-likes :blog-id blog-id)))))))))))
+                       :nm-bind (reveal-likes-bind blog-id))))))))))
 
 
 ;; Like state is per-visitor (it depends on their cookie), so these
@@ -61,8 +79,6 @@
       (no-store)
       (with-cms-fallback ((404 (error-action 404))
                           (t (error-action 500)))
-        ;; nomini swaps by matching the fragment's id to a live element, so the
-        ;; response replaces the whole #like-section (default outer swap).
         (if (liked-post-p blog-id)
             ;; Already liked on a previous visit: show the liked state
             ;; (no form, no toast).
@@ -75,12 +91,9 @@
                (form
                  :id "like-form"
                  :class "like-form not-prose animate-fade-rise"
-                 ;; nm-data scopes the proxy that nm-form (button disabling) and
-                 ;; nm-bind (submit + is-fetching class) share.
                  :nm-data "{}"
                  :nm-form t
-                 :nm-bind (format nil "{ 'onsubmit.prevent': () => $fetch('~a', 'PATCH', { 'blog-id': '~a' }), 'class.is-fetching': () => _nmFetching }"
-                                  (add-like) blog-id)
+                 :nm-bind (like-submit-bind blog-id)
                  (~like-button :likes (fetch-blog-likes blog-id))))))))))
 
 (defaction add-like :patch (params)
@@ -98,11 +111,6 @@
         ;; cookie, and celebrate with the toast.
         (let ((likes (increment-blog-likes blog-id)))
           (mark-post-liked blog-id)
-          ;; id matches the submitting form, so this outer-swaps it in place.
-          ;; The pill replaces the button the visitor just clicked, so it does
-          ;; not animate in; only the toast does. (No animate-fade-rise here also
-          ;; keeps an opacity animation off the toast's ancestor, which would
-          ;; otherwise suppress its backdrop-blur.)
           (hsx
            (div :id "like-form" :class "not-prose relative"
              (~like-toast)

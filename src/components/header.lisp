@@ -20,6 +20,25 @@
     close() { this.open = false; document.body.style.overflow = ''; }
   }")
 
+(defparameter *header-key-bind*
+  "{
+    'onkeydown.window': (e) => { if (e.key === 'Escape') close() }
+  }")
+
+(defparameter *backdrop-bind*
+  "{
+    onclick: () => close(),
+    'class.opacity-100': () => open,
+    'class.opacity-0': () => !open,
+    'class.pointer-events-none': () => !open
+  }")
+
+(defparameter *drawer-bind*
+  "{
+    'class.translate-x-0': () => open,
+    'class.translate-x-full': () => !open
+  }")
+
 (defun icon-button-class ()
   (clsx "inline-flex items-center justify-center size-9 rounded-full"
         "border border-zinc-800/80"
@@ -49,16 +68,14 @@
 (defcomp ~mobile-drawer ()
   (hsx
    (div :class "md:hidden"
-     ; backdrop
      (div
-       :nm-bind "{ onclick: () => close(), 'class.opacity-100': () => open, 'class.opacity-0': () => !open, 'class.pointer-events-none': () => !open }"
+       :nm-bind *backdrop-bind*
        :class (clsx "fixed inset-0 z-40"
                     "bg-black/60"
                     "backdrop-blur-sm"
                     "opacity-0 pointer-events-none transition-opacity duration-200"))
-     ; drawer panel
      (aside
-       :nm-bind "{ 'class.translate-x-0': () => open, 'class.translate-x-full': () => !open }"
+       :nm-bind *drawer-bind*
        :class (clsx "fixed top-0 right-0 bottom-0 z-50"
                     "w-[78%] max-w-xs"
                     "flex flex-col"
@@ -104,13 +121,10 @@
 
 (defcomp ~header ()
   (hsx
-   ;; `display: contents` wrapper owns the nomini scope without generating a
-   ;; box, so the sticky header and the fixed drawer both resolve against the
-   ;; viewport (the header's `backdrop-blur` would otherwise trap the drawer).
    (div
      :class "contents"
      :nm-data *header-nm-data*
-     :nm-bind "{ 'onkeydown.window': (e) => { if (e.key === 'Escape') close() } }"
+     :nm-bind *header-key-bind*
      (header
        :class (clsx "sticky top-0 z-30 w-full"
                     "bg-zinc-950/70"
