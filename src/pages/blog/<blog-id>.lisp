@@ -99,11 +99,11 @@
         (let ((likes (increment-blog-likes blog-id)))
           (mark-post-liked blog-id)
           ;; id matches the submitting form, so this outer-swaps it in place.
-          ;; animate-fade-rise stays OFF this container (the toast's ancestor):
-          ;; it animates opacity, which would suppress the toast's backdrop-blur
-          ;; until the fade finished. It goes on the pill instead.
+          ;; The pill replaces the button the visitor just clicked, so it does
+          ;; not animate in; only the toast does. (No animate-fade-rise here also
+          ;; keeps an opacity animation off the toast's ancestor, which would
+          ;; otherwise suppress its backdrop-blur.)
           (hsx
            (div :id "like-form" :class "not-prose relative"
              (~like-toast)
-             (div :class "animate-fade-rise"
-               (~like-button :likes likes :disabled t)))))))))
+             (~like-button :likes likes :disabled t))))))))
