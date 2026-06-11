@@ -17,7 +17,7 @@
 ("hsx" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-88cc54fe06012a6175e672ab53a0b11e1d07ec73"))
+  :version "git-828bfef69f039f7fbd7c7356c6d60531a3c58852"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
@@ -61,4 +61,4 @@
 ("rove" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/fukamachi/rove")
-  :version "git-27c17044e647367ce8379c11b2f937e5024fb220"))
+  :version "git-52b04eaa4a079d753fdf49e793a52d5fe1f61836"))
