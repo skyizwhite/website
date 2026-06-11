@@ -14,7 +14,7 @@
      :class class
      :alt "" :aria-hidden "true")))
 
-(defcomp ~like-button (&key likes disabled bind)
+(defcomp ~like-button (&key likes disabled nm-bind)
   (if disabled
       (hsx
        (button :type "button"
@@ -27,9 +27,8 @@
          (span :class "text-lg" likes)))
       (hsx
        (button :type "button"
-         :id "like-form"
          :aria-label "Like this post"
-         :nm-bind bind
+         :nm-bind nm-bind
          :class (clsx *pill-class*
                       "group relative cursor-pointer text-fg"
                       "border border-strong bg-muted"

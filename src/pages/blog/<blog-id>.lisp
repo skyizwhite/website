@@ -40,7 +40,6 @@
              :draft-p draft-key)
            (and (not draft-key)
                 (hsx (div
-                       :id "like-section"
                        :class "mt-12 flex items-center justify-center h-11"
                        :data-action (get-likes :blog-id blog-id)
                        :nm-bind "{
@@ -55,7 +54,7 @@
                                      io.observe(e.target);
                                    }
                                  }"
-                       )))))))))
+                       (div :id "like-button"))))))))))
 
 ;; Like state is per-visitor (it depends on their cookie), so these
 ;; fragments must never be shared by a cache.
@@ -71,30 +70,24 @@
       (with-cms-fallback ((404 (error-action 404))
                           (t (error-action 500)))
         (if (liked-post-p blog-id)
-            ;; Already liked on a previous visit: show the liked state
-            ;; (no form, no toast).
             (hsx
-             (div :id "like-section" :class "mt-12 flex items-center justify-center"
-               (div :class "not-prose animate-fade-rise"
-                 (~like-button :likes (fetch-blog-likes blog-id) :disabled t))))
+             (div :id "like-button" :class "not-prose animate-fade-rise"
+               (~like-button :likes (fetch-blog-likes blog-id) :disabled t)))
             (hsx
              (div
-               :id "like-section" :data-action (add-like) :data-blog_id blog-id
-               :nm-data "{}"
-               :class "mt-12 flex items-center justify-center"
+               :id "like-button"
+               :nm-data t :data-action (add-like) :data-blog-id blog-id
                (~like-button
                  :likes (fetch-blog-likes blog-id)
-                 :bind "{
-                          onclick: () => $fetch($dataset().action, 'PATCH'),
-                          'class.is-fetching': () => _nmFetching,
-                          disabled: () => _nmFetching
-                        }"
-                 ))))))))
-
+                 :nm-bind "{
+                             onclick: () => $fetch($dataset().action, 'PATCH'),
+                             'class.is-fetching': () => _nmFetching,
+                             disabled: () => _nmFetching
+                           }"))))))))
 
 (defaction add-like :patch (params)
   (with-nm-request
-    (with-request-params ((blog-id "blog_id" nil)) params
+    (with-request-params ((blog-id "blogId" nil)) params
       (unless blog-id
         (return-from add-like (error-action 400)))
       (no-store)
@@ -105,6 +98,6 @@
         (let ((likes (increment-blog-likes blog-id)))
           (mark-post-liked blog-id)
           (hsx
-           (div :id "like-form" :class "not-prose relative"
+           (div :id "like-button" :class "not-prose relative"
              (~like-toast)
              (~like-button :likes likes :disabled t))))))))
