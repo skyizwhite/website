@@ -39,22 +39,23 @@
              :published-at (getf blog :published-at)
              :draft-p draft-key)
            (and (not draft-key)
-                (hsx (div
-                       :class "mt-12 flex items-center justify-center h-11"
-                       :data-action (get-likes :blog-id blog-id)
-                       :nm-bind "{
-                                   oninit: (e) => {
-                                     const action = $dataset().action;
-                                     const io = new IntersectionObserver((es) => {
-                                       if (es[0].isIntersecting) {
-                                         io.disconnect();
-                                         $get(action);
-                                       }
-                                     });
-                                     io.observe(e.target);
-                                   }
-                                 }"
-                       (div :id "like-button"))))))))))
+                (hsx
+                 (div :class "mt-12 flex items-center justify-center h-11"
+                   (div
+                     :id "like-button" :nm-data t
+                     :data-action (get-likes :blog-id blog-id)
+                     :nm-bind "{
+                       oninit: (e) => {
+                         const action = $dataset().action;
+                         const io = new IntersectionObserver((es) => {
+                           if (es[0].isIntersecting) {
+                             io.disconnect();
+                             $get(action);
+                           }
+                         });
+                         io.observe(e.target);
+                       }
+                     }"))))))))))
 
 ;; Like state is per-visitor (it depends on their cookie), so these
 ;; fragments must never be shared by a cache.
