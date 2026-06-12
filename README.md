@@ -25,26 +25,48 @@ A server-rendered site built in **Common Lisp**, sourcing content from a headles
 
 ## Architecture
 
-```
-Cloudflare (CDN)
-      │
-      ▼
-  Woo (HTTP server)
-      │
-  Lack middleware  ── accesslog, trailing-slash, error pages, /assets static
-      │
-  ┌───┴──────────┬──────────────────────┐
-  │              │                      │
-*page-app*   *actions-app*          *api-app*  (JSON, /api)
-  (HTML)      (HTML fragments, /actions, nomini swaps)  │
-  │              │                      ▼
-  ▼              ▼                 revalidate webhook
-~document    defaction handlers
-  → hsx render   → hsx fragment
-  │              │
-  └──────┬───────┘
-         ▼
-microCMS  ←─ function-cache (memoized fetches)
+```mermaid
+flowchart TD
+    Client([Browser])
+
+    CDN[Cloudflare CDN]
+
+    Woo[Woo]
+    MW["Lack middleware"]
+    Woo --> MW
+
+    Page["#42;page-app#42;<br/>/"]
+    Actions["#42;actions-app#42;<br/>/actions"]
+    Api["#42;api-app#42;<br/>/api"]
+
+    Doc["HTML pages"]
+    Def["HTML fragments"]
+    Revalidate["webhook handler"]
+
+    Cache["function-cache"]
+    CMS[(microCMS)]
+    Cache --> CMS
+
+    Client --> CDN --> Woo
+    MW --> Page & Actions & Api
+
+    Page --> Doc
+    Actions --> Def
+    Api --> Revalidate
+
+    Doc --> Cache
+    Def --> Cache
+    Revalidate -. clears .-> Cache
+
+    classDef edgeStyle fill:#fef3c7,stroke:#d97706,color:#000
+    classDef serverStyle fill:#dbeafe,stroke:#2563eb,color:#000
+    classDef appStyle fill:#ede9fe,stroke:#7c3aed,color:#000
+    classDef dataStyle fill:#dcfce7,stroke:#16a34a,color:#000
+
+    class CDN edgeStyle
+    class Woo,MW serverStyle
+    class Page,Actions,Api appStyle
+    class Cache,CMS dataStyle
 ```
 
 - **Package-inferred system.** Each file is its own package (`:class :package-inferred-system`); dependencies are resolved from `import-from` clauses.
