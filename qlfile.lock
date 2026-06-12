@@ -25,7 +25,7 @@
 ("ningle-actions" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-actions.git")
-  :version "git-575f9a76e695543de76b18f6b480e8c3503be386"))
+  :version "git-72cf2b1d7856728486fa6953d69c637849227862"))
 ("lack-mw" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
