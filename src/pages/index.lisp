@@ -1,30 +1,32 @@
 (defpackage #:website/pages/index
   (:use #:cl
         #:hsx
-        #:website/helper)
+        #:website/helper
+        #:website/components/icons)
   (:export #:@get
            #:@head))
 (in-package #:website/pages/index)
 
 (defparameter *links*
-  '(("Keyoxide"
-     "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
-     "/assets/img/icon/key.svg")
-    ("GitHub"
-     "https://github.com/skyizwhite"
-     "/assets/img/icon/github.svg")
-    ("ActivityPub"
-     "https://himagine.club/@skyizwhite"
-     "/assets/img/icon/activitypub.svg")
-    ("Matrix"
-     "https://matrix.to/#/@paku:skyizwhite.dev"
-     "/assets/img/icon/matrix.svg")
-    ("Email"
-     "mailto:paku@skyizwhite.dev"
-     "/assets/img/icon/email.svg")
-    ("Status"
-     "https://status.skyizwhite.dev"
-     "/assets/img/icon/server.svg")))
+  (list
+   (list "Keyoxide"
+         "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
+         (~icon-key :class "size-4"))
+   (list "GitHub"
+         "https://github.com/skyizwhite"
+         (~icon-github :class "size-4"))
+   (list "ActivityPub"
+         "https://himagine.club/@skyizwhite"
+         (~icon-activitypub :class "size-4"))
+   (list "Matrix"
+         "https://matrix.to/#/@paku:skyizwhite.dev"
+         (~icon-matrix :class "size-4"))
+   (list "Email"
+         "mailto:paku@skyizwhite.dev"
+         (~icon-email :class "size-4"))
+   (list "Status"
+         "https://status.skyizwhite.dev"
+         (~icon-server :class "size-4"))))
 
 (defun @get (params)
   (declare (ignore params))
@@ -44,7 +46,7 @@
        "Software Engineer")
      (div :class "mt-12 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
        (loop
-         :for (name url icon-url) :in *links*
+         :for (name url icon) :in *links*
          :collect
             (hsx
              (a
@@ -55,9 +57,7 @@
                             "transition-all duration-200")
                (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
                                   "bg-muted group-hover:accent-gradient transition-colors")
-                 (img
-                   :src icon-url :alt "" :aria-hidden "true"
-                   :class "size-4 icon-invert"))
+                 icon)
                (span :class "text-sm font-display font-semibold tracking-wide"
                  name))))))))
 

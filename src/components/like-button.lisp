@@ -1,18 +1,13 @@
 (defpackage #:website/components/like-button
   (:use #:cl
-        #:hsx)
+        #:hsx
+        #:website/components/icons)
   (:export #:~like-button
            #:~like-toast))
 (in-package #:website/components/like-button)
 
 (defparameter *pill-class*
   "inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 font-display font-semibold text-sm tabular-nums")
-
-(defun ~heart (&optional (class "size-5"))
-  (hsx
-   (img :src "/assets/img/icon/heart.svg"
-     :class class
-     :alt "" :aria-hidden "true")))
 
 (defcomp ~like-button (&key likes disabled nm-bind)
   (if disabled
@@ -23,7 +18,7 @@
          :class (clsx *pill-class*
                       "cursor-default text-accent-200"
                       "border border-accent-500/40 bg-accent-500/10")
-         (~heart "size-5")
+         (~icon-heart :class "size-5")
          (span :class "text-lg" likes)))
       (hsx
        (button :type "button"
@@ -36,11 +31,9 @@
                       "active:scale-95 transition-all duration-200"
                       "animate-fade-rise")
          (span :class "like-content inline-flex items-center gap-2.5"
-           (~heart "size-5 transition-transform group-hover:scale-110")
+           (~icon-heart :class "size-5 transition-transform group-hover:scale-110")
            (span :class "text-lg" likes))
-         (img :src "/assets/img/icon/spinner.svg"
-           :class "like-spinner absolute inset-0 m-auto size-5 animate-spin"
-           :alt "" :aria-hidden "true")))))
+         (~icon-spinner :class "like-spinner absolute inset-0 m-auto size-5 animate-spin")))))
 
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
@@ -63,5 +56,5 @@
                        "whitespace-nowrap"
                        "border border-accent-500/40 bg-accent-500/10 text-accent-200"
                        "backdrop-blur-md shadow-glow")
-       (~heart "size-5")
+       (~icon-heart :class "size-5")
        (span :class "text-lg" message)))))

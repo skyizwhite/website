@@ -1,7 +1,8 @@
 (defpackage #:website/components/header
   (:use #:cl
         #:hsx
-        #:jingle)
+        #:jingle
+        #:website/components/icons)
   (:export #:~header))
 (in-package #:website/components/header)
 
@@ -74,10 +75,7 @@
            :type "button"
            :nm-bind "{ onclick: () => close() }"
            :class (icon-button-class)
-           (img
-             :src "/assets/img/icon/close.svg"
-             :class "size-4 icon-invert"
-             :alt "" :aria-hidden "true")))
+           (~icon-close :class "size-4")))
        (nav :class "flex-1 overflow-y-auto px-4 py-8"
          (ul :class "flex flex-col gap-1"
            (loop
@@ -131,7 +129,5 @@
              :class (clsx "md:hidden" (icon-button-class))
              :type "button"
              :nm-bind "{ onclick: () => show() }"
-             (img :src "/assets/img/icon/menu.svg"
-               :class "size-4 icon-invert"
-               :alt "" :aria-hidden "true")))))
+             (~icon-menu :class "size-4")))))
      (~mobile-drawer))))

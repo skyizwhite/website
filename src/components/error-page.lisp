@@ -1,6 +1,7 @@
 (defpackage #:website/components/error-page
   (:use #:cl
-        #:hsx)
+        #:hsx
+        #:website/components/icons)
   (:export #:~error-page
            #:error-metadata))
 (in-package #:website/components/error-page)
@@ -35,7 +36,5 @@
          :class (clsx "mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
                       "accent-gradient text-white font-display font-semibold text-sm"
                       "hover:shadow-glow hover:-translate-y-0.5 transition-all duration-200")
-         (img
-           :src "/assets/img/icon/arrow-left.svg"
-           :class "size-4" :alt "" :aria-hidden "true")
+         (~icon-arrow-left :class "size-4")
          "Back to home")))))
