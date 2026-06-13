@@ -36,27 +36,29 @@ flowchart TD
     Woo --> MW
 
     Page["#42;page-app#42;<br/>/"]
-    Actions["#42;actions-app#42;<br/>/actions"]
     Api["#42;api-app#42;<br/>/api"]
+    Actions["#42;actions-app#42;<br/>/actions"]
 
     Doc["HTML pages"]
-    Def["HTML fragments"]
     Revalidate["webhook handler"]
+    Def["HTML fragments"]
 
     Cache["function-cache"]
+    Gap[" "]
     CMS[(microCMS)]
-    Cache --> CMS
 
     Client --> CDN --> Woo
-    MW --> Page & Actions & Api
+    MW --> Page & Api & Actions
 
     Page --> Doc
-    Actions --> Def
     Api --> Revalidate
+    Actions --> Def
 
     Doc --> Cache
-    Def --> Cache
     Revalidate -. clears .-> Cache
+    Def --> CMS
+    Cache --> CMS
+    Def ~~~ Gap ~~~ CMS
 
     classDef edgeStyle fill:#fef3c7,stroke:#d97706,color:#000
     classDef serverStyle fill:#dbeafe,stroke:#2563eb,color:#000
@@ -67,6 +69,7 @@ flowchart TD
     class Woo,MW serverStyle
     class Page,Actions,Api appStyle
     class Cache,CMS dataStyle
+    style Gap fill:none,stroke:none
 ```
 
 - **Package-inferred system.** Each file is its own package (`:class :package-inferred-system`); dependencies are resolved from `import-from` clauses.
