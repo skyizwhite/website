@@ -14,7 +14,7 @@
                (and (not (string= path "/")) path)))
 
 (defun complete-metadata (metadata)
-  (loop 
+  (loop
     :for (key template) :on *default-metadata* :by #'cddr
     :for value := (getf metadata key)
     :append (list key (if (functionp template)

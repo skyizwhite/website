@@ -40,7 +40,7 @@
 (set-routes *api-app* :system :website :dir "api")
 
 (defmethod jingle:process-response :around ((app (eql *api-app*)) result)
-  (set-response-header :content-type "application/json; charset=utf-8") 
+  (set-response-header :content-type "application/json; charset=utf-8")
   (call-next-method app (to-json result)))
 
 (defparameter *app*
