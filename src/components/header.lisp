@@ -126,8 +126,14 @@
            (~pc-nav)
            (button
              :aria-label "Open menu"
-             :class (clsx "md:hidden" (icon-button-class))
+             :class (clsx "md:hidden inline-flex items-center justify-center h-9 px-4 rounded-full"
+                          "border border-zinc-800/80"
+                          "bg-zinc-900/60"
+                          "hover:bg-zinc-900"
+                          "hover:border-zinc-700"
+                          "text-sm font-display font-semibold text-muted hover:text-fg"
+                          "cursor-pointer transition-colors")
              :type "button"
              :nm-bind "{ onclick: () => show() }"
-             (~icon-menu :class "size-4")))))
+             "menu"))))
      (~mobile-drawer))))
