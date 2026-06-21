@@ -18,6 +18,8 @@
   (:import-from #:website/components/like-button
                 #:~like-button
                 #:~like-toast)
+  (:import-from #:website/components/icons
+                #:~icon-arrow-left)
   (:export #:@get))
 (in-package #:website/pages/blog/<blog-id>)
 
@@ -55,7 +57,16 @@
                          });
                          io.observe(e.target);
                        }
-                     }"))))))))))
+                     }"))))
+           (div :class "mt-12 not-prose"
+             (a
+               :href "/blog"
+               :class (clsx "group inline-flex items-center gap-2"
+                            "text-sm font-display font-semibold"
+                            "text-muted hover:text-fg transition-colors")
+               (~icon-arrow-left
+                 :class "size-4 transition-transform group-hover:-translate-x-0.5")
+               "Back to blog"))))))))
 
 ;; Like state is per-visitor (it depends on their cookie), so these
 ;; fragments must never be shared by a cache.
