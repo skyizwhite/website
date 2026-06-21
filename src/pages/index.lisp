@@ -3,6 +3,11 @@
         #:hsx
         #:website/helper
         #:website/components/icons)
+  (:import-from #:website/lib/cms
+                #:with-cms-fallback
+                #:fetch-recent-blog-list)
+  (:import-from #:website/components/blog-card
+                #:~blog-card)
   (:export #:@get
            #:@head))
 (in-package #:website/pages/index)
@@ -30,36 +35,57 @@
 
 (defun @get (params)
   (declare (ignore params))
-  (set-cache :sg)
-  (hsx
-   (section :class "flex flex-col items-center text-center pt-6 sm:pt-10"
-     (div :class "relative mb-8"
-       (div :class "absolute -inset-1 rounded-[28px] accent-gradient opacity-70 blur-md")
-       (div :class "relative rounded-[24px] p-[2px] accent-gradient"
-         (img
-           :src "/assets/img/avatar.webp"
-           :alt "avatar"
-           :class "block size-40 sm:size-44 rounded-[22px] bg-base object-cover")))
-     (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
-       "Akira Tempaku")
-     (p :class "mt-2 text-sm uppercase tracking-[0.35em] text-muted font-display"
-       "Software Engineer")
-     (div :class "mt-12 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
-       (loop
-         :for (name url icon) :in *links*
-         :collect
-            (hsx
+  (with-cms-fallback ((404 (error-page 404))
+                      (t (error-page 500)))
+    (set-cache :isr)
+    (let ((recent (fetch-recent-blog-list)))
+      (hsx
+       (<>
+         (section :class "flex flex-col items-center text-center pt-6 sm:pt-10"
+           (div :class "relative mb-8"
+             (div :class "absolute -inset-1 rounded-[28px] accent-gradient opacity-70 blur-md")
+             (div :class "relative rounded-[24px] p-[2px] accent-gradient"
+               (img
+                 :src "/assets/img/avatar.webp"
+                 :alt "avatar"
+                 :class "block size-40 sm:size-44 rounded-[22px] bg-base object-cover")))
+           (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
+             "Akira Tempaku")
+           (p :class "mt-2 text-sm uppercase tracking-[0.35em] text-muted font-display"
+             "Software Engineer")
+           (div :class "mt-12 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
+             (loop
+               :for (name url icon) :in *links*
+               :collect
+                  (hsx
+                   (a
+                     :href url :target "_blank" :rel "me noopener"
+                     :class (clsx "group flex items-center gap-3 px-4 py-3 rounded-2xl"
+                                  "border border-base surface"
+                                  "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
+                                  "transition-all duration-200")
+                     (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
+                                        "bg-muted group-hover:accent-gradient transition-colors")
+                       icon)
+                     (span :class "text-sm font-display font-semibold tracking-wide"
+                       name))))))
+         (section :class "mt-16 sm:mt-20"
+           (h2 :class "font-display font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
+             "Recent Posts")
+           (ul :class "flex flex-col gap-2"
+             (loop
+               :for item :in recent :collect
+                  (~blog-card :id (getf item :id)
+                              :title (getf item :title)
+                              :published-at (getf item :published-at))))
+           (div :class "mt-6 text-center"
              (a
-               :href url :target "_blank" :rel "me noopener"
-               :class (clsx "group flex items-center gap-3 px-4 py-3 rounded-2xl"
-                            "border border-base surface"
+               :href "/blog"
+               :class (clsx "inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
+                            "border border-base surface text-sm font-display font-semibold tracking-wide"
                             "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
                             "transition-all duration-200")
-               (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
-                                  "bg-muted group-hover:accent-gradient transition-colors")
-                 icon)
-               (span :class "text-sm font-display font-semibold tracking-wide"
-                 name))))))))
+               "View all posts"))))))))
 
 ; for health check
 (defun @head (params)

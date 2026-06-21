@@ -14,6 +14,7 @@
            #:fetch-about
            #:fetch-works
            #:fetch-blog-list
+           #:fetch-recent-blog-list
            #:fetch-blog-detail
            #:fetch-blog-likes
            #:update-blog-likes
@@ -53,6 +54,11 @@ code (use T for the default):
                                            :limit 100))
         :contents))
 
+(defcached fetch-recent-blog-list ()
+  (getf (microcms:get-list "blog" :query '(:fields "id,title,publishedAt"
+                                           :limit 3))
+        :contents))
+
 (defcached fetch-blog-detail (id &key draft-key)
   (microcms:get-item "blog" id :query (list :draft-key draft-key)))
 
@@ -88,6 +94,7 @@ code (use T for the default):
                                             `(,id :draft-key ,draft-key))))
     (unless new-draft-key
       (clear-cache *fetch-blog-list-cache*)
+      (clear-cache *fetch-recent-blog-list-cache*)
       (clear-detail-cache id old-draft-key))
     (clear-detail-cache id new-draft-key)))
 
