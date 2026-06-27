@@ -20,12 +20,12 @@
    (list "GitHub"
          "https://github.com/skyizwhite"
          (~icon-github :class "size-4"))
-   (list "ActivityPub"
+   (list "Fediverse"
          "https://himagine.club/@skyizwhite"
-         (~icon-activitypub :class "size-4"))
+         (~icon-saturn :class "size-4"))
    (list "Matrix"
          "https://matrix.to/#/@paku:skyizwhite.dev"
-         (~icon-matrix :class "size-4"))
+         (~icon-chat :class "size-4"))
    (list "Email"
          "mailto:paku@skyizwhite.dev"
          (~icon-email :class "size-4"))

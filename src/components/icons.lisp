@@ -1,27 +1,27 @@
 (defpackage #:website/components/icons
   (:use #:cl
         #:hsx)
-  (:export #:~icon-activitypub
-           #:~icon-arrow-left
+  (:export #:~icon-arrow-left
            #:~icon-arrow-right
            #:~icon-briefcase
+           #:~icon-chat
            #:~icon-close
            #:~icon-email
            #:~icon-github
            #:~icon-heart
            #:~icon-key
-           #:~icon-matrix
            #:~icon-menu
+           #:~icon-saturn
            #:~icon-server
            #:~icon-spinner
            #:~icon-user))
 (in-package #:website/components/icons)
 
-(defcomp ~icon-activitypub (&key class)
+(defcomp ~icon-saturn (&key class)
   (hsx
-   (svg :class class :viewbox "0 0 24 24" :aria-hidden "true"
+   (svg :class class :viewbox "0 0 256 256" :aria-hidden "true"
      (path :fill "currentColor"
-       :d "M10.91 4.442L0 10.74v2.52l8.727-5.04v10.077l2.182 1.26zM6.545 12l-4.364 2.52l4.364 2.518zm6.545-2.52L17.455 12l-4.364 2.52zm0-5.038L24 10.74v2.52l-10.91 6.298v-2.52L21.819 12l-8.728-5.04z"))))
+       :d "M248.59 58.67c-6.31-10.87-23-21.06-66.16-9.71A95.94 95.94 0 0 0 32 128q0 3.6.26 7.14C.56 166.86 1.1 186.4 7.44 197.33C13.4 207.61 25.3 212 40.68 212c9.79 0 21-1.78 32.95-4.91A95.94 95.94 0 0 0 224 128c0-2.41-.09-4.79-.27-7.16c14.31-14.38 23.86-28.21 27-40c2.82-10.42.39-17.84-2.14-22.17M128 56a72.11 72.11 0 0 1 70.19 56C184 124.73 165 138.59 141.92 151.86c-21.74 12.49-43.55 22.36-63.09 28.65A72 72 0 0 1 128 56M28.19 185.29c-.61-1.07-.17-8.22 10.67-21.71A95.8 95.8 0 0 0 52.35 187c-17.23 2.61-23.5-.59-24.16-1.71M128 200a71.7 71.7 0 0 1-22.56-3.64a394 394 0 0 0 48.42-23.69A388 388 0 0 0 198.43 143A72.12 72.12 0 0 1 128 200m99.57-125.35c-1.28 4.78-4.81 10.87-10.39 17.8A95.7 95.7 0 0 0 203.68 69c15.83-2.37 23.17 0 24.15 1.71c.17.29.38 1.57-.26 3.94"))))
 
 (defcomp ~icon-arrow-left (&key class)
   (hsx
@@ -78,12 +78,11 @@
      (path :fill "currentColor"
        :d "M10.5 0a5.499 5.499 0 1 1-1.288 10.848l-.932.932a.75.75 0 0 1-.53.22H7v.75a.75.75 0 0 1-.22.53l-.5.5a.75.75 0 0 1-.53.22H5v.75a.75.75 0 0 1-.22.53l-.5.5a.75.75 0 0 1-.53.22h-2A1.75 1.75 0 0 1 0 14.25v-2c0-.199.079-.389.22-.53l4.932-4.932A5.5 5.5 0 0 1 10.5 0m-4 5.5c-.001.431.069.86.205 1.269a.75.75 0 0 1-.181.768L1.5 12.56v1.69c0 .138.112.25.25.25h1.69l.06-.06v-1.19a.75.75 0 0 1 .75-.75h1.19l.06-.06v-1.19a.75.75 0 0 1 .75-.75h1.19l1.023-1.025a.75.75 0 0 1 .768-.18A4 4 0 1 0 6.5 5.5M11 6a1 1 0 1 1 0-2a1 1 0 0 1 0 2"))))
 
-(defcomp ~icon-matrix (&key class)
+(defcomp ~icon-chat (&key class)
   (hsx
-   (svg :class class :viewbox "0 0 24 24" :aria-hidden "true"
-     (path :fill "none" :stroke "currentColor"
-       :stroke-linecap "round" :stroke-linejoin "round" :stroke-width "2"
-       :d "M4 3H3v18h1m16 0h1V3h-1M7 9v6m5 0v-3.5a2.5 2.5 0 1 0-5 0v.5m10 3v-3.5a2.5 2.5 0 1 0-5 0v.5"))))
+   (svg :class class :viewbox "0 0 256 256" :aria-hidden "true"
+     (path :fill "currentColor"
+       :d "M88 128a16 16 0 1 1 16 16a16 16 0 0 1-16-16m64 16a16 16 0 1 0-16-16a16 16 0 0 0 16 16m84-80v128a20 20 0 0 1-20 20H84.47L53 239.17l-.12.11A19.9 19.9 0 0 1 40.05 244a20.1 20.1 0 0 1-8.49-1.9A19.82 19.82 0 0 1 20 224V64a20 20 0 0 1 20-20h176a20 20 0 0 1 20 20m-24 4H44v147.23l28.16-24.32A11.93 11.93 0 0 1 80 188h132Z"))))
 
 (defcomp ~icon-menu (&key class)
   (hsx
