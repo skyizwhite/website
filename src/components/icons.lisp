@@ -3,6 +3,8 @@
         #:hsx)
   (:export #:~icon-activitypub
            #:~icon-arrow-left
+           #:~icon-arrow-right
+           #:~icon-briefcase
            #:~icon-close
            #:~icon-email
            #:~icon-github
@@ -11,7 +13,8 @@
            #:~icon-matrix
            #:~icon-menu
            #:~icon-server
-           #:~icon-spinner))
+           #:~icon-spinner
+           #:~icon-user))
 (in-package #:website/components/icons)
 
 (defcomp ~icon-activitypub (&key class)
@@ -27,6 +30,22 @@
      :stroke-linecap "round" :stroke-linejoin "round" :aria-hidden "true"
      (line :x1 "19" :y1 "12" :x2 "5" :y2 "12")
      (polyline :points "12 19 5 12 12 5"))))
+
+(defcomp ~icon-arrow-right (&key class)
+  (hsx
+   (svg :class class :viewbox "0 0 24 24"
+     :fill "none" :stroke "currentColor" :stroke-width "2"
+     :stroke-linecap "round" :stroke-linejoin "round" :aria-hidden "true"
+     (line :x1 "5" :y1 "12" :x2 "19" :y2 "12")
+     (polyline :points "12 5 19 12 12 19"))))
+
+(defcomp ~icon-briefcase (&key class)
+  (hsx
+   (svg :class class :viewbox "0 0 24 24"
+     :fill "none" :stroke "currentColor" :stroke-width "2"
+     :stroke-linecap "round" :stroke-linejoin "round" :aria-hidden "true"
+     (rect :x "2" :y "7" :width "20" :height "14" :rx "2" :ry "2")
+     (path :d "M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"))))
 
 (defcomp ~icon-close (&key class)
   (hsx
@@ -87,3 +106,11 @@
      :fill "none" :stroke "#f43f74" :stroke-width "2.5"
      :stroke-linecap "round" :aria-hidden "true"
      (path :d "M21 12a9 9 0 1 1-6.219-8.56"))))
+
+(defcomp ~icon-user (&key class)
+  (hsx
+   (svg :class class :viewbox "0 0 24 24"
+     :fill "none" :stroke "currentColor" :stroke-width "2"
+     :stroke-linecap "round" :stroke-linejoin "round" :aria-hidden "true"
+     (path :d "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2")
+     (circle :cx "12" :cy "7" :r "4"))))

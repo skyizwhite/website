@@ -33,6 +33,11 @@
          "https://status.skyizwhite.dev"
          (~icon-server :class "size-4"))))
 
+(defparameter *pages*
+  (list
+   (list "About" "/about" (~icon-user :class "size-5"))
+   (list "Works" "/works" (~icon-briefcase :class "size-5"))))
+
 (defun @get (params)
   (declare (ignore params))
   (with-cms-fallback ((404 (error-page 404))
@@ -52,8 +57,28 @@
            (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
              "Akira Tempaku")
            (p :class "mt-2 text-sm uppercase tracking-[0.35em] text-muted font-display"
-             "Software Engineer")
-           (div :class "mt-12 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
+             "Software Engineer"))
+         (section :class "mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3"
+           (loop
+             :for (label url icon) :in *pages*
+             :collect
+                (hsx
+                 (a
+                   :href url
+                   :class (clsx "group flex items-center gap-3 px-5 py-4 rounded-2xl"
+                                "border border-base surface"
+                                "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
+                                "transition-all duration-200")
+                   (span :class (clsx "inline-flex items-center justify-center size-10 rounded-xl"
+                                      "bg-muted group-hover:accent-gradient transition-colors")
+                     icon)
+                   (span :class "text-base font-display font-semibold tracking-wide"
+                     label)
+                   (~icon-arrow-right :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors")))))
+         (section :class "mt-16 sm:mt-20"
+           (h2 :class "font-display font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
+             "Links")
+           (div :class "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
              (loop
                :for (name url icon) :in *links*
                :collect
@@ -76,8 +101,8 @@
              (loop
                :for item :in recent :collect
                   (~blog-card :id (getf item :id)
-                              :title (getf item :title)
-                              :published-at (getf item :published-at))))
+                    :title (getf item :title)
+                    :published-at (getf item :published-at))))
            (div :class "mt-6 text-center"
              (a
                :href "/blog"
@@ -85,7 +110,8 @@
                             "border border-base surface text-sm font-display font-semibold tracking-wide"
                             "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
                             "transition-all duration-200")
-               "View all posts"))))))))
+               "View all posts"
+               (~icon-arrow-right :class "size-4")))))))))
 
 ; for health check
 (defun @head (params)
