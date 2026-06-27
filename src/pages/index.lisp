@@ -114,7 +114,8 @@
                                         "bg-muted group-hover:accent-gradient transition-colors")
                        icon)
                      (span :class "text-sm font-display font-semibold tracking-wide"
-                       name))))))
+                       name)
+                     (~icon-external-link :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors"))))))
          (section :class "mt-16 sm:mt-20"
            (h2 :class "font-display font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
              "Links")
@@ -133,7 +134,8 @@
                                         "bg-muted group-hover:accent-gradient transition-colors")
                        icon)
                      (span :class "text-sm font-display font-semibold tracking-wide"
-                       name)))))))))))
+                       name)
+                     (~icon-external-link :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors")))))))))))
 
 ; for health check
 (defun @head (params)
