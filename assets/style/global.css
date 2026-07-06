@@ -158,10 +158,13 @@ button,
 
 /* like button: while the PATCH request is in flight (nomini toggles
    `is-fetching` on the button via `_nmFetching`), fade the heart/count out
-   and the spinner in. */
+   and the spinner in. The two are sequenced (content fades out first, then
+   the spinner fades in) so they are never both visible at once — otherwise
+   the inline content and the absolutely-centered spinner overlap mid-fade
+   and the button looks like it has duplicated content. */
 .like-content,
 .like-spinner {
-  transition: opacity 150ms ease;
+  transition: opacity 90ms ease;
 }
 
 .like-spinner {
@@ -174,6 +177,7 @@ button,
 
 .is-fetching .like-spinner {
   opacity: 1;
+  transition-delay: 90ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
