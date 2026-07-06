@@ -13,6 +13,10 @@
   (hsx
    (html :lang "ja"
      (head
+       (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
+             :href "/assets/fonts/noto-sans-jp-v56-japanese_latin-regular.woff2")
+       (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
+             :href "/assets/fonts/baloo-2-v23-latin-700.woff2")
        (link :rel "stylesheet" :href (bust-cache "/assets/style/dist.css"))
        (script :src (bust-cache "/assets/js/nomini.js") :defer t)
        (~metadata))
