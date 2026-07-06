@@ -92,12 +92,12 @@
                (~like-button
                  :likes (fetch-blog-likes blog-id)
                  :nm-bind "{
-                             onclick: () => $fetch($dataset().action, 'PATCH'),
+                             onclick: () => $post($dataset().action),
                              'class.is-fetching': () => _nmFetching,
                              disabled: () => _nmFetching
                            }"))))))))
 
-(defaction add-like :patch (params)
+(defaction add-like :post (params)
   (with-nm-request
     (with-request-params ((blog-id "blogId" nil)) params
       (unless blog-id
