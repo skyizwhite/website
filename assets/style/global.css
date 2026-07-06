@@ -1,6 +1,69 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* noto-sans-jp-regular - japanese_latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/noto-sans-jp-v56-japanese_latin-regular.woff2') format('woff2');
+}
+
+/* noto-sans-jp-500 - japanese_latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/assets/fonts/noto-sans-jp-v56-japanese_latin-500.woff2') format('woff2');
+}
+
+/* noto-sans-jp-600 - japanese_latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/assets/fonts/noto-sans-jp-v56-japanese_latin-600.woff2') format('woff2');
+}
+
+/* noto-sans-jp-700 - japanese_latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/noto-sans-jp-v56-japanese_latin-700.woff2') format('woff2');
+}
+
+/* baloo-2-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Baloo 2';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/baloo-2-v23-latin-regular.woff2') format('woff2');
+}
+
+/* baloo-2-600 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Baloo 2';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/assets/fonts/baloo-2-v23-latin-600.woff2') format('woff2');
+}
+
+/* baloo-2-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Baloo 2';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/baloo-2-v23-latin-700.woff2') format('woff2');
+}
+
 @theme {
   --font-sans: "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Baloo 2", ui-sans-serif, system-ui, sans-serif;
