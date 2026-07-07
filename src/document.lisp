@@ -28,9 +28,9 @@
          :for font :in *preload-fonts* :collect
             (hsx
              (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
-                   :href (format nil "/assets/fonts/~a" font))))
+               :href (format nil "/assets/fonts/~a" font))))
        (link :rel "stylesheet" :href (bust-cache "/assets/style/dist.css"))
-       (script :src (bust-cache "/assets/js/nomini.js") :defer t)
+       (script :src (bust-cache "/assets/js/nomini.min.js") :defer t)
        (~metadata))
      (body :class (clsx "min-h-[100svh] flex flex-col antialiased text-fg"
                         "selection:bg-accent-500/20 selection:text-fg")
