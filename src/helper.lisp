@@ -8,10 +8,14 @@
                 #:error-metadata)
   (:export #:set-metadata
            #:set-cache
+           #:asset-path
            #:with-nm-request
            #:error-action
            #:error-page))
 (in-package #:website/helper)
+
+(defun asset-path (path &key (bust t))
+  (format nil "/assets/~a~@[?v=~a~]" path (and bust #.(get-universal-time))))
 
 (defun set-metadata (metadata)
   (setf (context :metadata) metadata))

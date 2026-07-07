@@ -54,7 +54,7 @@
              (div :class "absolute -inset-1 rounded-[28px] accent-gradient opacity-70 blur-md")
              (div :class "relative rounded-[24px] p-[2px] accent-gradient"
                (img
-                 :src "/assets/img/avatar.webp"
+                 :src (asset-path "img/avatar.webp")
                  :alt "avatar"
                  :class "block size-40 sm:size-44 rounded-[22px] bg-base object-cover")))
            (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
