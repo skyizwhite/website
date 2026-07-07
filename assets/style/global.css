@@ -3,7 +3,7 @@
 
 /* noto-sans-jp-regular - japanese_latin */
 @font-face {
-  font-display: swap;
+  font-display: optional;
   font-family: 'Noto Sans JP';
   font-style: normal;
   font-weight: 400;
@@ -12,7 +12,7 @@
 
 /* noto-sans-jp-500 - japanese_latin */
 @font-face {
-  font-display: swap;
+  font-display: optional;
   font-family: 'Noto Sans JP';
   font-style: normal;
   font-weight: 500;
@@ -21,7 +21,7 @@
 
 /* noto-sans-jp-600 - japanese_latin */
 @font-face {
-  font-display: swap;
+  font-display: optional;
   font-family: 'Noto Sans JP';
   font-style: normal;
   font-weight: 600;
@@ -30,7 +30,7 @@
 
 /* noto-sans-jp-700 - japanese_latin */
 @font-face {
-  font-display: swap;
+  font-display: optional;
   font-family: 'Noto Sans JP';
   font-style: normal;
   font-weight: 700;
@@ -39,7 +39,7 @@
 
 /* baloo-2-regular - latin */
 @font-face {
-  font-display: swap;
+  font-display: optional;
   font-family: 'Baloo 2';
   font-style: normal;
   font-weight: 400;
@@ -48,7 +48,7 @@
 
 /* baloo-2-600 - latin */
 @font-face {
-  font-display: swap;
+  font-display: optional;
   font-family: 'Baloo 2';
   font-style: normal;
   font-weight: 600;
@@ -57,7 +57,7 @@
 
 /* baloo-2-700 - latin */
 @font-face {
-  font-display: swap;
+  font-display: optional;
   font-family: 'Baloo 2';
   font-style: normal;
   font-weight: 700;
