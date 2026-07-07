@@ -37,6 +37,24 @@
   src: url('/assets/fonts/noto-sans-jp-v56-japanese_latin-700.woff2') format('woff2');
 }
 
+/* noto-sans-jp-800 - japanese_latin */
+@font-face {
+  font-display: optional;
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/assets/fonts/noto-sans-jp-v56-japanese_latin-800.woff2') format('woff2');
+}
+
+/* noto-sans-jp-900 - japanese_latin */
+@font-face {
+  font-display: optional;
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/assets/fonts/noto-sans-jp-v56-japanese_latin-900.woff2') format('woff2');
+}
+
 /* baloo-2-regular - latin */
 @font-face {
   font-display: optional;
