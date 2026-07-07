@@ -20,6 +20,8 @@
                 #:*clack-error-middleware*)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
+  (:import-from #:website/lib/asset-cache
+                #:*asset-cache-middleware*)
   (:import-from #:website/document
                 #:~document)
   (:export #:*app*))
@@ -49,6 +51,7 @@
     (install-middleware *page-app* (with-args *clack-error-middleware* :debug (dev-mode-p)))
     (install-middleware *page-app* *lack-middleware-accesslog*)
     (install-middleware *page-app* *trim-trailing-slash*)
+    (install-middleware *page-app* *asset-cache-middleware*)
     (static-path *page-app* "/assets/" "assets/")
     (install-middleware *page-app* *actions-middleware*)
     (install-middleware *page-app* (with-args *lack-middleware-mount* "/api" *api-app*))
