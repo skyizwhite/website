@@ -9,14 +9,26 @@
   (:export #:~document))
 (in-package #:website/document)
 
+(defparameter *preload-fonts*
+  '("baloo-2-v23-latin-regular.woff2"
+    "baloo-2-v23-latin-600.woff2"
+    "baloo-2-v23-latin-700.woff2"
+    "noto-sans-jp-v56-japanese_latin-regular.woff2"
+    "noto-sans-jp-v56-japanese_latin-500.woff2"
+    "noto-sans-jp-v56-japanese_latin-600.woff2"
+    "noto-sans-jp-v56-japanese_latin-700.woff2"
+    "noto-sans-jp-v56-japanese_latin-800.woff2"
+    "noto-sans-jp-v56-japanese_latin-900.woff2"))
+
 (defcomp ~document (&key children)
   (hsx
    (html :lang "ja"
      (head
-       (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
-             :href "/assets/fonts/noto-sans-jp-v56-japanese_latin-regular.woff2")
-       (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
-             :href "/assets/fonts/baloo-2-v23-latin-700.woff2")
+       (loop
+         :for font :in *preload-fonts* :collect
+            (hsx
+             (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
+                   :href (format nil "/assets/fonts/~a" font))))
        (link :rel "stylesheet" :href (bust-cache "/assets/style/dist.css"))
        (script :src (bust-cache "/assets/js/nomini.js") :defer t)
        (~metadata))
