@@ -55,7 +55,7 @@
              (div :class "relative rounded-[24px] p-[2px] accent-gradient"
                (img
                  :src (asset-path "img/avatar.webp")
-                 :alt "avatar"
+                 :alt "avatar" :fetchpriority "high"
                  :class "block size-40 sm:size-44 rounded-[22px] bg-base object-cover")))
            (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
              "Akira Tempaku")
@@ -87,6 +87,7 @@
                   (~blog-card :id (getf item :id)
                     :title (getf item :title)
                     :published-at (getf item :published-at))))
+
            (div :class "mt-6 text-center"
              (a
                :href "/blog"
