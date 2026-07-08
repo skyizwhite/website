@@ -11,26 +11,10 @@
   (:export #:~document))
 (in-package #:website/document)
 
-(defparameter *preload-fonts*
-  '("baloo-2-v23-latin-regular.woff2"
-    "baloo-2-v23-latin-600.woff2"
-    "baloo-2-v23-latin-700.woff2"
-    "noto-sans-jp-v56-japanese_latin-regular.woff2"
-    "noto-sans-jp-v56-japanese_latin-500.woff2"
-    "noto-sans-jp-v56-japanese_latin-600.woff2"
-    "noto-sans-jp-v56-japanese_latin-700.woff2"
-    "noto-sans-jp-v56-japanese_latin-800.woff2"
-    "noto-sans-jp-v56-japanese_latin-900.woff2"))
-
 (defcomp ~document (&key children)
   (hsx
    (html :lang "ja"
      (head
-       (loop
-         :for font :in *preload-fonts* :collect
-            (hsx
-             (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
-               :href (asset-path (format nil "fonts/~a" font) :bust nil))))
        (link :rel "stylesheet" :href (asset-path "style/dist.css"))
        (script :src (asset-path "js/nomini.min.js") :defer t)
        (~metadata))
