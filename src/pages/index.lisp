@@ -58,9 +58,7 @@
                  :alt "avatar" :fetchpriority "high"
                  :class "block size-40 sm:size-44 rounded-[22px] bg-base object-cover")))
            (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
-             "Akira Tempaku")
-           (p :class "mt-2 text-sm uppercase tracking-[0.35em] text-muted font-display"
-             "Software Engineer"))
+             "Akira Tempaku"))
          (section :class "mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3"
            (loop
              :for (label url icon) :in *pages*
