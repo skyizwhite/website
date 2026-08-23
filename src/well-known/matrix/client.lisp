@@ -8,5 +8,4 @@
 
 (defun @get (params)
   (declare (ignore params))
-  (set-cache :sg)
   (list :|m.homeserver| (list :|base_url| *homeserver-base-url*)))

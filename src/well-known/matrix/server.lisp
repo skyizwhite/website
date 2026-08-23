@@ -8,5 +8,4 @@
 
 (defun @get (params)
   (declare (ignore params))
-  (set-cache :sg)
   (list :|m.server| *homeserver-delegation*))
