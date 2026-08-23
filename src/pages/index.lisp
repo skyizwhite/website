@@ -31,7 +31,10 @@
          (~icon-email :class "size-4"))
    (list "Fediverse"
          "https://himagine.club/@skyizwhite"
-         (~icon-saturn :class "size-4"))))
+         (~icon-saturn :class "size-4"))
+   (list "Matrix"
+         "https://matrix.to/#/@paku:skyizwhite.dev"
+         (~icon-chat :class "size-4"))))
 
 (defparameter *pages*
   (list
