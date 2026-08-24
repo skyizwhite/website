@@ -45,14 +45,6 @@
   (set-response-header :content-type "application/json; charset=utf-8")
   (call-next-method app (to-json result)))
 
-(defparameter *well-known-app* (make-app))
-(set-routes *well-known-app* :system :website :dir "well-known")
-
-(defmethod jingle:process-response :around ((app (eql *well-known-app*)) result)
-  (set-response-header :content-type "application/json; charset=utf-8")
-  (set-response-header :access-control-allow-origin "*")
-  (call-next-method app (to-json result)))
-
 (defparameter *app*
   (progn
     (clear-middlewares *page-app*)
@@ -63,7 +55,6 @@
     (static-path *page-app* "/assets/" "assets/")
     (install-middleware *page-app* *actions-middleware*)
     (install-middleware *page-app* (with-args *lack-middleware-mount* "/api" *api-app*))
-    (install-middleware *page-app* (with-args *lack-middleware-mount* "/.well-known" *well-known-app*))
     (configure *page-app*)))
 
 *app*

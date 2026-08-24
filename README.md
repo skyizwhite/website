@@ -38,11 +38,9 @@ flowchart TD
     Page["#42;page-app#42;<br/>/"]
     Api["#42;api-app#42;<br/>/api"]
     Actions["#42;actions-app#42;<br/>/actions"]
-    WellKnown["#42;well-known-app#42;<br/>/.well-known"]
 
     Doc["HTML pages"]
     Revalidate["webhook handler"]
-    Delegation["Matrix delegation"]
     Def["HTML fragments"]
 
     Cache["function-cache"]
@@ -50,11 +48,10 @@ flowchart TD
     CMS[(microCMS)]
 
     Client --> CDN --> Woo
-    MW --> Page & Api & Actions & WellKnown
+    MW --> Page & Api & Actions
 
     Page --> Doc
     Api --> Revalidate
-    WellKnown --> Delegation
     Actions --> Def
 
     Doc --> Cache
@@ -70,15 +67,14 @@ flowchart TD
 
     class CDN edgeStyle
     class Woo,MW serverStyle
-    class Page,Actions,Api,WellKnown appStyle
+    class Page,Actions,Api appStyle
     class Cache,CMS dataStyle
     style Gap fill:none,stroke:none
 ```
 
 - **Package-inferred system.** Each file is its own package (`:class :package-inferred-system`); dependencies are resolved from `import-from` clauses.
-- **File-based routing.** `ningle-fbr` maps files under `src/pages/` to HTML routes, and `src/api/` and `src/well-known/` to JSON routes. A file exporting `@get` / `@head` / `@post` becomes a handler; `<blog-id>.lisp` is a dynamic segment.
-- **Four sub-apps.** `*page-app*` wraps every result in `~document` and renders it to an HTML string; `*actions-app*` (from `ningle-actions`, plugged into the `*page-app*` middleware chain by `*actions-middleware*` and mounted under `/actions`) renders results as bare HTML fragments for nomini swaps; `*api-app*` serializes results to JSON and is mounted under `/api`; `*well-known-app*` also serializes to JSON and is mounted under `/.well-known`, adding `Access-Control-Allow-Origin: *`.
-- **Matrix delegation.** The homeserver runs on `matrix.skyizwhite.dev` but identifies as `skyizwhite.dev`, so this site serves the two discovery documents the Matrix spec requires: `/.well-known/matrix/client` (`m.homeserver.base_url`, used by clients) and `/.well-known/matrix/server` (`m.server`, used by federating servers). Both are `:sg`-cached and read from `src/lib/matrix.lisp`, so changing the delegation target means a redeploy — which is also what triggers the Cloudflare purge. Serving them from a sub-app rather than as static files is what gives them the extension-less URLs the spec mandates along with a JSON content type.
+- **File-based routing.** `ningle-fbr` maps files under `src/pages/` to HTML routes, and `src/api/` to JSON routes. A file exporting `@get` / `@head` / `@post` becomes a handler; `<blog-id>.lisp` is a dynamic segment.
+- **Three sub-apps.** `*page-app*` wraps every result in `~document` and renders it to an HTML string; `*actions-app*` (from `ningle-actions`, plugged into the `*page-app*` middleware chain by `*actions-middleware*` and mounted under `/actions`) renders results as bare HTML fragments for nomini swaps; `*api-app*` serializes results to JSON and is mounted under `/api`.
 - **nomini server actions.** `ningle-actions` keeps fragment-update endpoints out of the meaningful page URL space by giving them their own isolated `/actions` namespace. `defaction` does two things at once: it registers an HTTP handler under an opaque, auto-generated `/actions/<id>` URL, and it defines a function of the same name that returns that URL (keyword arguments become URL-encoded query-string params, e.g. `(get-likes :blog-id blog-id)`). A page embeds that function's **return value** in a nomini `nm-bind` fetch call (`$get` / `$fetch`) instead of a URL literal, so the action URL never appears as a string anywhere and the handler and its view can't drift out of sync. Fragment responses carry an `id` (and optional `nm-swap` strategy) that nomini matches against the live DOM to swap in place; the guard macro `with-nm-request` (in `src/helper.lisp`) rejects requests lacking the `nm-request` header. The blog **like button** (`src/components/like-button.lisp`, wired up in `src/pages/blog/<blog-id>.lisp`) uses this: the pill is lazily loaded via an `IntersectionObserver`, a `PATCH` records the like to the microCMS `likes` field, and the response swaps in the liked state with a "Thank you!" toast (CSS transitions driven by a nomini `nm-data` flag).
 - **One like per visitor.** Liked post ids are stored in a `liked_blogs` cookie (`src/lib/liked-posts.lisp` over the generic `src/lib/cookie.lisp`). When lazily loaded the button is rendered in its disabled "already liked" state for returning visitors; the `PATCH` only increments for a first-time like (and returns `409` otherwise), then records the id in the cookie. These per-visitor fragments are served `Cache-Control: private, no-store` so the CDN never shares them.
 - **CMS-backed content.** `src/lib/cms.lisp` fetches `about`, `works`, and `blog` content from microCMS. Calls are memoized with `function-cache`.
@@ -100,8 +96,7 @@ src/
 ├── components/        # reusable hsx components
 ├── lib/               # shared utility modules
 ├── pages/             # file-based HTML routes (+ defaction handlers, e.g. blog likes)
-├── api/               # file-based JSON routes
-└── well-known/        # file-based JSON routes for /.well-known discovery documents
+└── api/               # file-based JSON routes
 assets/                # styles, images, static files
 ```
 
