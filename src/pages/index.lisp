@@ -50,13 +50,10 @@
       (hsx
        (<>
          (section :class "flex flex-col items-center text-center pt-6 sm:pt-10"
-           (div :class "relative mb-8"
-             (div :class "absolute -inset-1 rounded-[28px] accent-gradient opacity-70 blur-md")
-             (div :class "relative rounded-[24px] p-[2px] accent-gradient"
-               (img
-                 :src (asset-path "img/avatar.webp")
-                 :alt "avatar" :fetchpriority "high"
-                 :class "block size-40 sm:size-44 rounded-[22px] bg-base object-cover")))
+           (img
+             :src (asset-path "img/avatar.webp")
+             :alt "avatar" :fetchpriority "high"
+             :class "block size-40 sm:size-44 mb-8 rounded-[22px] bg-base object-cover")
            (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
              "Akira Tempaku"))
          (section :class "mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3"
