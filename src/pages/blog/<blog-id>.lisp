@@ -18,8 +18,8 @@
   (:import-from #:website/components/like-button
                 #:~like-button
                 #:~like-toast)
-  (:import-from #:website/components/icons
-                #:~icon-arrow-left)
+  (:import-from #:website/components/arrow-link
+                #:~arrow-link)
   (:export #:@get))
 (in-package #:website/pages/blog/<blog-id>)
 
@@ -40,36 +40,28 @@
              :content (getf blog :content)
              :published-at (getf blog :published-at)
              :draft-p draft-key)
-           (and (not draft-key)
-                (hsx
-                 (div :class "mt-12 flex items-center justify-center h-11"
-                   (div
-                     :id "like-button" :nm-data t
-                     :data-action (get-likes :blog-id blog-id)
-                     :nm-bind "{
-                       oninit: (e) => {
-                         const action = $dataset().action;
-                         const io = new IntersectionObserver((es) => {
-                           if (es[0].isIntersecting) {
-                             io.disconnect();
-                             $get(action);
-                           }
-                         });
-                         io.observe(e.target);
-                       }
-                     }"))))
-           (div :class "mt-12 not-prose"
-             (a
-               :href "/blog"
-               :class (clsx "group inline-flex items-center gap-2"
-                            "text-sm font-semibold"
-                            "text-muted hover:text-fg transition-colors")
-               (~icon-arrow-left
-                 :class "size-4 transition-transform group-hover:-translate-x-0.5")
-               "Back to blog"))))))))
+           (div :class (clsx "mt-12 pt-6 sm:mt-16 sm:pt-8 border-t border-base"
+                             "flex flex-wrap items-center justify-between gap-x-6 gap-y-5")
+             (~arrow-link :href "/blog" :direction :back "Back to blog")
+             (and (not draft-key)
+                  (hsx
+                   (div :class "h-12"
+                     (div
+                       :id "like-button" :nm-data t
+                       :data-action (get-likes :blog-id blog-id)
+                       :nm-bind "{
+                                   oninit: (e) => {
+                                     const action = $dataset().action;
+                                     const io = new IntersectionObserver((es) => {
+                                       if (es[0].isIntersecting) {
+                                         io.disconnect();
+                                         $get(action);
+                                       }
+                                     });
+                                     io.observe(e.target);
+                                   }
+                                 }")))))))))))
 
-;; Like state is per-visitor (it depends on their cookie), so these
-;; fragments must never be shared by a cache.
 (defun no-store ()
   (set-response-header :cache-control "private, no-store"))
 
@@ -83,7 +75,7 @@
                           (t (error-action 500)))
         (if (liked-post-p blog-id)
             (hsx
-             (div :id "like-button" :class "not-prose animate-fade-rise"
+             (div :id "like-button" :class "h-12 animate-fade-rise"
                (~like-button :likes (fetch-blog-likes blog-id) :disabled t)))
             (hsx
              (div
@@ -110,6 +102,6 @@
         (let ((likes (increment-blog-likes blog-id)))
           (mark-post-liked blog-id)
           (hsx
-           (div :id "like-button" :class "not-prose relative"
+           (div :id "like-button" :class "h-12 relative"
              (~like-toast)
              (~like-button :likes likes :disabled t))))))))

@@ -9,26 +9,27 @@
   (:export #:~article))
 (in-package #:website/components/article)
 
+(defcomp ~draft-badge ()
+  (hsx
+   (div :class (clsx "mb-8 sm:mb-10 flex items-center gap-3"
+                     "border-y border-base py-3")
+     (span :class "size-1.5 rounded-full bg-invert animate-pulse")
+     (span :class "eyebrow" "Draft Mode"))))
+
 (defcomp ~article (&key title
                         content
                         published-at
                         draft-p)
   (hsx
    (<>
-     (and draft-p
-          (hsx
-           (div :class (clsx "inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full"
-                             "border border-accent-500/30 bg-accent-500/10"
-                             "text-xs font-semibold uppercase tracking-widest"
-                             "text-accent-300")
-             (span :class "size-1.5 rounded-full bg-accent-500 animate-pulse")
-             "Draft Mode")))
+     (and draft-p (~draft-badge))
      (article :class "prose max-w-none"
-       (and published-at
-            (hsx
-             (div :class "not-prose mb-3 inline-flex items-center gap-1.5 text-xs text-subtle tracking-wide"
-               (span :class "uppercase opacity-70" "Published")
-               (|time| :datetime (datetime published-at)
-                       (jp-datetime published-at)))))
-       (~title title)
+       (~title
+         :eyebrow (and published-at
+                       (hsx
+                        (span :class "inline-flex items-center gap-2"
+                          "Published"
+                          (|time| :datetime (datetime published-at)
+                                  (jp-datetime published-at)))))
+         title)
        (raw! content)))))

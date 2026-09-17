@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* ---------- fonts ---------- */
+
 @font-face {
   font-display: swap;
   font-family: 'LINE Seed JP';
@@ -25,41 +27,35 @@
   src: url('/assets/fonts/LINESeedJP-ExtraBold.woff2') format('woff2');
 }
 
+/* ---------- tokens ---------- */
+
 @theme {
   --font-sans: "LINE Seed JP", ui-sans-serif, system-ui, sans-serif;
 
-  --color-accent-50:  #fff1f5;
-  --color-accent-100: #ffe3ec;
-  --color-accent-200: #fec8d8;
-  --color-accent-300: #fc9bb8;
-  --color-accent-400: #f96894;
-  --color-accent-500: #f43f74;
-  --color-accent-600: #db1f60;
-  --color-accent-700: #b81852;
-  --color-accent-800: #971646;
-  --color-accent-900: #7d153c;
-
+  --color-ink-0:   #ffffff;
   --color-ink-50:  #fafafa;
-  --color-ink-100: #f4f4f5;
-  --color-ink-200: #e4e4e7;
-  --color-ink-300: #d4d4d8;
-  --color-ink-400: #a1a1aa;
-  --color-ink-500: #71717a;
-  --color-ink-600: #52525b;
+  --color-ink-100: #f3f3f4;
+  --color-ink-200: #e7e7e9;
+  --color-ink-300: #d4d4d9;
+  --color-ink-400: #9b9ba3;
+  --color-ink-500: #6f6f78;
+  --color-ink-600: #55555e;
   --color-ink-700: #3f3f46;
   --color-ink-800: #27272a;
-  --color-ink-900: #18181b;
-  --color-ink-950: #09090b;
+  --color-ink-900: #16161a;
+  --color-ink-950: #0b0b0d;
 
-  --shadow-glow: 0 10px 40px -10px rgba(244, 63, 116, 0.35);
+  --radius-chip: 0.375rem;
 
-  /* soft fade + rise used for lazily-revealed content (e.g. the like button) */
-  --animate-fade-rise: fade-rise 0.5s ease-out both;
+  --shadow-pop: 0 18px 48px -28px rgba(11, 11, 13, 0.4);
+
+  --ease-ui: cubic-bezier(0.32, 0.72, 0, 1);
+  --animate-fade-rise: fade-rise 0.4s var(--ease-ui) both;
 
   @keyframes fade-rise {
     from {
       opacity: 0;
-      transform: translateY(6px);
+      transform: translateY(4px);
     }
     to {
       opacity: 1;
@@ -68,18 +64,23 @@
   }
 }
 
+/* ---------- semantic layer ---------- */
+
 :root {
   font-family: var(--font-sans);
-  color-scheme: dark;
+  color-scheme: light;
 
-  --bg-base: #09090b;
-  --bg-elevated: #18181b;
-  --bg-muted: #27272a;
-  --fg-base: #fafafa;
-  --fg-muted: #a1a1aa;
-  --fg-subtle: #909099;
-  --border-base: rgba(250, 250, 250, 0.08);
-  --border-strong: rgba(250, 250, 250, 0.14);
+  --bg-base: var(--color-ink-0);
+  --bg-muted: var(--color-ink-100);
+  --bg-invert: var(--color-ink-900);
+
+  --fg-base: var(--color-ink-900);
+  --fg-muted: var(--color-ink-600);
+  --fg-subtle: var(--color-ink-500);
+  --fg-invert: var(--color-ink-0);
+
+  --border-base: var(--color-ink-200);
+  --border-strong: var(--color-ink-300);
 
   background: var(--bg-base);
 }
@@ -93,10 +94,7 @@ body {
   navigation: auto;
 }
 
-@utility surface {
-  background-color: var(--bg-elevated);
-  border-color: var(--border-base);
-}
+/* ---------- color ---------- */
 
 @utility text-fg {
   color: var(--fg-base);
@@ -108,6 +106,10 @@ body {
 
 @utility text-subtle {
   color: var(--fg-subtle);
+}
+
+@utility text-invert {
+  color: var(--fg-invert);
 }
 
 @utility border-base {
@@ -126,28 +128,117 @@ body {
   background-color: var(--bg-muted);
 }
 
-@utility accent-gradient {
-  background-image: linear-gradient(135deg, #f43f74 0%, #ff8db1 100%);
+@utility bg-invert {
+  background-color: var(--bg-invert);
 }
 
-@utility accent-text {
-  background-image: linear-gradient(135deg, #f43f74 0%, #ff8db1 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* ---------- layout ---------- */
+
+@utility shell {
+  width: 100%;
+  max-width: 46rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
 }
 
-/* invert monochrome SVG icons for the dark theme */
-.icon-invert {
-  filter: invert(1) brightness(1.2);
+/* ---------- type ---------- */
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  font-variant-numeric: tabular-nums;
 }
 
-/* prose tweaks */
+@utility display {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--fg-base);
+}
+
+@utility headline {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--fg-base);
+}
+
+/* ---------- rows ---------- */
+
+@utility row {
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding-block: 1.0625rem;
+  border-bottom: 1px solid var(--border-base);
+
+  @media (width >= 40rem) {
+    padding-block: 1.375rem;
+  }
+}
+
+@utility row-mark {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 0;
+  background-color: var(--bg-invert);
+  transition: width 450ms var(--ease-ui);
+}
+
+@utility row-label {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  color: inherit;
+}
+
+/* ---------- controls ---------- */
+
+@utility text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--fg-base);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--border-strong);
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+@utility icon-frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border-radius: var(--radius-chip);
+  color: inherit;
+}
+
+/* ---------- prose ---------- */
+
 .prose {
   --tw-prose-body: var(--fg-base);
   --tw-prose-headings: var(--fg-base);
   --tw-prose-lead: var(--fg-muted);
-  --tw-prose-links: #fc9bb8;
+  --tw-prose-links: var(--fg-base);
   --tw-prose-bold: var(--fg-base);
   --tw-prose-counters: var(--fg-subtle);
   --tw-prose-bullets: var(--fg-subtle);
@@ -157,26 +248,23 @@ body {
   --tw-prose-captions: var(--fg-subtle);
   --tw-prose-kbd: var(--fg-base);
   --tw-prose-code: var(--fg-base);
-  --tw-prose-pre-code: #e4e4e7;
-  --tw-prose-pre-bg: #18181b;
+  --tw-prose-pre-code: var(--fg-base);
+  --tw-prose-pre-bg: var(--bg-muted);
   --tw-prose-th-borders: var(--border-strong);
   --tw-prose-td-borders: var(--border-base);
 }
 
+/* ---------- motion ---------- */
+
 a,
 button,
 [role="button"] {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-duration: 180ms;
-  transition-timing-function: ease;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, transform, text-decoration-color;
+  transition-duration: 200ms;
+  transition-timing-function: var(--ease-ui);
 }
 
-/* like button: while the PATCH request is in flight (nomini toggles
-   `is-fetching` on the button via `_nmFetching`), fade the heart/count out
-   and the spinner in. The two are sequenced (content fades out first, then
-   the spinner fades in) so they are never both visible at once — otherwise
-   the inline content and the absolutely-centered spinner overlap mid-fade
-   and the button looks like it has duplicated content. */
+/* like button */
 .like-content,
 .like-spinner {
   transition: opacity 90ms ease;
@@ -198,5 +286,9 @@ button,
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-rise {
     animation: none;
+  }
+
+  .row-mark {
+    transition: none;
   }
 }

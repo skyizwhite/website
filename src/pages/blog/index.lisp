@@ -8,8 +8,8 @@
                 #:fetch-blog-list)
   (:import-from #:website/components/title
                 #:~title)
-  (:import-from #:website/components/blog-card
-                #:~blog-card)
+  (:import-from #:website/components/post-row
+                #:~post-row)
   (:export #:@get))
 (in-package #:website/pages/blog/index)
 
@@ -26,11 +26,11 @@
       (hsx
        (section
          (~title "Blog")
-         (ul :class "flex flex-col gap-2"
+         (ul
            (loop
              :for item :in blogs :collect
-                (~blog-card :id (getf item :id)
-                            :title (getf item :title)
-                            :published-at (getf item :published-at))))
+                (~post-row :id (getf item :id)
+                           :title (getf item :title)
+                           :published-at (getf item :published-at))))
          ;TODO: pagenation
          )))))

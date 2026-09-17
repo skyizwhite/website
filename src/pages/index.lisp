@@ -6,8 +6,14 @@
   (:import-from #:website/lib/cms
                 #:with-cms-fallback
                 #:fetch-recent-blog-list)
-  (:import-from #:website/components/blog-card
-                #:~blog-card)
+  (:import-from #:website/components/post-row
+                #:~post-row)
+  (:import-from #:website/components/link-row
+                #:~link-row)
+  (:import-from #:website/components/section
+                #:~section)
+  (:import-from #:website/components/arrow-link
+                #:~arrow-link)
   (:export #:@get
            #:@head))
 (in-package #:website/pages/index)
@@ -16,30 +22,45 @@
   (list
    (list "Keyoxide"
          "https://keyoxide.org/f39d5b2c951d16732a5cd3528f0c1a22f26d7e62"
-         (~icon-key :class "size-4"))
+         (~icon-key :class "size-5"))
    (list "GitHub"
          "https://github.com/skyizwhite"
-         (~icon-github :class "size-4"))
+         (~icon-github :class "size-5"))
    (list "Status"
          "https://status.skyizwhite.dev"
-         (~icon-server :class "size-4"))))
+         (~icon-server :class "size-5"))))
 
 (defparameter *contacts*
   (list
    (list "Email"
          "mailto:paku@skyizwhite.dev"
-         (~icon-email :class "size-4"))
+         (~icon-email :class "size-5"))
    (list "Fediverse"
          "https://himagine.club/@skyizwhite"
-         (~icon-saturn :class "size-4"))
+         (~icon-saturn :class "size-5"))
    (list "Matrix"
          "https://matrix.to/#/@paku:skyizwhite.dev"
-         (~icon-chat :class "size-4"))))
+         (~icon-chat :class "size-5"))))
 
 (defparameter *pages*
   (list
    (list "About" "/about" (~icon-user :class "size-5"))
    (list "Works" "/works" (~icon-briefcase :class "size-5"))))
+
+(defcomp ~hero ()
+  (hsx
+   (section :class "pb-8 sm:pb-16"
+     (div :class "flex items-center gap-6 sm:gap-10"
+       (div :class "flex-1 min-w-0"
+         (h1 :class "display text-[clamp(2.5rem,10vw,5rem)]"
+           "Akira" (br) "Tempaku")
+         (p :class (clsx "mt-4 text-[clamp(1.25rem,4.5vw,2rem)]"
+                         "font-bold tracking-tight text-subtle")
+           "Software Engineer"))
+       (img
+         :src (asset-path "img/avatar.webp")
+         :alt "avatar" :fetchpriority "high"
+         :class "shrink-0 size-24 sm:size-36 rounded-full bg-muted object-cover")))))
 
 (defun @get (params)
   (declare (ignore params))
@@ -49,89 +70,29 @@
     (let ((recent (fetch-recent-blog-list)))
       (hsx
        (<>
-         (section :class "flex flex-col items-center text-center pt-6 sm:pt-10"
-           (img
-             :src (asset-path "img/avatar.webp")
-             :alt "avatar" :fetchpriority "high"
-             :class "block size-40 sm:size-44 mb-8 rounded-[22px] bg-base object-cover")
-           (h1 :class "font-bold text-4xl sm:text-5xl tracking-tight"
-             "Akira Tempaku"))
-         (section :class "mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3"
+         (~hero)
+         (ul :class "md:grid md:grid-cols-2 md:gap-x-8"
            (loop
-             :for (label url icon) :in *pages*
-             :collect
-                (hsx
-                 (a
-                   :href url
-                   :class (clsx "group flex items-center gap-3 px-5 py-4 rounded-2xl"
-                                "border border-base surface"
-                                "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
-                                "transition-all duration-200")
-                   (span :class (clsx "inline-flex items-center justify-center size-10 rounded-xl"
-                                      "bg-muted group-hover:accent-gradient transition-colors")
-                     icon)
-                   (span :class "text-base font-semibold tracking-wide"
-                     label)
-                   (~icon-arrow-right :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors")))))
-         (section :class "mt-16 sm:mt-20"
-           (h2 :class "font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
-             "Recent Posts")
-           (ul :class "flex flex-col gap-2"
+             :for (label url icon) :in *pages* :collect
+                (~link-row :label label :href url :icon icon)))
+         (~section :heading "Recent Posts"
+           :aside (~arrow-link :href "/blog" "View all posts")
+           (ul
              (loop
                :for item :in recent :collect
-                  (~blog-card :id (getf item :id)
-                    :title (getf item :title)
-                    :published-at (getf item :published-at))))
-
-           (div :class "mt-6 text-center"
-             (a
-               :href "/blog"
-               :class (clsx "inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
-                            "border border-base surface text-sm font-semibold tracking-wide"
-                            "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
-                            "transition-all duration-200")
-               "View all posts"
-               (~icon-arrow-right :class "size-4"))))
-         (section :class "mt-16 sm:mt-20"
-           (h2 :class "font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
-             "Contacts")
-           (div :class "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
+                  (~post-row :id (getf item :id)
+                             :title (getf item :title)
+                             :published-at (getf item :published-at)))))
+         (~section :heading "Contacts"
+           (ul :class "md:grid md:grid-cols-2 md:gap-x-8"
              (loop
-               :for (name url icon) :in *contacts*
-               :collect
-                  (hsx
-                   (a
-                     :href url :target "_blank" :rel "me noopener"
-                     :class (clsx "group flex items-center gap-3 px-4 py-3 rounded-2xl"
-                                  "border border-base surface"
-                                  "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
-                                  "transition-all duration-200")
-                     (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
-                                        "bg-muted group-hover:accent-gradient transition-colors")
-                       icon)
-                     (span :class "text-sm font-semibold tracking-wide"
-                       name)
-                     (~icon-external-link :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors"))))))
-         (section :class "mt-16 sm:mt-20"
-           (h2 :class "font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
-             "Links")
-           (div :class "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
+               :for (name url icon) :in *contacts* :collect
+                  (~link-row :label name :href url :icon icon :external t))))
+         (~section :heading "Links"
+           (ul :class "md:grid md:grid-cols-2 md:gap-x-8"
              (loop
-               :for (name url icon) :in *links*
-               :collect
-                  (hsx
-                   (a
-                     :href url :target "_blank" :rel "me noopener"
-                     :class (clsx "group flex items-center gap-3 px-4 py-3 rounded-2xl"
-                                  "border border-base surface"
-                                  "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
-                                  "transition-all duration-200")
-                     (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
-                                        "bg-muted group-hover:accent-gradient transition-colors")
-                       icon)
-                     (span :class "text-sm font-semibold tracking-wide"
-                       name)
-                     (~icon-external-link :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors")))))))))))
+               :for (name url icon) :in *links* :collect
+                  (~link-row :label name :href url :icon icon :external t)))))))))
 
 ; for health check
 (defun @head (params)

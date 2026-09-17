@@ -1,7 +1,8 @@
 (defpackage #:website/components/error-page
   (:use #:cl
-        #:hsx
-        #:website/components/icons)
+        #:hsx)
+  (:import-from #:website/components/arrow-link
+                #:~arrow-link)
   (:export #:~error-page
            #:error-metadata))
 (in-package #:website/components/error-page)
@@ -24,17 +25,13 @@
 (defcomp ~error-page (&key status)
   (let ((info (cdr (assoc status *error-info*))))
     (hsx
-     (div :class "flex flex-col h-full items-center justify-center gap-6 py-20 text-center"
-       (p :class "text-[120px] sm:text-[160px] font-bold leading-none accent-text"
+     (div :class "py-2 sm:py-16"
+       (p :class "display text-[clamp(5rem,22vw,11rem)]"
          status)
-       (div :class "flex flex-col gap-2"
-         (h1 :class "font-bold text-2xl tracking-tight"
+       (div :class "mt-6 pt-6 sm:mt-8 sm:pt-8 border-t border-base"
+         (h1 :class "headline text-3xl sm:text-4xl"
            (getf info :title))
-         (p :class "text-sm text-muted"
-           (getf info :message)))
-       (a :href "/"
-         :class (clsx "mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
-                      "accent-gradient text-white font-semibold text-sm"
-                      "hover:shadow-glow hover:-translate-y-0.5 transition-all duration-200")
-         (~icon-arrow-left :class "size-4")
-         "Back to home")))))
+         (p :class "mt-4 sm:mt-5 text-base text-muted"
+           (getf info :message))
+         (div :class "mt-8 sm:mt-10"
+           (~arrow-link :href "/" :direction :back "Back to home")))))))
