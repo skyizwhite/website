@@ -7,7 +7,7 @@
 (in-package #:website/components/like-button)
 
 (defparameter *pill-class*
-  "inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 font-display font-semibold text-sm tabular-nums")
+  "inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 font-semibold text-sm tabular-nums")
 
 (defcomp ~like-button (&key likes disabled nm-bind)
   (if disabled

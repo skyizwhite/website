@@ -25,16 +25,16 @@
   (let ((info (cdr (assoc status *error-info*))))
     (hsx
      (div :class "flex flex-col h-full items-center justify-center gap-6 py-20 text-center"
-       (p :class "font-display text-[120px] sm:text-[160px] font-bold leading-none accent-text"
+       (p :class "text-[120px] sm:text-[160px] font-bold leading-none accent-text"
          status)
        (div :class "flex flex-col gap-2"
-         (h1 :class "font-display font-bold text-2xl tracking-tight"
+         (h1 :class "font-bold text-2xl tracking-tight"
            (getf info :title))
          (p :class "text-sm text-muted"
            (getf info :message)))
        (a :href "/"
          :class (clsx "mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
-                      "accent-gradient text-white font-display font-semibold text-sm"
+                      "accent-gradient text-white font-semibold text-sm"
                       "hover:shadow-glow hover:-translate-y-0.5 transition-all duration-200")
          (~icon-arrow-left :class "size-4")
          "Back to home")))))

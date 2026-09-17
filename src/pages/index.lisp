@@ -54,7 +54,7 @@
              :src (asset-path "img/avatar.webp")
              :alt "avatar" :fetchpriority "high"
              :class "block size-40 sm:size-44 mb-8 rounded-[22px] bg-base object-cover")
-           (h1 :class "font-display font-bold text-4xl sm:text-5xl tracking-tight"
+           (h1 :class "font-bold text-4xl sm:text-5xl tracking-tight"
              "Akira Tempaku"))
          (section :class "mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3"
            (loop
@@ -70,11 +70,11 @@
                    (span :class (clsx "inline-flex items-center justify-center size-10 rounded-xl"
                                       "bg-muted group-hover:accent-gradient transition-colors")
                      icon)
-                   (span :class "text-base font-display font-semibold tracking-wide"
+                   (span :class "text-base font-semibold tracking-wide"
                      label)
                    (~icon-arrow-right :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors")))))
          (section :class "mt-16 sm:mt-20"
-           (h2 :class "font-display font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
+           (h2 :class "font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
              "Recent Posts")
            (ul :class "flex flex-col gap-2"
              (loop
@@ -87,13 +87,13 @@
              (a
                :href "/blog"
                :class (clsx "inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
-                            "border border-base surface text-sm font-display font-semibold tracking-wide"
+                            "border border-base surface text-sm font-semibold tracking-wide"
                             "hover:border-strong hover:-translate-y-0.5 hover:shadow-glow"
                             "transition-all duration-200")
                "View all posts"
                (~icon-arrow-right :class "size-4"))))
          (section :class "mt-16 sm:mt-20"
-           (h2 :class "font-display font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
+           (h2 :class "font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
              "Contacts")
            (div :class "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
              (loop
@@ -109,11 +109,11 @@
                      (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
                                         "bg-muted group-hover:accent-gradient transition-colors")
                        icon)
-                     (span :class "text-sm font-display font-semibold tracking-wide"
+                     (span :class "text-sm font-semibold tracking-wide"
                        name)
                      (~icon-external-link :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors"))))))
          (section :class "mt-16 sm:mt-20"
-           (h2 :class "font-display font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
+           (h2 :class "font-bold text-2xl sm:text-3xl tracking-tight text-fg mb-6"
              "Links")
            (div :class "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
              (loop
@@ -129,7 +129,7 @@
                      (span :class (clsx "inline-flex items-center justify-center size-9 rounded-xl"
                                         "bg-muted group-hover:accent-gradient transition-colors")
                        icon)
-                     (span :class "text-sm font-display font-semibold tracking-wide"
+                     (span :class "text-sm font-semibold tracking-wide"
                        name)
                      (~icon-external-link :class "size-4 ml-auto text-muted group-hover:text-fg transition-colors")))))))))))
 

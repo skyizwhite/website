@@ -62,7 +62,7 @@
              (a
                :href "/blog"
                :class (clsx "group inline-flex items-center gap-2"
-                            "text-sm font-display font-semibold"
+                            "text-sm font-semibold"
                             "text-muted hover:text-fg transition-colors")
                (~icon-arrow-left
                  :class "size-4 transition-transform group-hover:-translate-x-0.5")

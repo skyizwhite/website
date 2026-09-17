@@ -25,7 +25,7 @@
 (defcomp ~pc-nav ()
   (hsx
    (nav :class "hidden md:flex items-center"
-     (ul :class "flex items-center gap-1 text-sm font-display font-semibold"
+     (ul :class "flex items-center gap-1 text-sm font-semibold"
        (loop
          :for (href label) :in *pc-menu* :collect
             (let ((active (string= href (request-uri *request*))))
@@ -68,7 +68,7 @@
                     "shadow-2xl shadow-black/20"
                     "translate-x-full transition-transform duration-300 ease-out")
        (div :class "flex items-center justify-between h-14 px-4 border-b border-base"
-         (span :class "text-xs uppercase tracking-[0.3em] text-subtle font-display"
+         (span :class "text-xs uppercase tracking-[0.3em] text-subtle"
            "menu")
          (button
            :aria-label "Close menu"
@@ -86,7 +86,7 @@
                      (a :href href
                        :class (clsx "group flex items-center justify-between"
                                     "px-3 py-3 rounded-xl"
-                                    "font-display font-semibold text-2xl tracking-tight"
+                                    "font-semibold text-2xl tracking-tight"
                                     "transition-colors"
                                     (if active
                                         "bg-zinc-900 text-fg"
@@ -98,7 +98,7 @@
                                               "accent-gradient opacity-100"
                                               "bg-zinc-700 opacity-0 group-hover:opacity-100"))))))))))
        (div :class (clsx "px-4 py-4 border-t border-base text-[11px] text-subtle"
-                         "font-display tracking-widest uppercase")
+                         "tracking-widest uppercase")
          "skyizwhite.dev")))))
 
 (defcomp ~header ()
@@ -120,7 +120,7 @@
                     "border-b border-zinc-800/60")
        (div :class "max-w-[760px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between"
          (a :href "/" :class "group"
-           (span :class "font-display text-xl font-bold tracking-tight group-hover:accent-text"
+           (span :class "text-xl font-bold tracking-tight group-hover:accent-text"
              "skyizwhite"))
          (div :class "flex items-center gap-2"
            (~pc-nav)
@@ -131,7 +131,7 @@
                           "bg-zinc-900/60"
                           "hover:bg-zinc-900"
                           "hover:border-zinc-700"
-                          "text-sm font-display font-semibold text-muted hover:text-fg"
+                          "text-sm font-semibold text-muted hover:text-fg"
                           "cursor-pointer transition-colors")
              :type "button"
              :nm-bind "{ onclick: () => show() }"
