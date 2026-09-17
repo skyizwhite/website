@@ -56,11 +56,14 @@
      (aside
        :nm-bind "{
                    'class.translate-y-0': () => open,
-                   'class.-translate-y-full': () => !open
+                   'class.visible': () => open,
+                   'class.-translate-y-full': () => !open,
+                   'class.invisible': () => !open
                  }"
        :class (clsx "fixed top-0 inset-x-0 z-50"
                     "bg-base border-b border-base shadow-pop"
-                    "-translate-y-full transition-transform duration-400 ease-ui")
+                    "-translate-y-full invisible"
+                    "transition-[translate,visibility] duration-400 ease-ui")
        (div :class "shell h-14 flex items-center justify-between"
          (span :class "eyebrow" "menu")
          (button
