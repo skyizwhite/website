@@ -2,7 +2,7 @@
 
 My personal website — [skyizwhite.dev](https://skyizwhite.dev)
 
-A server-rendered site built in **Common Lisp**, sourcing content from a headless CMS and serving HTML with Next.js-style caching semantics behind a CDN.
+A server-rendered site built in **Common Lisp**, sourcing content from a headless CMS and serving HTML behind a CDN with stale-while-revalidate and on-demand revalidation.
 
 ## Tech Stack
 
@@ -78,12 +78,11 @@ flowchart TD
 - **nomini server actions.** `ningle-actions` keeps fragment-update endpoints out of the meaningful page URL space by giving them their own isolated `/actions` namespace. `defaction` does two things at once: it registers an HTTP handler under an opaque, auto-generated `/actions/<id>` URL, and it defines a function of the same name that returns that URL (keyword arguments become URL-encoded query-string params, e.g. `(get-likes :blog-id blog-id)`). A page embeds that function's **return value** in a nomini `nm-bind` fetch call (`$get` / `$fetch`) instead of a URL literal, so the action URL never appears as a string anywhere and the handler and its view can't drift out of sync. Fragment responses carry an `id` (and optional `nm-swap` strategy) that nomini matches against the live DOM to swap in place; the guard macro `with-nm-request` (in `src/helper.lisp`) rejects requests lacking the `nm-request` header. The blog **like button** (`src/components/like-button.lisp`, wired up in `src/pages/blog/<blog-id>.lisp`) uses this: the pill is lazily loaded via an `IntersectionObserver`, a `PATCH` records the like to the microCMS `likes` field, and the response swaps in the liked state with a "Thank you!" toast (CSS transitions driven by a nomini `nm-data` flag).
 - **One like per visitor.** Liked post ids are stored in a `liked_blogs` cookie (`src/lib/liked-posts.lisp` over the generic `src/lib/cookie.lisp`). When lazily loaded the button is rendered in its disabled "already liked" state for returning visitors; the `PATCH` only increments for a first-time like (and returns `409` otherwise), then records the id in the cookie. These per-visitor fragments are served `Cache-Control: private, no-store` so the CDN never shares them.
 - **CMS-backed content.** `src/lib/cms.lisp` fetches `about`, `works`, and `blog` content from microCMS. Calls are memoized with `function-cache`.
-- **Next.js-style cache control.** `set-cache` (in `src/helper.lisp`) sets `Cache-Control` per page using one of three strategies:
-  - `:ssr` — always revalidate (`max-age=0, must-revalidate`)
-  - `:isr` — incremental static regeneration (`s-maxage=60, stale-while-revalidate`)
-  - `:sg`  — static generation (`s-maxage=1yr`)
+- **Cache control.** `set-cache` (in `src/helper.lisp`) sets `Cache-Control` per page using one of two strategies:
+  - `:swr` — public pages. `max-age=0, stale-while-revalidate=7d, stale-if-error=7d`: the CDN and the browser serve their stored copy immediately and revalidate in the background, so a CMS change shows up one request after it is published.
+  - `:ssr` — drafts and error pages. `max-age=0, must-revalidate`.
   - In dev mode all responses are `no-store`.
-- **On-demand revalidation.** A microCMS webhook hits `POST /api/revalidate` (auth via `X-MICROCMS-WEBHOOK-KEY`), which clears the relevant function-cache entries. On container start, `entrypoint.sh` purges the Cloudflare cache once the server is ready.
+- **On-demand revalidation.** A microCMS webhook hits `POST /api/revalidate` (auth via `X-MICROCMS-WEBHOOK-KEY`), which clears the relevant function-cache entries. No CDN purge API is involved; invalidation is driven entirely by response headers.
 
 ## Project Layout
 
@@ -126,10 +125,8 @@ WEBSITE_URL               # canonical base URL
 MICROCMS_SERVICE_DOMAIN
 MICROCMS_API_KEY
 MICROCMS_WEBHOOK_KEY      # validates the revalidate webhook
-CLOUDFLARE_ZONE_ID        # optional, for cache purge on deploy
-CLOUDFLARE_API_KEY
 ```
 
 ## Deployment
 
-Deployed on [Coolify](https://coolify.io/), which builds the `Dockerfile` and runs the container. The `Dockerfile` builds the system with qlot, minifies the Tailwind CSS, and runs `entrypoint.sh`, which serves the app with Woo on port `3000` and purges the Cloudflare cache after the rolling update completes.
+Deployed on [Coolify](https://coolify.io/), which builds the `Dockerfile` and runs the container. The `Dockerfile` builds the system with qlot, minifies the Tailwind CSS, and serves the app with Woo on port `3000`.

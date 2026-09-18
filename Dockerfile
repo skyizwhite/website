@@ -18,8 +18,6 @@ RUN qlot exec sbcl --non-interactive --eval '(ql:quickload "website")'
 
 RUN tailwindcss -i ./assets/style/global.css -o ./assets/style/dist.css --minify
 
-RUN chmod +x entrypoint.sh
-
 EXPOSE 3000
 
-ENTRYPOINT ["./entrypoint.sh"]
+CMD [".qlot/bin/clackup", "--system", "website", "--server", "woo", "--address", "0.0.0.0", "--port", "3000", "src/app.lisp"]

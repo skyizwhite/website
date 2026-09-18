@@ -66,7 +66,7 @@
   (declare (ignore params))
   (with-cms-fallback ((404 (error-page 404))
                       (t (error-page 500)))
-    (set-cache :isr)
+    (set-cache :swr)
     (let ((recent (fetch-recent-blog-list)))
       (hsx
        (<>

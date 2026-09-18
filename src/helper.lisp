@@ -8,6 +8,7 @@
                 #:error-metadata)
   (:export #:set-metadata
            #:set-cache
+           #:*swr-cache-control*
            #:asset-path
            #:with-nm-request
            #:error-action
@@ -20,15 +21,16 @@
 (defun set-metadata (metadata)
   (setf (context :metadata) metadata))
 
+(defparameter *swr-cache-control*
+  "public, max-age=0, stale-while-revalidate=604800, stale-if-error=604800")
+
 (defun set-cache (strategy)
   (cond ((dev-mode-p)
          (set-response-header :cache-control "private, no-store, must-revalidate"))
         ((eq strategy :ssr)
          (set-response-header :cache-control "public, max-age=0, must-revalidate"))
-        ((eq strategy :isr)
-         (set-response-header :cache-control "public, max-age=0, s-maxage=60, stale-while-revalidate=60"))
-        ((eq strategy :sg)
-         (set-response-header :cache-control "public, max-age=0, s-maxage=31536000, must-revalidate"))))
+        ((eq strategy :swr)
+         (set-response-header :cache-control *swr-cache-control*))))
 
 (defmacro with-nm-request (&body body)
   `(cond ((get-request-header "nm-request")

@@ -29,7 +29,7 @@
     (with-cms-fallback ((404 (error-page 404))
                         (t (error-page 500)))
       (let ((blog (fetch-blog-detail blog-id :draft-key draft-key)))
-        (set-cache (if draft-key :ssr :isr))
+        (set-cache (if draft-key :ssr :swr))
         (set-metadata (list :title (getf blog :title)
                             :description (getf blog :description)
                             :type "article"))

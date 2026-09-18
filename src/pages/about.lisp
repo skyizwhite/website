@@ -19,7 +19,7 @@
                       (t (error-page 500)))
     (set-metadata *metadata*)
     (with-request-params ((draft-key "draft-key" nil)) params
-      (set-cache (if draft-key :ssr :isr))
+      (set-cache (if draft-key :ssr :swr))
       (let ((about (fetch-about :draft-key draft-key)))
         (~article
           :title "About"

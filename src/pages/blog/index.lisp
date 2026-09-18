@@ -20,7 +20,7 @@
   (declare (ignore params))
   (with-cms-fallback ((404 (error-page 404))
                       (t (error-page 500)))
-    (set-cache :isr)
+    (set-cache :swr)
     (set-metadata *metadata*)
     (let ((blogs (fetch-blog-list :page 1)))
       (hsx
