@@ -130,7 +130,7 @@ MICROCMS_WEBHOOK_KEY      # validates the revalidate webhook
 
 ## Deployment
 
-Deployed on [Coolify](https://coolify.io/), which builds the `Dockerfile` and runs the container. The `Dockerfile` builds the system with qlot, minifies the Tailwind CSS, and runs `entrypoint.sh`, which serves the app with Woo on port `3000`.
+Deployed on [Coolify](https://coolify.io/), which builds the `Dockerfile` and runs the container. The `Dockerfile` builds the system with qlot, minifies the Tailwind CSS, and serves the app with Woo on port `3000`. The base image's entrypoint is `qlot`, so the start command is set with `ENTRYPOINT` rather than `CMD`.
 
 The cache design assumes a **single, single-threaded instance**: the content version and the function-cache live in the process, a webhook is delivered to one instance only, and Woo (without `--worker-num`) never interleaves a CMS fetch with a webhook. Scaling out or enabling worker threads would need the version shared across instances and the cache keyed by it.
 
