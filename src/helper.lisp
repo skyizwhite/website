@@ -3,12 +3,13 @@
         #:jingle)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
+  (:import-from #:website/lib/etag
+                #:*swr-cache-control*)
   (:import-from #:website/components/error-page
                 #:~error-page
                 #:error-metadata)
   (:export #:set-metadata
            #:set-cache
-           #:*swr-cache-control*
            #:asset-path
            #:with-nm-request
            #:error-action
@@ -20,9 +21,6 @@
 
 (defun set-metadata (metadata)
   (setf (context :metadata) metadata))
-
-(defparameter *swr-cache-control*
-  "public, max-age=0, stale-while-revalidate=604800, stale-if-error=604800")
 
 (defun set-cache (strategy)
   (cond ((dev-mode-p)

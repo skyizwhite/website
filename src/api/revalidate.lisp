@@ -8,6 +8,8 @@
                 #:clear-about-cache
                 #:clear-works-cache
                 #:clear-blog-cache)
+  (:import-from #:website/lib/etag
+                #:bump-content-version)
   (:export #:@post))
 (in-package #:website/api/revalidate)
 
@@ -27,6 +29,8 @@
           ((string= api "blog") (clear-blog-cache id old-draft-key new-draft-key))
           (t (set-response-status 400)
              (return-from @post '(:|message| "Unknown API"))))
+    (unless new-draft-key
+      (bump-content-version))
     (list :|api| api
           :|id| id
           :|old-draft-key| old-draft-key

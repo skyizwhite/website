@@ -2,7 +2,7 @@
 
 My personal website — [skyizwhite.dev](https://skyizwhite.dev)
 
-A server-rendered site built in **Common Lisp**, sourcing content from a headless CMS and serving HTML behind a CDN with stale-while-revalidate and on-demand revalidation.
+A server-rendered site built in **Common Lisp**, sourcing content from a headless CMS and serving HTML behind a CDN with stale-while-revalidate and ETag-based on-demand revalidation.
 
 ## Tech Stack
 
@@ -16,7 +16,7 @@ A server-rendered site built in **Common Lisp**, sourcing content from a headles
 | Server actions | [ningle-actions](https://github.com/skyizwhite/ningle-actions) — partial-update endpoints in an isolated `/actions` namespace |
 | View / templating | [hsx](https://github.com/skyizwhite/hsx) — JSX-like HTML as Lisp s-expressions |
 | Content | [microCMS](https://microcms.io/) via [microcms-lisp-sdk](https://github.com/skyizwhite/microcms-lisp-sdk) |
-| Caching | [function-cache](https://github.com/AccelerationNet/function-cache) (in-memory) + HTTP `Cache-Control` |
+| Caching | [function-cache](https://github.com/AccelerationNet/function-cache) (in-memory) + HTTP `Cache-Control` / `ETag` |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) v4 (standalone binary) |
 | Interactivity | [nomini](https://nomini.js.org/) (reactivity + fragment fetch/swap, self-hosted) |
 | CDN | Cloudflare |
@@ -82,7 +82,8 @@ flowchart TD
   - `:swr` — public pages. `max-age=0, stale-while-revalidate=7d, stale-if-error=7d`: the CDN and the browser serve their stored copy immediately and revalidate in the background, so a CMS change shows up one request after it is published.
   - `:ssr` — drafts and error pages. `max-age=0, must-revalidate`.
   - In dev mode all responses are `no-store`.
-- **On-demand revalidation.** A microCMS webhook hits `POST /api/revalidate` (auth via `X-MICROCMS-WEBHOOK-KEY`), which clears the relevant function-cache entries. No CDN purge API is involved; invalidation is driven entirely by response headers.
+- **ETag revalidation.** `*etag-middleware*` (`src/lib/etag.lisp`) gives every public page the same weak ETag, `W/"<build-id>.<content-version>"`. The build id is captured at process start (so a deploy invalidates every page) and the content version is bumped by the revalidate webhook (so a CMS change does too). Because the ETag is known before rendering, a matching `If-None-Match` is answered with `304` without running the page at all. This relies on page HTML being identical for every visitor: per-visitor state (the like button) must stay in the `/actions` fragments, which are `no-store` and bypass the middleware, as do `/assets`, `/api`, and any request with a query string.
+- **On-demand revalidation.** A microCMS webhook hits `POST /api/revalidate` (auth via `X-MICROCMS-WEBHOOK-KEY`), which clears the relevant function-cache entries and then, unless the change was a draft save, bumps the content version. The order matters: bumping first would let a render that raced the webhook tag stale data with the new ETag. No CDN purge API is involved; invalidation is driven entirely by response headers.
 
 ## Project Layout
 
@@ -130,3 +131,7 @@ MICROCMS_WEBHOOK_KEY      # validates the revalidate webhook
 ## Deployment
 
 Deployed on [Coolify](https://coolify.io/), which builds the `Dockerfile` and runs the container. The `Dockerfile` builds the system with qlot, minifies the Tailwind CSS, and serves the app with Woo on port `3000`.
+
+The cache design assumes a **single, single-threaded instance**: the content version and the function-cache live in the process, a webhook is delivered to one instance only, and Woo (without `--worker-num`) never interleaves a CMS fetch with a webhook. Scaling out or enabling worker threads would need the version shared across instances and the cache keyed by it.
+
+Cloudflare does not cache HTML by default, so the zone needs a Cache Rule that makes HTML eligible for cache with the edge TTL taken from the origin `Cache-Control` header. Do not set an explicit edge TTL or add `s-maxage`; Cloudflare disables `stale-while-revalidate` for both. `cf-cache-status` on a page should read `HIT`, `REVALIDATED`, `STALE` or `UPDATING` once the rule is in place.
