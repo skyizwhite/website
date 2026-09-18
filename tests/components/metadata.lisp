@@ -15,9 +15,9 @@
       (ok (string= "website" (getf result :type)))
       (ok (null (getf result :error)))
       (let ((image (getf result :image)))
-        ;; The url is absolute and built from WEBSITE_URL, so only assert its
-        ;; asset suffix and the fixed dimensions.
-        (ok (uiop:string-suffix-p (getf image :url) "/assets/img/og.jpg"))
+        ;; The url is absolute and built from WEBSITE_URL with a cache-busting
+        ;; query, so only assert the asset path and the fixed dimensions.
+        (ok (search "/assets/img/og.jpg?v=" (getf image :url)))
         (ok (eql 1024 (getf image :height)))
         (ok (eql 1024 (getf image :width))))))
 
