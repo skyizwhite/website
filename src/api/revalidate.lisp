@@ -4,12 +4,9 @@
         #:access)
   (:import-from #:website/lib/env
                 #:microcms-webhook-key)
-  (:import-from #:website/lib/cms
-                #:clear-about-cache
-                #:clear-works-cache
-                #:clear-blog-cache)
-  (:import-from #:website/lib/etag
-                #:bump-content-version)
+  (:import-from #:website/lib/cache
+                #:revalidate-tag
+                #:revalidate-path)
   (:export #:@post))
 (in-package #:website/api/revalidate)
 
@@ -24,13 +21,22 @@
          (id (accesses body "id"))
          (old-draft-key (accesses body "contents" "old" "draftKey"))
          (new-draft-key (accesses body "contents" "new" "draftKey")))
-    (cond ((string= api "about") (clear-about-cache new-draft-key))
-          ((string= api "works") (clear-works-cache new-draft-key))
-          ((string= api "blog") (clear-blog-cache id old-draft-key new-draft-key))
+    (cond ((string= api "about")
+           (revalidate-tag "about")
+           (unless new-draft-key
+             (revalidate-path "/about")))
+          ((string= api "works")
+           (revalidate-tag "works")
+           (unless new-draft-key
+             (revalidate-path "/works")))
+          ((string= api "blog")
+           (revalidate-tag "blog")
+           (unless new-draft-key
+             (revalidate-path (format nil "/blog/~a" id))
+             (revalidate-path "/blog")
+             (revalidate-path "/")))
           (t (set-response-status 400)
              (return-from @post '(:|message| "Unknown API"))))
-    (unless new-draft-key
-      (bump-content-version))
     (list :|api| api
           :|id| id
           :|old-draft-key| old-draft-key

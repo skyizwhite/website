@@ -1,11 +1,12 @@
 (defpackage #:website-tests/lib/etag
   (:use #:cl
         #:rove)
+  (:import-from #:website/lib/cache
+                #:*page-versions*
+                #:revalidate-path)
   (:import-from #:website/lib/etag
                 #:*swr-cache-control*
-                #:*content-version*
                 #:*etag-middleware*
-                #:bump-content-version
                 #:current-etag
                 #:opaque-tag
                 #:if-none-match-p
@@ -36,12 +37,16 @@
         (list "body")))
 
 (deftest current-etag
-  (testing "is a weak tag that changes when the content version is bumped"
-    (let ((*content-version* 0))
-      (let ((before (current-etag)))
-        (ok (uiop:string-prefix-p "W/\"" before))
-        (bump-content-version)
-        (ok (string/= before (current-etag)))))))
+  (let ((*page-versions* (make-hash-table :test #'equal)))
+    (testing "is a weak tag shared by paths at the same version"
+      (ok (uiop:string-prefix-p "W/\"" (current-etag "/")))
+      (ok (string= (current-etag "/") (current-etag "/about"))))
+    (testing "changes only for the revalidated path"
+      (let ((root (current-etag "/"))
+            (about (current-etag "/about")))
+        (revalidate-path "/about")
+        (ok (string= root (current-etag "/")))
+        (ok (string/= about (current-etag "/about")))))))
 
 (deftest opaque-tag
   (testing "strips the weak prefix and surrounding whitespace"
@@ -88,14 +93,14 @@
 
 (deftest etag-middleware
   (with-website-env ("test")
-    (let* ((*content-version* 0)
+    (let* ((*page-versions* (make-hash-table :test #'equal))
            (calls 0)
            (app (funcall *etag-middleware*
                          (lambda (env)
                            (declare (ignore env))
                            (incf calls)
                            (swr-response))))
-           (etag (current-etag)))
+           (etag (current-etag "/")))
       (testing "tags a fresh response"
         (let ((res (funcall app (make-env))))
           (ok (= 200 (first res)))
@@ -111,10 +116,11 @@
           (ok (null (third res)))))
       (testing "renders again for a stale tag"
         (ok (= 200 (first (funcall app (make-env :if-none-match "W/\"0.0\""))))))
-      (testing "invalidates the old tag when the content version is bumped"
-        (bump-content-version)
+      (testing "invalidates only the revalidated path"
+        (revalidate-path "/")
         (ok (= 200 (first (funcall app (make-env :if-none-match etag)))))
-        (ok (= 304 (first (funcall app (make-env :if-none-match (current-etag)))))))
+        (ok (= 304 (first (funcall app (make-env :if-none-match (current-etag "/"))))))
+        (ok (= 304 (first (funcall app (make-env :path "/about" :if-none-match etag))))))
       (testing "leaves bypassed requests untouched"
         (ok (null (getf (second (funcall app (make-env :path "/assets/x.css"))) :etag)))
         (ok (null (getf (second (funcall app (make-env :query "x=1"))) :etag))))))
@@ -123,4 +129,4 @@
       (let ((app (funcall *etag-middleware*
                           (lambda (env) (declare (ignore env)) (swr-response)))))
         (ok (null (getf (second (funcall app (make-env))) :etag)))
-        (ok (= 200 (first (funcall app (make-env :if-none-match (current-etag))))))))))
+        (ok (= 200 (first (funcall app (make-env :if-none-match (current-etag "/"))))))))))

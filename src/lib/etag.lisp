@@ -2,8 +2,9 @@
   (:use #:cl)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
+  (:import-from #:website/lib/cache
+                #:page-version)
   (:export #:*swr-cache-control*
-           #:bump-content-version
            #:*etag-middleware*))
 (in-package #:website/lib/etag)
 
@@ -12,13 +13,8 @@
 
 (defparameter *build-id* (get-universal-time))
 
-(defparameter *content-version* 0)
-
-(defun bump-content-version ()
-  (incf *content-version*))
-
-(defun current-etag ()
-  (format nil "W/\"~a.~a\"" *build-id* *content-version*))
+(defun current-etag (path)
+  (format nil "W/\"~a.~a\"" *build-id* (page-version path)))
 
 (defparameter *bypass-prefixes* '("/assets" "/actions" "/api"))
 
@@ -58,7 +54,7 @@
       (if (or (dev-mode-p)
               (not (taggable-request-p env)))
           (funcall app env)
-          (let ((etag (current-etag)))
+          (let ((etag (current-etag (getf env :path-info))))
             (if (if-none-match-p env etag)
                 `(304 (:etag ,etag :cache-control ,*swr-cache-control*) nil)
                 (let ((res (funcall app env)))

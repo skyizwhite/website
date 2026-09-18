@@ -3,10 +3,8 @@
   (:import-from #:microcms
                 #:microcms-error
                 #:microcms-error-status)
-  (:import-from #:function-cache
-                #:defcached
-                #:clear-cache
-                #:clear-cache-partial-arguments)
+  (:import-from #:website/lib/cache
+                #:deffetcher)
   (:import-from #:website/lib/env
                 #:microcms-service-domain
                 #:microcms-api-key)
@@ -18,10 +16,7 @@
            #:fetch-blog-detail
            #:fetch-blog-likes
            #:update-blog-likes
-           #:increment-blog-likes
-           #:clear-about-cache
-           #:clear-works-cache
-           #:clear-blog-cache))
+           #:increment-blog-likes))
 (in-package #:website/lib/cms)
 
 (setf microcms:*service-domain* (microcms-service-domain))
@@ -41,25 +36,25 @@ code (use T for the default):
          (case (microcms-error-status ,e)
            ,@clauses)))))
 
-(defcached fetch-about (&key draft-key)
+(deffetcher fetch-about (&key draft-key) ("about")
   (microcms:get-object "about" :query (list :draft-key draft-key)))
 
-(defcached fetch-works (&key draft-key)
+(deffetcher fetch-works (&key draft-key) ("works")
   (microcms:get-object "works" :query (list :draft-key draft-key)))
 
-(defcached fetch-blog-list (&key page)
+(deffetcher fetch-blog-list (&key page) ("blog")
   ;TODO: pagenation
   (declare (ignore page))
   (getf (microcms:get-list "blog" :query '(:fields "id,title,publishedAt"
                                            :limit 100))
         :contents))
 
-(defcached fetch-recent-blog-list ()
+(deffetcher fetch-recent-blog-list () ("blog")
   (getf (microcms:get-list "blog" :query '(:fields "id,title,publishedAt"
                                            :limit 3))
         :contents))
 
-(defcached fetch-blog-detail (id &key draft-key)
+(deffetcher fetch-blog-detail (id &key draft-key) ("blog")
   (microcms:get-item "blog" id :query (list :draft-key draft-key)))
 
 (defun fetch-blog-likes (id)
@@ -77,24 +72,3 @@ code (use T for the default):
 ; For debugging
 (defun reset-blog-likes (id &optional (likes 0))
   (microcms:update-item "blog" id (list :likes likes)))
-
-(defun clear-about-cache (new-draft-key)
-  (if new-draft-key
-      (clear-cache-partial-arguments *fetch-about-cache* `(:draft-key ,new-draft-key))
-      (clear-cache *fetch-about-cache*)))
-
-(defun clear-works-cache (new-draft-key)
-  (if new-draft-key
-      (clear-cache-partial-arguments *fetch-works-cache* `(:draft-key ,new-draft-key))
-      (clear-cache *fetch-works-cache*)))
-
-(defun clear-blog-cache (id old-draft-key new-draft-key)
-  (labels ((clear-detail-cache (id draft-key)
-             (clear-cache-partial-arguments *fetch-blog-detail-cache*
-                                            `(,id :draft-key ,draft-key))))
-    (unless new-draft-key
-      (clear-cache *fetch-blog-list-cache*)
-      (clear-cache *fetch-recent-blog-list-cache*)
-      (clear-detail-cache id old-draft-key))
-    (clear-detail-cache id new-draft-key)))
-
