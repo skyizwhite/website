@@ -43,6 +43,7 @@
 :root {
   font-family: var(--font-sans);
   color-scheme: light;
+  scrollbar-gutter: stable;
 
   --bg-base: var(--color-ink-0);
   --bg-muted: var(--color-ink-100);
@@ -62,10 +63,6 @@
 body {
   color: var(--fg-base);
   min-height: 100svh;
-}
-
-@view-transition {
-  navigation: auto;
 }
 
 /* ---------- color ---------- */
