@@ -5,3 +5,4 @@ bin/
 fonts/*.woff2
 assets/style/dist.css
 __pycache__/
+docker-compose.yaml

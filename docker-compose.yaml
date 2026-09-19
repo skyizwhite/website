@@ -1,0 +1,31 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      WEBSITE_ENV: ${WEBSITE_ENV}
+      WEBSITE_URL: ${WEBSITE_URL}
+      MICROCMS_SERVICE_DOMAIN: ${MICROCMS_SERVICE_DOMAIN}
+      MICROCMS_API_KEY: ${MICROCMS_API_KEY}
+      MICROCMS_WEBHOOK_KEY: ${MICROCMS_WEBHOOK_KEY}
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "60", "1", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  redis-data:
