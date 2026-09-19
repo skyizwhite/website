@@ -74,6 +74,7 @@
       (no-store)
       (with-cms-fallback ((404 (error-action 404))
                           (t (error-action 500)))
+        (fetch-blog-detail blog-id)
         (if (liked-post-p blog-id)
             (hsx
              (div :id "like-button" :class "h-12 animate-fade-rise"
@@ -100,6 +101,7 @@
         (return-from add-like (error-action 409)))
       (with-cms-fallback ((404 (error-action 404))
                           (t (error-action 500)))
+        (fetch-blog-detail blog-id)
         (let ((likes (increment-blog-likes blog-id)))
           (mark-post-liked blog-id)
           (hsx

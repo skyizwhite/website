@@ -4,13 +4,9 @@
   (:import-from #:website/lib/env
                 #:redis-host
                 #:redis-port)
-  (:import-from #:website/lib/cms
-                #:fetch-legacy-blog-likes
-                #:fetch-all-legacy-blog-likes)
   (:export #:likes-key
            #:fetch-blog-likes
-           #:increment-blog-likes
-           #:import-legacy-blog-likes))
+           #:increment-blog-likes))
 (in-package #:website/lib/likes)
 
 (defun likes-key (blog-id)
@@ -29,45 +25,13 @@
 (defmacro with-redis (&body body)
   `(call-with-redis (lambda () ,@body)))
 
-;;; Storage.
-
-(defun seed-blog-likes (blog-id)
-  "Copy the legacy microCMS like count into Redis unless a count is
-already there. SETNX keeps a like that raced in from being overwritten."
-  (red:setnx (likes-key blog-id) (fetch-legacy-blog-likes blog-id)))
-
 (defun fetch-blog-likes (blog-id)
-  "Current like count of BLOG-ID. Signals `microcms-error' 404 for an
-unknown post that has never been counted."
+  "Current like count of BLOG-ID, 0 when it has never been liked."
   (with-redis
     (let ((value (red:get (likes-key blog-id))))
-      (cond (value (parse-integer value))
-            (t (seed-blog-likes blog-id)
-               (parse-integer (red:get (likes-key blog-id))))))))
+      (if value (parse-integer value) 0))))
 
 (defun increment-blog-likes (blog-id)
   "Add one like to BLOG-ID and return the new count."
   (with-redis
-    (let ((key (likes-key blog-id)))
-      (unless (red:exists key)
-        (seed-blog-likes blog-id))
-      (red:incr key))))
-
-;;; One-shot migration. Run once after the Redis deploy, then the legacy
-;;; seeding above and the microCMS `likes' field can be removed.
-
-(defun import-legacy-blog-likes ()
-  "Copy every post's microCMS like count into Redis with SETNX, leaving
-posts that already have a Redis count untouched. Prints one line per
-post and returns the number of keys written."
-  (let ((written 0))
-    (with-redis
-      (loop for (id . likes) in (fetch-all-legacy-blog-likes)
-            for key = (likes-key id)
-            do (cond ((red:setnx key likes)
-                      (incf written)
-                      (format t "~a: set ~a~%" id likes))
-                     (t
-                      (format t "~a: kept ~a (cms ~a)~%" id (red:get key) likes)))))
-    (format t "~a key~:p written~%" written)
-    written))
+    (red:incr (likes-key blog-id))))
