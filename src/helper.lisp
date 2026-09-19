@@ -45,49 +45,16 @@
 
 (defparameter *fonts-css* (find-asset "style" "fonts-*.css"))
 
-(defun css-field (rule key &key (end #\;))
-  (let ((start (search key rule)))
-    (and start
-         (let ((from (+ start (length key))))
-           (subseq rule from (or (position end rule :start from) (length rule)))))))
-
-(defun font-face-rules (css)
-  (loop
-    :with start := 0
-    :for open := (search "@font-face{" css :start2 start)
-    :while open
-    :for close := (position #\} css :start open)
-    :collect (subseq css open close)
-    :do (setf start close)))
-
-(defun range-covers-p (range code)
-  (loop
-    :for token :in (uiop:split-string range :separator ",")
-    :for spec := (subseq (string-trim " " token) 2)
-    :for dash := (position #\- spec)
-    :for lo := (parse-integer spec :end dash :radix 16)
-    :for hi := (if dash (parse-integer spec :start (1+ dash) :radix 16) lo)
-    :thereis (<= lo code hi)))
-
-(defun shared-font-slices ()
-  (let ((rules (and *fonts-css*
-                    (font-face-rules (uiop:read-file-string (format nil "assets/~a" *fonts-css*))))))
-    (loop
-      :for (weight code) :in '((400 #x3042) (400 #x41) (700 #x3042) (700 #x41) (800 #x41))
-      :for rule := (find-if (lambda (rule)
-                              (and (= weight (parse-integer (css-field rule "font-weight:")))
-                                   (range-covers-p (css-field rule "unicode-range:") code)))
-                            rules :from-end t)
-      :when rule :collect (css-field rule "url(" :end #\)))))
-
-(defparameter *shared-font-slices* (shared-font-slices))
+(defparameter *preload-fonts*
+  (let ((file (probe-file "assets/fonts/preload.txt")))
+    (and file (remove-if #'uiop:emptyp (uiop:read-file-lines file)))))
 
 (defun preloads ()
   (append (list (cons (asset-path "style/dist.css") "style"))
           (and *fonts-css*
                (list (cons (asset-path *fonts-css* :bust nil) "style")))
           (loop
-            :for url :in *shared-font-slices*
+            :for url :in *preload-fonts*
             :collect (cons url "font"))))
 
 (defun preload-link ()

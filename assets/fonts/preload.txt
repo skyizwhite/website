@@ -1,0 +1,5 @@
+/assets/fonts/LINESeedJP-Regular.119.86cea1d4.woff2
+/assets/fonts/LINESeedJP-Regular.123.a14d6af1.woff2
+/assets/fonts/LINESeedJP-Bold.119.3bf1726f.woff2
+/assets/fonts/LINESeedJP-Bold.123.62c4645d.woff2
+/assets/fonts/LINESeedJP-ExtraBold.123.82ab4958.woff2
