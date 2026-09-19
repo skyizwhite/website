@@ -4,3 +4,4 @@ assets/style/dist.css
 .env
 __pycache__/
 .devbox/
+data/
