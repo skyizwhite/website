@@ -13,11 +13,14 @@
   (when (probe-file env-path)
     (load-env env-path)))
 
-(defmacro env-var (name var)
+(defmacro env-var (name var &optional optionalp)
   `(defun ,name ()
-     (or (uiop:getenv ,var) "")))
+     (let ((value (or (uiop:getenv ,var) "")))
+       (when (and (not ,optionalp) (uiop:emptyp value))
+         (error "Environment variable ~a is empty" ,var))
+       value)))
 
-(env-var website-env "WEBSITE_ENV")
+(env-var website-env "WEBSITE_ENV" :optional)
 (env-var website-url "WEBSITE_URL")
 (env-var microcms-service-domain "MICROCMS_SERVICE_DOMAIN")
 (env-var microcms-api-key "MICROCMS_API_KEY")
