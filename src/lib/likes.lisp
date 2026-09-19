@@ -5,10 +5,12 @@
                 #:redis-host
                 #:redis-port)
   (:import-from #:website/lib/cms
-                #:fetch-legacy-blog-likes)
+                #:fetch-legacy-blog-likes
+                #:fetch-all-legacy-blog-likes)
   (:export #:likes-key
            #:fetch-blog-likes
-           #:increment-blog-likes))
+           #:increment-blog-likes
+           #:import-legacy-blog-likes))
 (in-package #:website/lib/likes)
 
 (defun likes-key (blog-id)
@@ -50,3 +52,22 @@ unknown post that has never been counted."
       (unless (red:exists key)
         (seed-blog-likes blog-id))
       (red:incr key))))
+
+;;; One-shot migration. Run once after the Redis deploy, then the legacy
+;;; seeding above and the microCMS `likes' field can be removed.
+
+(defun import-legacy-blog-likes ()
+  "Copy every post's microCMS like count into Redis with SETNX, leaving
+posts that already have a Redis count untouched. Prints one line per
+post and returns the number of keys written."
+  (let ((written 0))
+    (with-redis
+      (loop for (id . likes) in (fetch-all-legacy-blog-likes)
+            for key = (likes-key id)
+            do (cond ((red:setnx key likes)
+                      (incf written)
+                      (format t "~a: set ~a~%" id likes))
+                     (t
+                      (format t "~a: kept ~a (cms ~a)~%" id (red:get key) likes)))))
+    (format t "~a key~:p written~%" written)
+    written))

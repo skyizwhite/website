@@ -14,7 +14,8 @@
            #:fetch-blog-list
            #:fetch-recent-blog-list
            #:fetch-blog-detail
-           #:fetch-legacy-blog-likes))
+           #:fetch-legacy-blog-likes
+           #:fetch-all-legacy-blog-likes))
 (in-package #:website/lib/cms)
 
 (setf microcms:*service-domain* (microcms-service-domain))
@@ -61,3 +62,17 @@ Redis. Signals `microcms-error' with status 404 when ID does not exist."
   (or (getf (microcms:get-item "blog" id :query (list :fields "likes"))
             :likes)
       0))
+
+(defun fetch-all-legacy-blog-likes ()
+  "Alist of (blog-id . likes) for every published post, read from the
+legacy microCMS `likes' field. Pages through the whole list."
+  (loop with offset = 0
+        for page = (microcms:get-list "blog" :query (list :fields "id,likes"
+                                                        :limit 100
+                                                        :offset offset))
+        for contents = (getf page :contents)
+        append (mapcar (lambda (item)
+                         (cons (getf item :id) (or (getf item :likes) 0)))
+                       contents)
+        do (incf offset (length contents))
+        while (and contents (< offset (getf page :total-count)))))
