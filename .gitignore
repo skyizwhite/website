@@ -1,4 +1,5 @@
 .qlot
-bin/tailwindcss
+bin/
 assets/style/dist.css
 .env
+__pycache__/

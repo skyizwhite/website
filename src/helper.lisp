@@ -11,6 +11,7 @@
   (:export #:set-metadata
            #:set-cache
            #:asset-path
+           #:*fonts-css*
            #:with-nm-request
            #:error-action
            #:error-page))
@@ -18,6 +19,10 @@
 
 (defun asset-path (path &key (bust t))
   (format nil "/assets/~a~@[?v=~a~]" path (and bust #.(get-universal-time))))
+
+(defparameter *fonts-css*
+  (let ((file (first (directory "assets/style/fonts-*.css"))))
+    (and file (format nil "style/~a.~a" (pathname-name file) (pathname-type file)))))
 
 (defun set-metadata (metadata)
   (setf (context :metadata) metadata))

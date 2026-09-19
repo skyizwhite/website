@@ -5,6 +5,8 @@ style_dist := "./assets/style/dist.css"
 
 tw_platform := "linux-x64"
 
+font_venv  := "./bin/fonts-venv"
+
 [private]
 default:
     @just --list
@@ -28,6 +30,13 @@ watch:
 # Generate the final CSS output
 build:
     @{{ tw_bin }} -i {{ style_src }} -o {{ style_dist }}
+
+# Slice the source fonts in ./fonts into unicode-range subsets under ./assets/fonts
+fonts:
+    @test -x {{ font_venv }}/bin/python || python3 -m venv {{ font_venv }}
+    @test {{ font_venv }}/.installed -nt ./fonts/requirements.txt \
+        || ({{ font_venv }}/bin/pip install -q -r ./fonts/requirements.txt && touch {{ font_venv }}/.installed)
+    @{{ font_venv }}/bin/python ./fonts/slice.py
 
 # Remove the bin directory and clean up generated files
 clean:

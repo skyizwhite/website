@@ -9,7 +9,8 @@
   (:import-from #:website/components/footer
                 #:~footer)
   (:import-from #:website/helper
-                #:asset-path)
+                #:asset-path
+                #:*fonts-css*)
   (:export #:~document))
 (in-package #:website/document)
 
@@ -18,6 +19,8 @@
    (html :lang "ja"
      (head
        (link :rel "stylesheet" :href (asset-path "style/dist.css"))
+       (and *fonts-css*
+            (hsx (link :rel "stylesheet" :href (asset-path *fonts-css* :bust nil))))
        (script :src (asset-path "js/nomini.min.js") :defer t)
        (~metadata))
      (body :class (clsx "min-h-[100svh] flex flex-col antialiased bg-base text-fg"

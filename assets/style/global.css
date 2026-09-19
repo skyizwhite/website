@@ -1,32 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* ---------- fonts ---------- */
-
-@font-face {
-  font-display: swap;
-  font-family: 'LINE Seed JP';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/assets/fonts/LINESeedJP-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-display: swap;
-  font-family: 'LINE Seed JP';
-  font-style: normal;
-  font-weight: 700;
-  src: url('/assets/fonts/LINESeedJP-Bold.woff2') format('woff2');
-}
-
-@font-face {
-  font-display: swap;
-  font-family: 'LINE Seed JP';
-  font-style: normal;
-  font-weight: 800;
-  src: url('/assets/fonts/LINESeedJP-ExtraBold.woff2') format('woff2');
-}
-
 /* ---------- tokens ---------- */
 
 @theme {
