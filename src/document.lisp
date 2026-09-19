@@ -11,7 +11,7 @@
   (:import-from #:website/helper
                 #:asset-path
                 #:*fonts-css*
-                #:*preload-fonts*)
+                #:*preloads*)
   (:export #:~document))
 (in-package #:website/document)
 
@@ -20,9 +20,9 @@
    (html :lang "ja"
      (head
        (loop
-         :for font :in *preload-fonts* :collect
-            (hsx (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
-                       :href (asset-path font :bust nil))))
+         :for (href . as) :in *preloads*
+         :when (string= as "font") :collect
+            (hsx (link :rel "preload" :as as :type "font/woff2" :crossorigin t :href href)))
        (link :rel "stylesheet" :href (asset-path "style/dist.css"))
        (and *fonts-css*
             (hsx (link :rel "stylesheet" :href (asset-path *fonts-css* :bust nil))))

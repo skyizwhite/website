@@ -12,7 +12,7 @@
            #:set-cache
            #:asset-path
            #:*fonts-css*
-           #:*preload-fonts*
+           #:*preloads*
            #:*preload-link*
            #:with-nm-request
            #:error-action
@@ -28,25 +28,55 @@
 
 (defparameter *fonts-css* (find-asset "style" "fonts-*.css"))
 
-(defparameter *preload-fonts*
-  (remove nil
+(defun css-field (rule key &key (end #\;))
+  (let ((start (search key rule)))
+    (and start
+         (let ((from (+ start (length key))))
+           (subseq rule from (or (position end rule :start from) (length rule)))))))
+
+(defun font-face-rules (css)
+  (loop
+    :with start := 0
+    :for open := (search "@font-face{" css :start2 start)
+    :while open
+    :for close := (position #\} css :start open)
+    :collect (subseq css open close)
+    :do (setf start close)))
+
+(defun range-covers-p (range code)
+  (loop
+    :for token :in (uiop:split-string range :separator ",")
+    :for spec := (subseq (string-trim " " token) 2)
+    :for dash := (position #\- spec)
+    :for lo := (parse-integer spec :end dash :radix 16)
+    :for hi := (if dash (parse-integer spec :start (1+ dash) :radix 16) lo)
+    :thereis (<= lo code hi)))
+
+(defun shared-font-slices ()
+  (let ((rules (and *fonts-css*
+                    (font-face-rules (uiop:read-file-string (format nil "assets/~a" *fonts-css*))))))
+    (loop
+      :for (weight code) :in '((400 #x3042) (400 #x41) (700 #x3042) (700 #x41) (800 #x41))
+      :for rule := (find-if (lambda (rule)
+                              (and (= weight (parse-integer (css-field rule "font-weight:")))
+                                   (range-covers-p (css-field rule "unicode-range:") code)))
+                            rules :from-end t)
+      :when rule :collect (css-field rule "url(" :end #\)))))
+
+(defparameter *preloads*
+  (append (list (cons (asset-path "style/dist.css") "style"))
+          (and *fonts-css*
+               (list (cons (asset-path *fonts-css* :bust nil) "style")))
           (loop
-            :for (weight . slices) :in '(("Regular" 119 123)
-                                         ("Bold" 119 123)
-                                         ("ExtraBold" 123))
-            :append (loop
-                      :for slice :in slices
-                      :collect (find-asset "fonts" (format nil "LINESeedJP-~a.~a.*.woff2" weight slice))))))
+            :for url :in (shared-font-slices)
+            :collect (cons url "font"))))
 
 (defparameter *preload-link*
   (format nil "~{~a~^, ~}"
-          (append
-           (list (format nil "<~a>; rel=preload; as=style" (asset-path "style/dist.css")))
-           (and *fonts-css*
-                (list (format nil "<~a>; rel=preload; as=style" (asset-path *fonts-css* :bust nil))))
-           (loop
-             :for font :in *preload-fonts*
-             :collect (format nil "<~a>; rel=preload; as=font; crossorigin" (asset-path font :bust nil))))))
+          (loop
+            :for (url . as) :in *preloads*
+            :collect (format nil "<~a>; rel=preload; as=~a~:[~;; crossorigin~]"
+                             url as (string= as "font")))))
 
 (defun set-metadata (metadata)
   (setf (context :metadata) metadata))
