@@ -2,5 +2,6 @@
 .qlot
 .env
 bin/
-fonts/
+fonts/*.woff2
 assets/style/dist.css
+__pycache__/

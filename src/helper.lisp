@@ -46,8 +46,11 @@
 (defparameter *fonts-css* (find-asset "style" "fonts-*.css"))
 
 (defparameter *preload-fonts*
-  (let ((file (probe-file "assets/fonts/preload.txt")))
-    (and file (remove-if #'uiop:emptyp (uiop:read-file-lines file)))))
+  (let ((file (and *fonts-css* (probe-file "fonts/preload.txt"))))
+    (and file
+         (remove-if #'uiop:emptyp
+                    (mapcar (lambda (line) (string-trim '(#\Space #\Tab #\Return) line))
+                            (uiop:read-file-lines file))))))
 
 (defun preloads ()
   (append (list (cons (asset-path "style/dist.css") "style"))

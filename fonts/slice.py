@@ -13,7 +13,7 @@ import tempfile
 from pathlib import Path
 
 from fontTools import subset
-from fontTools.pens.recordingPen import RecordingPen
+from fontTools.pens.recordingPen import DecomposingRecordingPen
 from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -30,7 +30,7 @@ SOURCES = [
     ("LINESeedJP-ExtraBold.woff2", 800),
 ]
 PRELOAD = [(400, "あ"), (400, "A"), (700, "あ"), (700, "A"), (800, "A")]
-PRELOAD_FILE = "preload.txt"
+PRELOAD_FILE = SRC_DIR / "preload.txt"
 ATTEMPTS = 5
 
 
@@ -79,23 +79,31 @@ def decode(src: Path) -> bytes:
     return buf.getvalue()
 
 
-def outlines(font: TTFont, cps: set[int] | None = None) -> dict[int, list]:
+def outlines(font: TTFont) -> list[list]:
     glyphs = font.getGlyphSet()
-    result: dict[int, list] = {}
-    for cp, name in font.getBestCmap().items():
-        if cps is None or cp in cps:
-            pen = RecordingPen()
-            glyphs[name].draw(pen)
-            result[cp] = pen.value
+    result: list[list] = []
+    for name in font.getGlyphOrder():
+        pen = DecomposingRecordingPen(glyphs)
+        glyphs[name].draw(pen)
+        result.append(pen.value)
     return result
 
 
-def subset_font(ttf: bytes, cps: set[int], reference: dict[int, list]) -> tuple[bytes, set[int]] | None:
-    keep = cps & set(open_font(ttf).getBestCmap())
+class Source:
+    def __init__(self, ttf: bytes) -> None:
+        font = open_font(ttf)
+        self.ttf = ttf
+        self.cmap: dict[int, str] = font.getBestCmap()
+        self.reference: dict[str, list] = dict(zip(font.getGlyphOrder(), outlines(font)))
+
+
+def subset_font(source: Source, cps: set[int]) -> tuple[bytes, set[int]] | None:
+    keep = cps & source.cmap.keys()
     if not keep:
         return None
+    seen: set[str] = set()
     for attempt in range(1, ATTEMPTS + 1):
-        font = open_font(ttf)
+        font = open_font(source.ttf)
         opts = subset.Options()
         opts.layout_features = ["*"]
         opts.name_IDs = ["*"]
@@ -107,15 +115,24 @@ def subset_font(ttf: bytes, cps: set[int], reference: dict[int, list]) -> tuple[
         out = io.BytesIO()
         font.save(out)
         data = out.getvalue()
-        broken = [cp for cp, value in outlines(open_font(data)).items() if value != reference[cp]]
+        order = font.getGlyphOrder()
+        written = outlines(open_font(data))
+        if len(written) != len(order):
+            raise RuntimeError(f"slice has {len(written)} glyphs, expected {len(order)}")
+        broken = [name for name, value in zip(order, written) if value != source.reference[name]]
         if not broken:
             return data, keep
+        label = f"{len(keep)} codepoints from U+{min(keep):04X}"
+        digest = hashlib.sha256(data).hexdigest()
         print(
-            f"warning: attempt {attempt} produced a wrong outline for "
-            f"{', '.join(f'U+{cp:04X}' for cp in broken[:5])}; retrying",
+            f"warning: attempt {attempt} for {label} produced a wrong outline for "
+            f"{', '.join(broken[:5])}",
             file=sys.stderr,
         )
-    raise RuntimeError(f"could not produce an intact slice for {format_range(keep)[:60]}...")
+        if digest in seen:
+            raise RuntimeError(f"slice for {label} is wrong and reproducible; giving up")
+        seen.add(digest)
+    raise RuntimeError(f"could not produce an intact slice for {label} in {ATTEMPTS} attempts")
 
 
 def main() -> None:
@@ -139,7 +156,6 @@ def main() -> None:
     tmp_dir = Path(tempfile.mkdtemp(prefix=".fonts-", dir=OUT_DIR.parent))
     try:
         css, built = build_slices(decoded, slices, tmp_dir)
-        (tmp_dir / PRELOAD_FILE).write_text("".join(f"{url}\n" for url in preload_urls(built)))
     except BaseException:
         shutil.rmtree(tmp_dir, ignore_errors=True)
         raise
@@ -153,6 +169,7 @@ def main() -> None:
     for stale in CSS_DIR.glob(CSS_GLOB):
         stale.unlink()
     css_out.write_text(css_text)
+    PRELOAD_FILE.write_text("".join(f"{url}\n" for url in preload_urls(built)))
 
     total = sum(p.stat().st_size for p in OUT_DIR.glob("*.woff2"))
     print(f"{len(list(OUT_DIR.glob('*.woff2')))} slices, {total / 1024:.0f} KiB total -> {css_out.relative_to(ROOT)}")
@@ -165,9 +182,9 @@ def build_slices(
     built: list[tuple[int, set[int], str]] = []
     for name, weight in SOURCES:
         stem = Path(name).stem
-        reference = outlines(open_font(decoded[name]))
+        source = Source(decoded[name])
         for idx, cps in enumerate(slices):
-            result = subset_font(decoded[name], cps, reference)
+            result = subset_font(source, cps)
             if result is None:
                 continue
             data, keep = result
