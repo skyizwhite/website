@@ -3,6 +3,7 @@
   :pathname "tests"
   :depends-on ("rove"
                "website-tests/components/metadata"
+               "website-tests/lib/asset-cache"
                "website-tests/lib/cache"
                "website-tests/lib/etag"
                "website-tests/lib/liked-posts"

@@ -5,11 +5,14 @@
   (:import-from #:website/lib/cache
                 #:page-version)
   (:export #:*swr-cache-control*
+           #:*revalidate-cache-control*
            #:*etag-middleware*))
 (in-package #:website/lib/etag)
 
 (defparameter *swr-cache-control*
   "public, max-age=0, stale-while-revalidate=604800, stale-if-error=604800")
+
+(defparameter *revalidate-cache-control* "public, max-age=0, must-revalidate")
 
 (defparameter *build-id* (get-universal-time))
 

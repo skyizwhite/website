@@ -1,10 +1,13 @@
 (uiop:define-package #:website/helper
   (:use #:cl
         #:jingle)
+  (:import-from #:md5
+                #:md5sum-file)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
   (:import-from #:website/lib/etag
-                #:*swr-cache-control*)
+                #:*swr-cache-control*
+                #:*revalidate-cache-control*)
   (:import-from #:website/components/error-page
                 #:~error-page
                 #:error-metadata)
@@ -12,15 +15,29 @@
            #:set-cache
            #:asset-path
            #:*fonts-css*
-           #:*preloads*
-           #:*preload-link*
+           #:preloads
+           #:preload-link
            #:with-nm-request
            #:error-action
            #:error-page))
 (in-package #:website/helper)
 
+(defparameter *asset-versions* (make-hash-table :test #'equal :synchronized t))
+
+(defun asset-version (path)
+  (let ((file (probe-file (format nil "assets/~a" path))))
+    (when file
+      (let ((stamp (file-write-date file))
+            (cached (gethash path *asset-versions*)))
+        (if (eql stamp (car cached))
+            (cdr cached)
+            (let ((version (format nil "~(~{~2,'0x~}~)"
+                                   (coerce (subseq (md5sum-file file) 0 4) 'list))))
+              (setf (gethash path *asset-versions*) (cons stamp version))
+              version))))))
+
 (defun asset-path (path &key (bust t))
-  (format nil "/assets/~a~@[?v=~a~]" path (and bust #.(get-universal-time))))
+  (format nil "/assets/~a~@[?v=~a~]" path (and bust (asset-version path))))
 
 (defun find-asset (dir glob)
   (let ((file (first (directory (format nil "assets/~a/~a" dir glob)))))
@@ -63,18 +80,20 @@
                             rules :from-end t)
       :when rule :collect (css-field rule "url(" :end #\)))))
 
-(defparameter *preloads*
+(defparameter *shared-font-slices* (shared-font-slices))
+
+(defun preloads ()
   (append (list (cons (asset-path "style/dist.css") "style"))
           (and *fonts-css*
                (list (cons (asset-path *fonts-css* :bust nil) "style")))
           (loop
-            :for url :in (shared-font-slices)
+            :for url :in *shared-font-slices*
             :collect (cons url "font"))))
 
-(defparameter *preload-link*
+(defun preload-link ()
   (format nil "~{~a~^, ~}"
           (loop
-            :for (url . as) :in *preloads*
+            :for (url . as) :in (preloads)
             :collect (format nil "<~a>; rel=preload; as=~a~:[~;; crossorigin~]"
                              url as (string= as "font")))))
 
@@ -85,7 +104,7 @@
   (cond ((dev-mode-p)
          (set-response-header :cache-control "private, no-store, must-revalidate"))
         ((eq strategy :ssr)
-         (set-response-header :cache-control "public, max-age=0, must-revalidate"))
+         (set-response-header :cache-control *revalidate-cache-control*))
         ((eq strategy :swr)
          (set-response-header :cache-control *swr-cache-control*))))
 
