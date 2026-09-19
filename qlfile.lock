@@ -38,10 +38,9 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2019-08-13"))
-("microcms" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/skyizwhite/microcms-lisp-sdk")
-  :version "git-b15813452578bf3ed4c46867c998cea999144e27"))
+("koya" .
+ (:class qlot/source/local:source-local
+  :initargs (:path "~/Projects/koya")))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)

@@ -3,7 +3,7 @@
         #:jingle
         #:access)
   (:import-from #:website/lib/env
-                #:microcms-webhook-key)
+                #:koya-webhook-key)
   (:import-from #:website/lib/cache
                 #:revalidate-tag
                 #:revalidate-path)
@@ -12,8 +12,8 @@
 
 (defun @post (params)
   (declare (ignore params))
-  (unless (string= (car (get-request-header "X-MICROCMS-WEBHOOK-KEY"))
-                   (microcms-webhook-key))
+  (unless (equal (car (get-request-header "X-KOYA-WEBHOOK-KEY"))
+                 (koya-webhook-key))
     (set-response-status 401)
     (return-from @post '(:|message| "Invalid token")))
   (let* ((body (request-body-parameters *request*))

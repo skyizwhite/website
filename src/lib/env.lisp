@@ -3,9 +3,9 @@
   (:import-from #:cl-dotenv
                 #:load-env)
   (:export #:website-url
-           #:microcms-service-domain
-           #:microcms-api-key
-           #:microcms-webhook-key
+           #:koya-url
+           #:koya-api-key
+           #:koya-webhook-key
            #:redis-host
            #:redis-port
            #:dev-mode-p))
@@ -24,9 +24,9 @@
 
 (env-var website-env "WEBSITE_ENV" :optional)
 (env-var website-url "WEBSITE_URL")
-(env-var microcms-service-domain "MICROCMS_SERVICE_DOMAIN")
-(env-var microcms-api-key "MICROCMS_API_KEY")
-(env-var microcms-webhook-key "MICROCMS_WEBHOOK_KEY")
+(env-var koya-url "KOYA_URL")
+(env-var koya-api-key "KOYA_API_KEY")
+(env-var koya-webhook-key "KOYA_WEBHOOK_KEY")
 (env-var redis-host "REDIS_HOST")
 (env-var redis-port "REDIS_PORT")
 

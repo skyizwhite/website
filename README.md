@@ -16,7 +16,7 @@ The site is built to load fast and to pick up content edits quickly. Pages are s
 | Routing | [jingle](https://github.com/dnaeon/cl-jingle) with [ningle-fbr](https://github.com/skyizwhite/ningle-fbr) for file-based routing |
 | Fragment endpoints | [ningle-actions](https://github.com/skyizwhite/ningle-actions) |
 | Templating | [HSX](https://github.com/skyizwhite/hsx) |
-| Content | [microCMS](https://microcms.io/) via [microcms-lisp-sdk](https://github.com/skyizwhite/microcms-lisp-sdk) |
+| Content | [koya](https://github.com/skyizwhite/koya) (self-hosted headless CMS) via its Lisp client |
 | Like counts | [Redis](https://redis.io/) via [cl-redis](https://github.com/vseloved/cl-redis) |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) v4 |
 | Interactivity | [Nomini](https://nomini.js.org/) |
