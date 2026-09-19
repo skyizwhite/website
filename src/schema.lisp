@@ -27,13 +27,23 @@
 (defspace website
   :webhooks (list (revalidate-url)))
 
-(defmodel (website blog) (:kind :list)
+(defun page-url (path &key draft)
+  "URL template for the admin UI's page links; {CONTENT_ID} and {DRAFT_KEY} are filled by koya."
+  (format nil "~a~a~:[~;?draft-key={DRAFT_KEY}~]" (website-url) path draft))
+
+(defmodel (website blog) (:kind :list
+                          :public-url (page-url "/blog/{CONTENT_ID}")
+                          :preview-url (page-url "/blog/{CONTENT_ID}" :draft t))
   (title       :text :required t)
   (description :textarea)
   (content     :richtext))
 
-(defmodel (website about) (:kind :object)
+(defmodel (website about) (:kind :object
+                           :public-url (page-url "/about")
+                           :preview-url (page-url "/about" :draft t))
   (content :richtext))
 
-(defmodel (website works) (:kind :object)
+(defmodel (website works) (:kind :object
+                           :public-url (page-url "/works")
+                           :preview-url (page-url "/works" :draft t))
   (content :richtext))

@@ -38,7 +38,7 @@
          (<>
            (~article
              :title (getf blog :title)
-             :content (getf blog :content-html)
+             :content (getf blog :content)
              :published-at (getf blog :published-at)
              :draft-p draft-key)
            (div :class (clsx "mt-12 pt-6 sm:mt-16 sm:pt-8 border-t border-base"

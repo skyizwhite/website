@@ -2,18 +2,14 @@
 """One-off migration of this site's content from microCMS into koya.
 
 Reads MICROCMS_SERVICE_DOMAIN / MICROCMS_API_KEY and KOYA_URL / KOYA_SECRET from
-the environment (or .env), converts richtext HTML to Markdown with markdownify,
-and creates published contents in koya keeping the original ids and publish dates.
+the environment (or .env) and creates published contents in koya keeping the
+original ids, publish dates and richtext HTML.
 
-    pip install markdownify
-    python3 scripts/import-from-microcms.py [--dry-run]
+    python3 scripts/import-from-microcms.py [--dry-run] [--replace]
+
+--replace re-publishes contents that already exist in koya.
 """
 import json, os, sys, urllib.request, urllib.error
-
-try:
-    from markdownify import markdownify
-except ImportError:
-    sys.exit("pip install markdownify")
 
 
 def load_dotenv(path=".env"):
@@ -34,7 +30,8 @@ def env(name):
 
 def http(method, url, headers, body=None):
     data = json.dumps(body).encode() if body is not None else None
-    req = urllib.request.Request(url, data=data, method=method, headers={**headers, "Content-Type": "application/json"})
+    req = urllib.request.Request(url, data=data, method=method,
+                                 headers={**headers, "Content-Type": "application/json"})
     try:
         with urllib.request.urlopen(req) as res:
             return res.status, json.loads(res.read() or b"{}")
@@ -42,43 +39,45 @@ def http(method, url, headers, body=None):
         return e.code, json.loads(e.read() or b"{}")
 
 
-def to_markdown(html):
-    return markdownify(html or "", heading_style="ATX", bullets="-").strip() + "\n"
-
-
 def main():
     load_dotenv()
     dry = "--dry-run" in sys.argv
+    replace = "--replace" in sys.argv
     mc = f"https://{env('MICROCMS_SERVICE_DOMAIN')}.microcms.io/api/v1"
     mc_headers = {"X-MICROCMS-API-KEY": env("MICROCMS_API_KEY")}
     koya = env("KOYA_URL").rstrip("/") + "/admin/api/contents/website"
     koya_headers = {"Authorization": f"Bearer {env('KOYA_SECRET')}"}
 
-    def create(model, payload):
+    def upsert(model, payload):
+        label = f"{model}/{payload.get('id', '(object)')}"
         if dry:
-            print(f"  would create {model}/{payload.get('id', '(new)')}")
+            print(f"  would import {label}")
             return
         status, res = http("POST", f"{koya}/{model}", koya_headers, payload)
         if status == 201:
-            print(f"  created {model}/{res['id']}")
+            print(f"  created {label}")
+        elif status == 409 and replace:
+            status, res = http("POST", f"{koya}/{model}/{payload['id']}/publish", koya_headers,
+                               {"data": payload["data"], "publishedAt": payload["publishedAt"]})
+            print(f"  {'replaced' if status == 200 else 'FAILED'} {label} {'' if status == 200 else res}")
         elif status == 409:
-            print(f"  skipped {model}/{payload['id']} (already exists)")
+            print(f"  skipped {label} (already exists; use --replace)")
         else:
-            print(f"  FAILED {model}: {status} {res}")
+            print(f"  FAILED {label}: {status} {res}")
 
     print("blog")
     status, res = http("GET", f"{mc}/blog?limit=100&fields=id,title,description,content,publishedAt", mc_headers)
     if status != 200:
         sys.exit(f"microCMS blog: {status} {res}")
     for item in res["contents"]:
-        create("blog", {
+        upsert("blog", {
             "id": item["id"],
             "publish": True,
             "publishedAt": item["publishedAt"],
             "data": {
                 "title": item["title"],
                 "description": item.get("description", ""),
-                "content": to_markdown(item.get("content", "")),
+                "content": item.get("content", ""),
             },
         })
 
@@ -87,11 +86,9 @@ def main():
         status, res = http("GET", f"{mc}/{model}", mc_headers)
         if status != 200:
             sys.exit(f"microCMS {model}: {status} {res}")
-        create(model, {
-            "publish": True,
-            "publishedAt": res["publishedAt"],
-            "data": {"content": to_markdown(res.get("content", ""))},
-        })
+        # object models are upserted by the server
+        upsert(model, {"publish": True, "publishedAt": res["publishedAt"],
+                       "data": {"content": res.get("content", "")}})
 
 
 if __name__ == "__main__":

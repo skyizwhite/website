@@ -16,8 +16,7 @@
            #:fetch-blog-detail))
 (in-package #:website/lib/cms)
 
-;;; Content comes from a koya server (space "website"). Richtext fields arrive
-;;; as Markdown in :content and rendered HTML in :content-html.
+;;; Content comes from a koya server (space "website"). Richtext fields are HTML.
 
 (koya/client:configure :base-url (koya-url) :api-key (koya-api-key) :space "website")
 

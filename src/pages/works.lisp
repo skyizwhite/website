@@ -23,5 +23,5 @@
       (let ((works (fetch-works :draft-key draft-key)))
         (~article
           :title "Works"
-          :content (getf works :content-html)
+          :content (getf works :content)
           :draft-p draft-key)))))

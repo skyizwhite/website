@@ -23,5 +23,5 @@
       (let ((about (fetch-about :draft-key draft-key)))
         (~article
           :title "About"
-          :content (getf about :content-html)
+          :content (getf about :content)
           :draft-p draft-key)))))
