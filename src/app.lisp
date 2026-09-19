@@ -26,6 +26,8 @@
                 #:*etag-middleware*)
   (:import-from #:website/document
                 #:~document)
+  (:import-from #:website/helper
+                #:*preload-link*)
   (:export #:*app*))
 (in-package #:website/app)
 
@@ -38,6 +40,7 @@
 
 (defmethod jingle:process-response :around ((app (eql *page-app*)) result)
   (set-response-header :content-type "text/html; charset=utf-8")
+  (set-response-header :link *preload-link*)
   (call-next-method app (hsx:render-to-string (hsx (~document result)))))
 
 (defparameter *api-app* (make-app))

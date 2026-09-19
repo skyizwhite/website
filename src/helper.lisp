@@ -12,6 +12,8 @@
            #:set-cache
            #:asset-path
            #:*fonts-css*
+           #:*preload-fonts*
+           #:*preload-link*
            #:with-nm-request
            #:error-action
            #:error-page))
@@ -20,9 +22,31 @@
 (defun asset-path (path &key (bust t))
   (format nil "/assets/~a~@[?v=~a~]" path (and bust #.(get-universal-time))))
 
-(defparameter *fonts-css*
-  (let ((file (first (directory "assets/style/fonts-*.css"))))
-    (and file (format nil "style/~a.~a" (pathname-name file) (pathname-type file)))))
+(defun find-asset (dir glob)
+  (let ((file (first (directory (format nil "assets/~a/~a" dir glob)))))
+    (and file (format nil "~a/~a.~a" dir (pathname-name file) (pathname-type file)))))
+
+(defparameter *fonts-css* (find-asset "style" "fonts-*.css"))
+
+(defparameter *preload-fonts*
+  (remove nil
+          (loop
+            :for (weight . slices) :in '(("Regular" 119 123)
+                                         ("Bold" 119 123)
+                                         ("ExtraBold" 123))
+            :append (loop
+                      :for slice :in slices
+                      :collect (find-asset "fonts" (format nil "LINESeedJP-~a.~a.*.woff2" weight slice))))))
+
+(defparameter *preload-link*
+  (format nil "~{~a~^, ~}"
+          (append
+           (list (format nil "<~a>; rel=preload; as=style" (asset-path "style/dist.css")))
+           (and *fonts-css*
+                (list (format nil "<~a>; rel=preload; as=style" (asset-path *fonts-css* :bust nil))))
+           (loop
+             :for font :in *preload-fonts*
+             :collect (format nil "<~a>; rel=preload; as=font; crossorigin" (asset-path font :bust nil))))))
 
 (defun set-metadata (metadata)
   (setf (context :metadata) metadata))

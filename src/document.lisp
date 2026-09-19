@@ -10,7 +10,8 @@
                 #:~footer)
   (:import-from #:website/helper
                 #:asset-path
-                #:*fonts-css*)
+                #:*fonts-css*
+                #:*preload-fonts*)
   (:export #:~document))
 (in-package #:website/document)
 
@@ -18,6 +19,10 @@
   (hsx
    (html :lang "ja"
      (head
+       (loop
+         :for font :in *preload-fonts* :collect
+            (hsx (link :rel "preload" :as "font" :type "font/woff2" :crossorigin t
+                       :href (asset-path font :bust nil))))
        (link :rel "stylesheet" :href (asset-path "style/dist.css"))
        (and *fonts-css*
             (hsx (link :rel "stylesheet" :href (asset-path *fonts-css* :bust nil))))
