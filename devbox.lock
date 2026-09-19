@@ -1,0 +1,48 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "last_modified": "2026-09-09T03:01:28Z",
+      "resolved": "github:NixOS/nixpkgs/a391f95d4557d685fd8e5dc0d4b1f9271aa2f342?lastModified=1788922888&narHash=sha256-QMX3uerxnW2R5dHcWpIQILHDltOZnon3x3Spq7EzBFI%3D"
+    },
+    "redis@8.10.1": {
+      "last_modified": "2026-08-27T07:16:00Z",
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/c27cdad491a991b11ed731760aa2ef8db0cb0410#redis",
+      "source": "devbox-search",
+      "version": "8.10.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/p8rnqjfhh57cr4xlrlg2ia3mhqcy7ypn-redis-8.10.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/p8rnqjfhh57cr4xlrlg2ia3mhqcy7ypn-redis-8.10.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jawaxmygwkcrmnrhvqwpyb2slzaliiwl-redis-8.10.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jawaxmygwkcrmnrhvqwpyb2slzaliiwl-redis-8.10.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1pnhssld9r4s4qxmsm9fbqvab9h2fyx3-redis-8.10.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/1pnhssld9r4s4qxmsm9fbqvab9h2fyx3-redis-8.10.1"
+        }
+      }
+    }
+  }
+}

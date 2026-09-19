@@ -14,9 +14,7 @@
            #:fetch-blog-list
            #:fetch-recent-blog-list
            #:fetch-blog-detail
-           #:fetch-blog-likes
-           #:update-blog-likes
-           #:increment-blog-likes))
+           #:fetch-legacy-blog-likes))
 (in-package #:website/lib/cms)
 
 (setf microcms:*service-domain* (microcms-service-domain))
@@ -57,18 +55,9 @@ code (use T for the default):
 (deffetcher fetch-blog-detail (id &key draft-key) ("blog")
   (microcms:get-item "blog" id :query (list :draft-key draft-key)))
 
-(defun fetch-blog-likes (id)
-  (getf (microcms:get-item "blog" id :query (list :fields "likes"))
-        :likes))
-
-(defun update-blog-likes (id likes)
-  (microcms:update-item "blog" id (list :likes likes)))
-
-(defun increment-blog-likes (id)
-  (let ((new-likes (+ (fetch-blog-likes id) 1)))
-    (update-blog-likes id new-likes)
-    new-likes))
-
-; For debugging
-(defun reset-blog-likes (id &optional (likes 0))
-  (microcms:update-item "blog" id (list :likes likes)))
+(defun fetch-legacy-blog-likes (id)
+  "Like count stored in the microCMS `likes' field before likes moved to
+Redis. Signals `microcms-error' with status 404 when ID does not exist."
+  (or (getf (microcms:get-item "blog" id :query (list :fields "likes"))
+            :likes)
+      0))

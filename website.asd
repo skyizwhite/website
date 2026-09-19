@@ -1,3 +1,5 @@
+(register-system-packages "cl-redis" '(:redis :red))
+
 (defsystem "website"
   :description "My personal website"
   :author "Akira Tempaku <paku@skyizwhite.dev>"

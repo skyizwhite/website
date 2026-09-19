@@ -13,3 +13,4 @@ ql function-cache
 ql access
 git named-readtables https://github.com/melisgl/named-readtables
 git rove https://github.com/fukamachi/rove
+ql cl-redis

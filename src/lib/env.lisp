@@ -6,6 +6,8 @@
            #:microcms-service-domain
            #:microcms-api-key
            #:microcms-webhook-key
+           #:redis-host
+           #:redis-port
            #:dev-mode-p))
 (in-package #:website/lib/env)
 
@@ -25,6 +27,8 @@
 (env-var microcms-service-domain "MICROCMS_SERVICE_DOMAIN")
 (env-var microcms-api-key "MICROCMS_API_KEY")
 (env-var microcms-webhook-key "MICROCMS_WEBHOOK_KEY")
+(env-var redis-host "REDIS_HOST")
+(env-var redis-port "REDIS_PORT")
 
 (defun dev-mode-p ()
   (string= (website-env) "dev"))

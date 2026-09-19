@@ -10,7 +10,8 @@ services:
       MICROCMS_SERVICE_DOMAIN: ${MICROCMS_SERVICE_DOMAIN}
       MICROCMS_API_KEY: ${MICROCMS_API_KEY}
       MICROCMS_WEBHOOK_KEY: ${MICROCMS_WEBHOOK_KEY}
-      REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
     depends_on:
       redis:
         condition: service_healthy

@@ -17,6 +17,7 @@ The site is built to load fast and to pick up content edits quickly. Pages are s
 | Fragment endpoints | [ningle-actions](https://github.com/skyizwhite/ningle-actions) |
 | Templating | [HSX](https://github.com/skyizwhite/hsx) |
 | Content | [microCMS](https://microcms.io/) via [microcms-lisp-sdk](https://github.com/skyizwhite/microcms-lisp-sdk) |
+| Like counts | [Redis](https://redis.io/) via [cl-redis](https://github.com/vseloved/cl-redis) |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) v4 |
 | Interactivity | [Nomini](https://nomini.js.org/) |
 | Infrastructure | [Cloudflare](https://www.cloudflare.com/) CDN, [Coolify](https://coolify.io/), [Docker](https://www.docker.com/) |

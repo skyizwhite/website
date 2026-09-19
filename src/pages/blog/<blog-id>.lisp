@@ -7,7 +7,8 @@
                 #:defaction)
   (:import-from #:website/lib/cms
                 #:with-cms-fallback
-                #:fetch-blog-detail
+                #:fetch-blog-detail)
+  (:import-from #:website/lib/likes
                 #:fetch-blog-likes
                 #:increment-blog-likes)
   (:import-from #:website/lib/liked-posts
