@@ -81,15 +81,15 @@
                   (hsx
                    (li
                      (a :href href
-                       :class (clsx "group row items-center justify-between gap-4"
-                                    (if active "text-fg" "text-subtle hover:text-fg"))
-                       (span :class "text-2xl font-extrabold tracking-tighter"
+                       :class "group row items-center justify-between gap-4 text-fg hover:text-subtle"
+                       (span :class "text-2xl font-bold tracking-tighter"
                          label)
                        (and (not active)
                             (hsx
                              (~icon-arrow-right
                                :class "size-5 transition-transform group-hover:translate-x-1")))
-                       (span :class "row-mark group-hover:w-full")))))))
+                       (span :class (clsx "row-mark"
+                                          (if active "w-full" "group-hover:w-full")))))))))
          (p :class "eyebrow pt-5"
            "skyizwhite.dev"))))))
 
