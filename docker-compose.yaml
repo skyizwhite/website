@@ -10,6 +10,7 @@ services:
       KOYA_URL: ${KOYA_URL}
       KOYA_API_KEY: ${KOYA_API_KEY}
       KOYA_WEBHOOK_KEY: ${KOYA_WEBHOOK_KEY}
+      KOYA_SECRET: ${KOYA_SECRET}
       REDIS_HOST: redis
       REDIS_PORT: "6379"
     depends_on:

@@ -9,7 +9,8 @@
   (:export #:plan
            #:deploy
            #:pull
-           #:webhook-secret))
+           #:webhook-secret
+           #:deploy-at-startup))
 (in-package #:website/koya)
 
 ;;; Operating the koya server for this site, from the REPL:
@@ -46,3 +47,15 @@ or applied without asking with FORCE. Returns the applied changes."
   "The secret koya sends as X-KOYA-WEBHOOK-KEY."
   (connect)
   (koya/client:webhook-secret :space "website"))
+
+(defun deploy-at-startup ()
+  "Force-deploy the schema and report; used by docker/entrypoint.sh before the site
+starts. Never signals: a koya that is down or a bad KOYA_SECRET is printed, and
+the site starts anyway (its content calls will fail on their own)."
+  (handler-case
+      (let ((applied (deploy :force t)))
+        (format t "~&[website] schema deployed: ~a change~:p~%" (length applied)))
+    (error (e)
+      (format *error-output* "~&[website] schema deploy skipped: ~a~%" e)))
+  (finish-output)
+  (finish-output *error-output*))

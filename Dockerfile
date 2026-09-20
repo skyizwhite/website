@@ -18,6 +18,10 @@ RUN qlot exec sbcl --non-interactive --eval '(ql:quickload "website")'
 
 RUN tailwindcss -i ./assets/style/global.css -o ./assets/style/dist.css --minify
 
+# website/koya (schema + deploy) is compiled too, for the startup deploy
+RUN qlot exec sbcl --non-interactive --eval '(ql:quickload "website/koya")'
+
 EXPOSE 3000
 
-ENTRYPOINT [".qlot/bin/clackup", "--system", "website", "--server", "woo", "--address", "0.0.0.0", "--port", "3000", "src/app.lisp"]
+# Deploys the schema to koya (forced), then serves. Needs KOYA_URL and KOYA_SECRET.
+ENTRYPOINT ["docker/entrypoint.sh"]
