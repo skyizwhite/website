@@ -10,8 +10,13 @@ original ids, publish dates and richtext HTML.
 --replace deletes contents that already exist in koya and creates them again,
 so every system timestamp (createdAt, updatedAt, publishedAt, revisedAt) is
 taken from microCMS.
+
+Images embedded in richtext (<img src="https://images.microcms-assets.io/...">)
+are downloaded, uploaded to koya's media library and the src rewritten to the
+koya /media/ path. A file already in the library under the same name is reused,
+so re-running does not duplicate images.
 """
-import json, os, sys, urllib.request, urllib.error
+import json, os, re, sys, urllib.parse, urllib.request, urllib.error, uuid
 
 
 def load_dotenv(path=".env"):
@@ -41,6 +46,78 @@ def http(method, url, headers, body=None):
         return e.code, json.loads(e.read() or b"{}")
 
 
+def multipart(fields, files):
+    """Encode FIELDS {name: value} and FILES [(name, filename, content_type, bytes)]."""
+    boundary = "----koya" + uuid.uuid4().hex
+    out = bytearray()
+    for name, value in fields.items():
+        out += f"--{boundary}\r\nContent-Disposition: form-data; name=\"{name}\"\r\n\r\n{value}\r\n".encode()
+    for name, filename, content_type, data in files:
+        out += (f"--{boundary}\r\nContent-Disposition: form-data; name=\"{name}\"; filename=\"{filename}\"\r\n"
+                f"Content-Type: {content_type}\r\n\r\n").encode()
+        out += data + b"\r\n"
+    out += f"--{boundary}--\r\n".encode()
+    return bytes(out), f"multipart/form-data; boundary={boundary}"
+
+
+IMG_SRC = re.compile(r'(<img\b[^>]*?\bsrc=")(https://images\.microcms-assets\.io/[^"]+)(")')
+
+
+def make_image_migrator(koya_media, koya_headers, dry):
+    """Return rewrite(html) -> html with microCMS image URLs replaced by koya media paths."""
+    cache = {}  # source URL -> koya path
+
+    def library_path_for(filename):
+        status, res = http("GET", f"{koya_media}?q={urllib.parse.quote(filename)}&limit=100", koya_headers)
+        if status != 200:
+            return None
+        for m in res.get("media", []):
+            if m["filename"] == filename:
+                return urllib.parse.urlparse(m["url"]).path
+        return None
+
+    def migrate(url):
+        if url in cache:
+            return cache[url]
+        filename = urllib.parse.unquote(urllib.parse.urlparse(url).path.rsplit("/", 1)[-1]) or "image"
+        path = library_path_for(filename)
+        if path:
+            print(f"    reuse  {filename}")
+        elif dry:
+            print(f"    would upload {filename}")
+            path = None
+        else:
+            try:
+                with urllib.request.urlopen(urllib.request.Request(url)) as res:
+                    data, content_type = res.read(), res.headers.get("Content-Type", "application/octet-stream")
+            except urllib.error.URLError as e:
+                print(f"    FAILED download {url}: {e}")
+                cache[url] = None
+                return None
+            body, ctype = multipart({}, [("file", filename, content_type, data)])
+            req = urllib.request.Request(koya_media, data=body, method="POST",
+                                         headers={**koya_headers, "Content-Type": ctype})
+            try:
+                with urllib.request.urlopen(req) as res:
+                    uploaded = json.loads(res.read())["media"][0]
+                path = urllib.parse.urlparse(uploaded["url"]).path
+                print(f"    upload {filename} -> {path}")
+            except urllib.error.HTTPError as e:
+                print(f"    FAILED upload {filename}: {e.code} {e.read().decode(errors='replace')}")
+                path = None
+        cache[url] = path
+        return path
+
+    def rewrite(html):
+        def repl(match):
+            path = migrate(match.group(2))
+            # keep the microCMS URL when the image could not be moved
+            return match.group(1) + (path or match.group(2)) + match.group(3)
+        return IMG_SRC.sub(repl, html or "")
+
+    return rewrite
+
+
 def main():
     load_dotenv()
     dry = "--dry-run" in sys.argv
@@ -49,6 +126,7 @@ def main():
     mc_headers = {"X-MICROCMS-API-KEY": env("MICROCMS_API_KEY")}
     koya = env("KOYA_URL").rstrip("/") + "/admin/api/contents/website"
     koya_headers = {"Authorization": f"Bearer {env('KOYA_SECRET')}"}
+    rewrite_images = make_image_migrator(env("KOYA_URL").rstrip("/") + "/admin/api/media/website", koya_headers, dry)
 
     TIMESTAMPS = ("createdAt", "updatedAt", "publishedAt", "revisedAt")
 
@@ -99,7 +177,7 @@ def main():
             "data": {
                 "title": item["title"],
                 "description": item.get("description", ""),
-                "content": item.get("content", ""),
+                "content": rewrite_images(item.get("content", "")),
             },
         }, blog_ids)
 
@@ -109,7 +187,7 @@ def main():
         if status != 200:
             sys.exit(f"microCMS {model}: {status} {res}")
         upsert(model, {"publish": True, **timestamps(res),
-                       "data": {"content": res.get("content", "")}}, existing_ids(model))
+                       "data": {"content": rewrite_images(res.get("content", ""))}}, existing_ids(model))
 
 
 if __name__ == "__main__":
