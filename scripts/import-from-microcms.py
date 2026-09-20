@@ -35,15 +35,24 @@ def env(name):
     return v
 
 
+def parse_body(raw):
+    """JSON when it is JSON; otherwise the text, so an HTML error page from a proxy is readable."""
+    try:
+        return json.loads(raw or b"{}")
+    except json.JSONDecodeError:
+        return {"raw": raw.decode(errors="replace")[:300]}
+
+
 def http(method, url, headers, body=None):
     data = json.dumps(body).encode() if body is not None else None
+    # Cloudflare in front of koya rejects urllib's default User-Agent (error 1010)
     req = urllib.request.Request(url, data=data, method=method,
-                                 headers={**headers, "Content-Type": "application/json"})
+                                 headers={**headers, "Content-Type": "application/json", "User-Agent": USER_AGENT})
     try:
         with urllib.request.urlopen(req) as res:
-            return res.status, json.loads(res.read() or b"{}")
+            return res.status, parse_body(res.read())
     except urllib.error.HTTPError as e:
-        return e.code, json.loads(e.read() or b"{}")
+        return e.code, parse_body(e.read())
 
 
 def multipart(fields, files):
@@ -59,6 +68,8 @@ def multipart(fields, files):
     out += f"--{boundary}--\r\n".encode()
     return bytes(out), f"multipart/form-data; boundary={boundary}"
 
+
+USER_AGENT = "koya-import/1.0"
 
 IMG_SRC = re.compile(r'(<img\b[^>]*?\bsrc=")(https://images\.microcms-assets\.io/[^"]+)(")')
 
@@ -88,7 +99,7 @@ def make_image_migrator(koya_media, koya_headers, dry):
             path = None
         else:
             try:
-                with urllib.request.urlopen(urllib.request.Request(url)) as res:
+                with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": USER_AGENT})) as res:
                     data, content_type = res.read(), res.headers.get("Content-Type", "application/octet-stream")
             except urllib.error.URLError as e:
                 print(f"    FAILED download {url}: {e}")
@@ -96,7 +107,7 @@ def make_image_migrator(koya_media, koya_headers, dry):
                 return None
             body, ctype = multipart({}, [("file", filename, content_type, data)])
             req = urllib.request.Request(koya_media, data=body, method="POST",
-                                         headers={**koya_headers, "Content-Type": ctype})
+                                         headers={**koya_headers, "Content-Type": ctype, "User-Agent": USER_AGENT})
             try:
                 with urllib.request.urlopen(req) as res:
                     uploaded = json.loads(res.read())["media"][0]
@@ -125,6 +136,7 @@ def main():
     mc = f"https://{env('MICROCMS_SERVICE_DOMAIN')}.microcms.io/api/v1"
     mc_headers = {"X-MICROCMS-API-KEY": env("MICROCMS_API_KEY")}
     koya = env("KOYA_URL").rstrip("/") + "/admin/api/contents/website"
+    print(f"koya: {env('KOYA_URL')} (environment variables win over .env)")
     koya_headers = {"Authorization": f"Bearer {env('KOYA_SECRET')}"}
     rewrite_images = make_image_migrator(env("KOYA_URL").rstrip("/") + "/admin/api/media/website", koya_headers, dry)
 
