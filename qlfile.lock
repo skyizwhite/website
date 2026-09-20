@@ -39,8 +39,9 @@
   :initargs (:%version :latest)
   :version "ql-2019-08-13"))
 ("koya" .
- (:class qlot/source/local:source-local
-  :initargs (:path "~/Projects/koya")))
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/skyizwhite/koya.git")
+  :version "git-c3fe8539d50c776300080f62a09f2fccbdb7da1e"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)

@@ -7,7 +7,7 @@ git ningle-actions https://github.com/skyizwhite/ningle-actions.git
 git lack-mw https://github.com/skyizwhite/lack-mw.git
 ql cl-dotenv
 ql clack-errors
-local koya ~/Projects/koya
+git koya https://github.com/skyizwhite/koya.git
 ql local-time
 ql function-cache
 ql access
