@@ -2,7 +2,8 @@
   (:use #:cl)
   (:import-from #:koya/config
                 #:defspace
-                #:defmodel)
+                #:defmodel
+                #:webhook)
   ;; no symbols: only makes ASDF load the client before this file is read
   (:import-from #:koya/client)
   (:import-from #:website/lib/env
@@ -37,7 +38,8 @@
         override)))
 
 (defspace website
-  :webhooks (list (revalidate-url)))
+  ;; every model: publish, unpublish and delete revalidate the site
+  :webhooks (list (webhook "revalidate" (revalidate-url))))
 
 (defun page-url (path &key draft)
   "URL template for the admin UI's page links; {CONTENT_ID} and {DRAFT_KEY} are filled by koya."
