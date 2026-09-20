@@ -7,7 +7,9 @@ original ids, publish dates and richtext HTML.
 
     python3 scripts/import-from-microcms.py [--dry-run] [--replace]
 
---replace re-publishes contents that already exist in koya.
+--replace deletes contents that already exist in koya and creates them again,
+so every system timestamp (createdAt, updatedAt, publishedAt, revisedAt) is
+taken from microCMS.
 """
 import json, os, sys, urllib.request, urllib.error
 
@@ -48,47 +50,66 @@ def main():
     koya = env("KOYA_URL").rstrip("/") + "/admin/api/contents/website"
     koya_headers = {"Authorization": f"Bearer {env('KOYA_SECRET')}"}
 
-    def upsert(model, payload):
-        label = f"{model}/{payload.get('id', '(object)')}"
-        if dry:
-            print(f"  would import {label}")
+    TIMESTAMPS = ("createdAt", "updatedAt", "publishedAt", "revisedAt")
+
+    def timestamps(item):
+        return {k: item[k] for k in TIMESTAMPS if item.get(k)}
+
+    def existing_ids(model):
+        status, res = http("GET", f"{koya}/{model}?limit=100", koya_headers)
+        if status != 200:
+            sys.exit(f"koya {model}: {status} {res}")
+        return [c["id"] for c in res["contents"]]
+
+    def delete(model, cid):
+        status, res = http("DELETE", f"{koya}/{model}/{cid}", koya_headers)
+        if status != 200:
+            sys.exit(f"koya delete {model}/{cid}: {status} {res}")
+
+    def upsert(model, payload, current_ids):
+        cid = payload.get("id")
+        label = f"{model}/{cid or '(object)'}"
+        # Object models have one content whatever its id; list models match by id.
+        stale = current_ids if cid is None else [i for i in current_ids if i == cid]
+        if stale and not replace:
+            print(f"  skipped {label} (already exists; use --replace)")
             return
+        if dry:
+            print(f"  would {'replace' if stale else 'import'} {label}")
+            return
+        for old in stale:
+            delete(model, old)
         status, res = http("POST", f"{koya}/{model}", koya_headers, payload)
         if status == 201:
-            print(f"  created {label}")
-        elif status == 409 and replace:
-            status, res = http("POST", f"{koya}/{model}/{payload['id']}/publish", koya_headers,
-                               {"data": payload["data"], "publishedAt": payload["publishedAt"]})
-            print(f"  {'replaced' if status == 200 else 'FAILED'} {label} {'' if status == 200 else res}")
-        elif status == 409:
-            print(f"  skipped {label} (already exists; use --replace)")
+            print(f"  {'replaced' if stale else 'created'} {label}")
         else:
             print(f"  FAILED {label}: {status} {res}")
 
     print("blog")
-    status, res = http("GET", f"{mc}/blog?limit=100&fields=id,title,description,content,publishedAt", mc_headers)
+    status, res = http("GET", f"{mc}/blog?limit=100&fields=id,title,description,content,"
+                       + ",".join(TIMESTAMPS), mc_headers)
     if status != 200:
         sys.exit(f"microCMS blog: {status} {res}")
+    blog_ids = existing_ids("blog")
     for item in res["contents"]:
         upsert("blog", {
             "id": item["id"],
             "publish": True,
-            "publishedAt": item["publishedAt"],
+            **timestamps(item),
             "data": {
                 "title": item["title"],
                 "description": item.get("description", ""),
                 "content": item.get("content", ""),
             },
-        })
+        }, blog_ids)
 
     for model in ("about", "works"):
         print(model)
         status, res = http("GET", f"{mc}/{model}", mc_headers)
         if status != 200:
             sys.exit(f"microCMS {model}: {status} {res}")
-        # object models are upserted by the server
-        upsert(model, {"publish": True, "publishedAt": res["publishedAt"],
-                       "data": {"content": res.get("content", "")}})
+        upsert(model, {"publish": True, **timestamps(res),
+                       "data": {"content": res.get("content", "")}}, existing_ids(model))
 
 
 if __name__ == "__main__":
