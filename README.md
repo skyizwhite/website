@@ -24,12 +24,13 @@ The site is built to load fast and to pick up content edits quickly. Pages are s
 
 ## Content schema
 
-The koya content models live in `src/schema.lisp`. Copy `.env.example` to `.env`, set `KOYA_URL` and the owner `KOYA_SECRET`, then:
+The koya content models live in `src/schema.lisp`. Copy `.env.example` to `.env`, set `KOYA_URL` and the owner `KOYA_SECRET`, then from the REPL:
 
-```sh
-just schema plan             # diff the local models against the server
-just schema deploy           # apply it; refuses destructive changes
-just schema deploy --force   # apply destructive changes too
-just schema pull             # print the schema currently on the server
-just schema webhook-secret   # the value to put in KOYA_WEBHOOK_KEY
+```lisp
+(ql:quickload :website/schema)
+(website/schema:plan)             ; diff the local models against the server
+(website/schema:deploy)           ; apply it, asking before destructive changes
+(website/schema:deploy :force t)  ; apply destructive changes without asking
+(website/schema:pull)             ; the schema currently on the server
+(website/schema:webhook-secret)   ; the value to put in KOYA_WEBHOOK_KEY
 ```

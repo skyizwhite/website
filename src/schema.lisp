@@ -3,10 +3,6 @@
   (:import-from #:koya/config
                 #:defspace
                 #:defmodel)
-  (:import-from #:koya/core/json
-                #:to-json)
-  (:import-from #:koya/core/schema
-                #:schema->jobject)
   ;; no symbols: only makes ASDF load the client before this file is read
   (:import-from #:koya/client)
   (:import-from #:website/lib/env
@@ -17,17 +13,17 @@
   (:export #:plan
            #:deploy
            #:pull
-           #:webhook-secret
-           #:main))
+           #:webhook-secret))
 (in-package #:website/schema)
 
-;;; Content models of this site, deployed to the koya server with
+;;; Content models of this site, deployed to the koya server from the REPL:
 ;;;
-;;;   just schema plan            ; diff against the server
-;;;   just schema deploy          ; apply it (refuses destructive changes)
-;;;   just schema deploy --force  ; apply destructive changes too
-;;;   just schema pull            ; the schema currently on the server
-;;;   just schema webhook-secret  ; the value to put in KOYA_WEBHOOK_KEY
+;;;   (ql:quickload :website/schema)
+;;;   (website/schema:plan)             ; diff against the server
+;;;   (website/schema:deploy)           ; apply it, asking before destructive changes
+;;;   (website/schema:deploy :force t)  ; apply destructive changes without asking
+;;;   (website/schema:pull)             ; the schema currently on the server
+;;;   (website/schema:webhook-secret)   ; the value to put in KOYA_WEBHOOK_KEY
 ;;;
 ;;; The server is KOYA_URL, authenticated with KOYA_SECRET (the owner secret).
 ;;; Publishing, updating or deleting content calls /api/revalidate on this site.
@@ -73,42 +69,17 @@
   (koya/client:plan))
 
 (defun deploy (&key force)
-  "Apply the schema to the server. Destructive changes need FORCE. Returns T on success."
-  (let ((changes (plan)))
-    (cond ((null changes) t)
-          ((and (not force) (some (lambda (change) (getf change :destructive)) changes))
-           (format t "~&Destructive changes (marked !) are only applied with --force.~%")
-           nil)
-          (t (koya/client:deploy :force force :confirm nil)
-             t))))
+  "Apply the schema to the server. Destructive changes are confirmed interactively,
+or applied without asking with FORCE. Returns the applied changes."
+  (connect)
+  (koya/client:deploy :force force))
 
 (defun pull ()
-  "Print the schema currently on the server as JSON. Returns the schema."
+  "The schema currently on the server, as a koya schema object."
   (connect)
-  (let ((schema (koya/client:pull)))
-    (format t "~a~%" (to-json (schema->jobject schema) :pretty t))
-    schema))
+  (koya/client:pull))
 
 (defun webhook-secret ()
-  "Print the secret koya sends as X-KOYA-WEBHOOK-KEY. Returns it."
+  "The secret koya sends as X-KOYA-WEBHOOK-KEY."
   (connect)
-  (let ((secret (koya/client:webhook-secret :space "website")))
-    (format t "~a~%" secret)
-    secret))
-
-(defun main (command &optional (flags ""))
-  "Entry point for `just schema COMMAND [--force]'. Exits 0 on success, 1 otherwise."
-  (let ((force (member "--force" (uiop:split-string flags) :test #'string=)))
-    (uiop:quit
-     (handler-case
-         (if (cond ((string= command "plan") (plan) t)
-                   ((string= command "deploy") (deploy :force force))
-                   ((string= command "pull") (pull) t)
-                   ((string= command "webhook-secret") (webhook-secret) t)
-                   (t (format *error-output* "~&Unknown command ~a. Use plan, deploy, pull or webhook-secret.~%" command)
-                      nil))
-             0
-             1)
-       (error (e)
-         (format *error-output* "~&~a~%" e)
-         1)))))
+  (koya/client:webhook-secret :space "website"))
