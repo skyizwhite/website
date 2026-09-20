@@ -44,13 +44,13 @@ the default):
   ;TODO: pagenation
   (declare (ignore page))
   (getf (koya/client:get-list 'blog :query '(:fields "id,title,publishedAt"
-                                             :orders "-publishedAt"
+                                             :orders "-createdAt"
                                              :limit 100))
         :contents))
 
 (deffetcher fetch-recent-blog-list () ("blog")
   (getf (koya/client:get-list 'blog :query '(:fields "id,title,publishedAt"
-                                             :orders "-publishedAt"
+                                             :orders "-createdAt"
                                              :limit 3))
         :contents))
 
