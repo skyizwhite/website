@@ -5,9 +5,6 @@
                 #:koya-error-status)
   (:import-from #:website/lib/cache
                 #:deffetcher)
-  (:import-from #:website/lib/env
-                #:koya-url
-                #:koya-api-key)
   (:export #:with-cms-fallback
            #:fetch-about
            #:fetch-works
@@ -18,7 +15,10 @@
 
 ;;; Content comes from a koya server (space "website"). Richtext fields are HTML.
 
-(koya/client:configure :base-url (koya-url) :api-key (koya-api-key) :space "website")
+;; Only the space is fixed here. The server URL and API key are read from
+;; KOYA_URL / KOYA_API_KEY by the client at call time, so loading this file (and
+;; building the Docker image) needs no environment.
+(setf koya/client:*space* "website")
 
 (defmacro with-cms-fallback (clauses &body body)
   "Evaluate BODY. If koya signals a `koya-error', dispatch on its HTTP status

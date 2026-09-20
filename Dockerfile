@@ -18,8 +18,8 @@ RUN qlot exec sbcl --non-interactive --eval '(ql:quickload "website")'
 
 RUN tailwindcss -i ./assets/style/global.css -o ./assets/style/dist.css --minify
 
-# website/koya (schema + deploy) is compiled too, for the startup deploy
-RUN qlot exec sbcl --non-interactive --eval '(ql:quickload "website/koya")'
+# website/koya (the schema and its deploy) is loaded by the entrypoint at start,
+# where WEBSITE_URL exists: defspace/defmodel build URLs from it when loaded.
 
 EXPOSE 3000
 
