@@ -38,6 +38,12 @@ fonts:
         || ({{ font_venv }}/bin/pip install -q -r ./fonts/requirements.txt && touch {{ font_venv }}/.installed)
     @{{ font_venv }}/bin/python ./fonts/slice.py
 
+# Sync the content schema with the koya server: plan | deploy [--force] | pull | webhook-secret
+schema command *flags:
+    @qlot exec ros --non-interactive \
+        -e '(handler-bind ((warning (function muffle-warning))) (ql:quickload :website/schema :silent t))' \
+        -e '(website/schema:main "{{ command }}" "{{ flags }}")' -q
+
 # Remove the bin directory and clean up generated files
 clean:
     @echo "Removing ./bin..."

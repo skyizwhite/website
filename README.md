@@ -21,3 +21,15 @@ The site is built to load fast and to pick up content edits quickly. Pages are s
 | Styling | [Tailwind CSS](https://tailwindcss.com/) v4 |
 | Interactivity | [Nomini](https://nomini.js.org/) |
 | Infrastructure | [Cloudflare](https://www.cloudflare.com/) CDN, [Coolify](https://coolify.io/), [Docker](https://www.docker.com/) |
+
+## Content schema
+
+The koya content models live in `src/schema.lisp`. Copy `.env.example` to `.env`, set `KOYA_URL` and the owner `KOYA_SECRET`, then:
+
+```sh
+just schema plan             # diff the local models against the server
+just schema deploy           # apply it; refuses destructive changes
+just schema deploy --force   # apply destructive changes too
+just schema pull             # print the schema currently on the server
+just schema webhook-secret   # the value to put in KOYA_WEBHOOK_KEY
+```

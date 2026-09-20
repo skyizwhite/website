@@ -6,6 +6,8 @@
            #:koya-url
            #:koya-api-key
            #:koya-webhook-key
+           #:koya-secret
+           #:koya-webhook-url
            #:redis-host
            #:redis-port
            #:dev-mode-p))
@@ -27,6 +29,8 @@
 (env-var koya-url "KOYA_URL")
 (env-var koya-api-key "KOYA_API_KEY")
 (env-var koya-webhook-key "KOYA_WEBHOOK_KEY")
+(env-var koya-secret "KOYA_SECRET")
+(env-var koya-webhook-url "KOYA_WEBHOOK_URL" :optional)
 (env-var redis-host "REDIS_HOST")
 (env-var redis-port "REDIS_PORT")
 
