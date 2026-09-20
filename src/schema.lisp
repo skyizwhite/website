@@ -47,7 +47,10 @@
 
 (defmodel (website blog) (:kind :list
                           :public-url (page-url "/blog/{CONTENT_ID}")
-                          :preview-url (page-url "/blog/{CONTENT_ID}" :draft t))
+                          :preview-url (page-url "/blog/{CONTENT_ID}" :draft t)
+                          ;; blog only: a draft save also revalidates, so the draft
+                          ;; preview shows the latest text (the space hook covers publish)
+                          :webhooks (list (webhook "blog-draft-preview" (revalidate-url) :events '(:draft))))
   (title       :text :required t)
   (description :textarea)
   (content     :richtext))
