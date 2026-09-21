@@ -2,6 +2,7 @@
   :class :package-inferred-system
   :pathname "tests"
   :depends-on ("rove"
+               "website-tests/api/revalidate"
                "website-tests/components/metadata"
                "website-tests/lib/asset-cache"
                "website-tests/lib/cache"
