@@ -4,7 +4,7 @@
                 #:load-env)
   (:export #:website-url
            #:koya-url
-           #:koya-api-key
+           #:koya-delivery-key
            #:koya-webhook-key
            #:koya-management-key
            #:koya-webhook-url
@@ -27,7 +27,7 @@
 (env-var website-env "WEBSITE_ENV" :optional)
 (env-var website-url "WEBSITE_URL")
 (env-var koya-url "KOYA_URL")
-(env-var koya-api-key "KOYA_API_KEY")
+(env-var koya-delivery-key "KOYA_DELIVERY_KEY")
 (env-var koya-webhook-key "KOYA_WEBHOOK_KEY")
 (env-var koya-management-key "KOYA_MANAGEMENT_KEY")
 (env-var koya-webhook-url "KOYA_WEBHOOK_URL" :optional)

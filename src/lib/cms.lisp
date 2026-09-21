@@ -15,9 +15,9 @@
 
 ;;; Content comes from a koya server (space "website"). Richtext fields are HTML.
 
-;; Only the space is fixed here. The server URL and API key are read from
-;; KOYA_URL / KOYA_API_KEY by the client at call time, so loading this file (and
-;; building the Docker image) needs no environment.
+;; Only the space is fixed here. The server URL and delivery key are read from
+;; KOYA_URL / KOYA_DELIVERY_KEY by the client at call time, so loading this file
+;; (and building the Docker image) needs no environment.
 (setf koya/client:*space* "website")
 
 (defmacro with-cms-fallback (clauses &body body)
