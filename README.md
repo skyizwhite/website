@@ -24,7 +24,7 @@ The site is built to load fast and to pick up content edits quickly. Pages are s
 
 ## Content schema
 
-The koya content models live in `src/schema.lisp` (definitions only). The REPL commands that talk to the server are in `src/koya.lisp`. Copy `.env.example` to `.env`, set `KOYA_URL` and the owner `KOYA_SECRET`, then:
+The koya content models live in `src/schema.lisp` (definitions only). The REPL commands that talk to the server are in `src/koya.lisp`. Copy `.env.example` to `.env`, set `KOYA_URL` and a `KOYA_MANAGEMENT_KEY` made on koya's Settings page, then:
 
 ```lisp
 (ql:quickload :website/koya)

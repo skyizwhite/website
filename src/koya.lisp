@@ -5,7 +5,7 @@
   (:import-from #:koya/client)
   (:import-from #:website/lib/env
                 #:koya-url
-                #:koya-secret)
+                #:koya-management-key)
   (:export #:plan
            #:deploy
            #:pull
@@ -22,10 +22,11 @@
 ;;;   (website/koya:pull)             ; the schema currently on the server
 ;;;   (website/koya:webhook-secret)   ; the value to put in KOYA_WEBHOOK_KEY
 ;;;
-;;; The server is KOYA_URL, authenticated with KOYA_SECRET (the owner secret).
+;;; The server is KOYA_URL, authenticated with KOYA_MANAGEMENT_KEY: a management
+;;; key made on koya's Settings page (the owner secret only logs into the admin UI).
 
 (defun connect ()
-  (koya/client:configure :base-url (koya-url) :secret (koya-secret) :space "website"))
+  (koya/client:configure :base-url (koya-url) :management-key (koya-management-key) :space "website"))
 
 (defun plan ()
   "Print the changes DEPLOY would make. Returns them."
@@ -50,7 +51,7 @@ or applied without asking with FORCE. Returns the applied changes."
 
 (defun deploy-at-startup ()
   "Force-deploy the schema and report; used by docker/entrypoint.sh before the site
-starts. Never signals: a koya that is down or a bad KOYA_SECRET is printed, and
+starts. Never signals: a koya that is down or a bad KOYA_MANAGEMENT_KEY is printed, and
 the site starts anyway (its content calls will fail on their own)."
   (handler-case
       (let ((applied (deploy :force t)))

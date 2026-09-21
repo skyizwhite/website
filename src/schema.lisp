@@ -30,7 +30,8 @@
 
 (defspace website
   ;; every model: publish, unpublish and delete revalidate the site
-  :webhooks (list (webhook "revalidate" (revalidate-url))))
+  :webhooks (list (webhook "revalidate" (revalidate-url)
+                           :events '(:publish :unpublish :delete))))
 
 (defmodel (website blog) (:kind :list
                           :public-url (page-url "/blog/{CONTENT_ID}")
