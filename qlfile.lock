@@ -17,11 +17,11 @@
 ("hsx" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/hsx.git")
-  :version "git-5345a1524160d9c7d14b4e23557b02dc928addeb"))
+  :version "git-1f19a6a326440f7090264a83e853fa24a7deeaac"))
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-878246991b774e50b40047a251140e402713b4af"))
+  :version "git-f23f5897390e585a5eb8eef45806c84ab1269f0e"))
 ("ningle-actions" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-actions.git")
@@ -41,7 +41,7 @@
 ("koya" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/koya.git")
-  :version "git-2fa86e74e922b489f6747d61e5aea80fae89fcb3"))
+  :version "git-acd485b4321a0c4e274cc102d08fec063c1623ca"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -57,7 +57,7 @@
 ("named-readtables" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/melisgl/named-readtables")
-  :version "git-609a591989927f30b9be76ed510bf1fbcdb53682"))
+  :version "git-9b774b51a08124c41881f10b30fb33425a3e6085"))
 ("rove" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/fukamachi/rove")
