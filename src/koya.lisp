@@ -23,7 +23,11 @@
 ;;;   (website/koya:webhook-secret)   ; the value to put in KOYA_WEBHOOK_KEY
 ;;;
 ;;; The server is KOYA_URL, authenticated with KOYA_MANAGEMENT_KEY: a management
-;;; key made on koya's Settings page (the owner secret only logs into the admin UI).
+;;; key made on the Keys page of the "website" space in koya's admin UI. The key
+;;; reaches that space and nothing else; the owner secret only logs into the UI.
+;;;
+;;; The space has to exist before any of this works -- koya makes spaces in its
+;;; admin UI, never from a deploy -- and a deploy to a missing one is a 404.
 
 (defun connect ()
   (koya/client:configure :base-url (koya-url) :management-key (koya-management-key) :space "website"))
@@ -47,12 +51,13 @@ or applied without asking with FORCE. Returns the applied changes."
 (defun webhook-secret ()
   "The secret koya sends as X-KOYA-WEBHOOK-KEY."
   (connect)
-  (koya/client:webhook-secret :space "website"))
+  (koya/client:webhook-secret))
 
 (defun deploy-at-startup ()
   "Force-deploy the schema and report; used by docker/entrypoint.sh before the site
-starts. Never signals: a koya that is down or a bad KOYA_MANAGEMENT_KEY is printed, and
-the site starts anyway (its content calls will fail on their own)."
+starts. Never signals: a koya that is down, a bad KOYA_MANAGEMENT_KEY or a space that
+was never made in koya's admin UI is printed, and the site starts anyway (its
+content calls will fail on their own)."
   (handler-case
       (let ((applied (deploy :force t)))
         (format t "~&[website] schema deployed: ~a change~:p~%" (length applied)))
