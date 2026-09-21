@@ -13,8 +13,8 @@
 ;;; schema. Nothing here talks to the server; see website/koya for plan, deploy
 ;;; and the other REPL commands.
 ;;;
-;;; Publishing, unpublishing or deleting content calls /api/revalidate on this
-;;; site. KOYA_WEBHOOK_URL overrides the target, e.g.
+;;; Every content event (publish, unpublish, delete, draft) calls /api/revalidate
+;;; on this site, which acts on all but draft. KOYA_WEBHOOK_URL overrides the target, e.g.
 ;;; http://localhost:3000/api/revalidate when a local koya should notify a local
 ;;; instance of the site.
 
@@ -29,9 +29,8 @@
   (format nil "~a~a~:[~;?draft-key={DRAFT_KEY}~]" (website-url) path draft))
 
 (defspace website
-  ;; every model: publish, unpublish and delete revalidate the site
-  :webhooks (list (webhook "revalidate" (revalidate-url)
-                           :events '(:publish :unpublish :delete))))
+  ;; every model, every event; the handler ignores draft saves
+  :webhooks (list (webhook "revalidate" (revalidate-url))))
 
 (defmodel (website blog) (:kind :list
                           :public-url (page-url "/blog/{CONTENT_ID}")
