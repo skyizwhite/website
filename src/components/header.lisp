@@ -8,13 +8,10 @@
   (:export #:~header))
 (in-package #:website/components/header)
 
-(defparameter *pc-menu*
+(defparameter *menu*
   '(("/about" "about")
     ("/works" "works")
     ("/blog" "blog")))
-
-(defparameter *sp-menu*
-  (cons '("/" "home") *pc-menu*))
 
 (defun current-path-p (href)
   (string= href (request-uri *request*)))
@@ -36,7 +33,7 @@
    (nav :class "hidden md:block"
      (ul :class "flex items-center gap-7"
        (loop
-         :for (href label) :in *pc-menu* :collect
+         :for (href label) :in *menu* :collect
             (let ((active (current-path-p href)))
               (hsx
                (li
@@ -72,8 +69,8 @@
                     "bg-base border-b border-base shadow-pop"
                     "-translate-y-full invisible"
                     "transition-[translate,visibility] duration-400 ease-ui")
-       (div :class "shell h-14 flex items-center justify-between"
-         (span :class "eyebrow" "menu")
+       (div :class "shell h-14 sm:h-16 flex items-center justify-between"
+         (~wordmark)
          (button
            :aria-label "Close menu"
            :type "button"
@@ -84,7 +81,7 @@
        (nav :class "shell pb-6"
          (ul :class "border-t border-base"
            (loop
-             :for (href label) :in *sp-menu* :collect
+             :for (href label) :in *menu* :collect
                 (let ((active (current-path-p href)))
                   (hsx
                    (li
@@ -97,9 +94,7 @@
                              (~icon-arrow-right
                                :class "size-5 transition-transform group-hover:translate-x-1")))
                        (span :class (clsx "row-mark"
-                                          (if active "w-full" "group-hover:w-full")))))))))
-         (p :class "eyebrow pt-5"
-           "skyizwhite.dev"))))))
+                                          (if active "w-full" "group-hover:w-full"))))))))))))))
 
 (defcomp ~header ()
   (hsx
