@@ -12,6 +12,8 @@
                 #:~error-page
                 #:error-metadata)
   (:export #:set-metadata
+           #:set-draft-mode
+           #:draft-mode-p
            #:set-cache
            #:asset-path
            #:*fonts-css*
@@ -69,6 +71,12 @@
 
 (defun set-metadata (metadata)
   (setf (context :metadata) metadata))
+
+(defun set-draft-mode (draft-p)
+  (setf (context :draft-mode) (and draft-p t)))
+
+(defun draft-mode-p ()
+  (context :draft-mode))
 
 (defun set-cache (strategy)
   (cond ((dev-mode-p)

@@ -31,6 +31,7 @@
                         (t (error-page 500)))
       (let ((blog (fetch-blog-detail blog-id :draft-key draft-key)))
         (set-cache (if draft-key :ssr :swr))
+        (set-draft-mode draft-key)
         (set-metadata (list :title (getf blog :title)
                             :description (getf blog :description)
                             :type "article"))
@@ -39,8 +40,7 @@
            (~article
              :title (getf blog :title)
              :content (getf blog :content)
-             :published-at (getf blog :published-at)
-             :draft-p draft-key)
+             :published-at (getf blog :published-at))
            (div :class (clsx "mt-12 pt-6 sm:mt-16 sm:pt-8 border-t border-base"
                              "flex flex-wrap items-center justify-between gap-x-6 gap-y-5")
              (~arrow-link :href "/blog" :direction :back "Back to blog")

@@ -3,6 +3,8 @@
         #:hsx
         #:jingle
         #:website/components/icons)
+  (:import-from #:website/helper
+                #:draft-mode-p)
   (:export #:~header))
 (in-package #:website/components/header)
 
@@ -22,6 +24,12 @@
    (a :href "/"
      :class "text-base font-extrabold tracking-tight text-fg hover:opacity-60"
      "skyizwhite")))
+
+(defcomp ~draft-badge ()
+  (hsx
+   (span :class "flex items-center gap-2"
+     (span :class "size-1.5 rounded-full bg-invert animate-pulse")
+     (span :class "eyebrow" "Draft Mode"))))
 
 (defcomp ~pc-nav ()
   (hsx
@@ -107,7 +115,9 @@
                }"
      (header :class "sticky top-0 z-30 w-full bg-ink-0/85 backdrop-blur-xl"
        (div :class "shell h-14 sm:h-16 flex items-center justify-between border-b border-base"
-         (~wordmark)
+         (div :class "flex items-center gap-4"
+           (~wordmark)
+           (and (draft-mode-p) (~draft-badge)))
          (div :class "flex items-center"
            (~pc-nav)
            (button
