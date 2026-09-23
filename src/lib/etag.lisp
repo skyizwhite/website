@@ -6,7 +6,8 @@
                 #:page-version)
   (:export #:*swr-cache-control*
            #:*revalidate-cache-control*
-           #:*etag-middleware*))
+           #:*etag-middleware*
+           #:renew-build-id))
 (in-package #:website/lib/etag)
 
 (defparameter *swr-cache-control*
@@ -15,6 +16,9 @@
 (defparameter *revalidate-cache-control* "public, max-age=0, must-revalidate")
 
 (defparameter *build-id* (get-universal-time))
+
+(defun renew-build-id ()
+  (setf *build-id* (get-universal-time)))
 
 (defun current-etag (path)
   (format nil "W/\"~a.~a\"" *build-id* (page-version path)))

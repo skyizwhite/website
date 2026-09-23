@@ -35,4 +35,4 @@ The koya content models live in `src/schema.lisp` (definitions only). The REPL c
 (website/koya:webhook-secret)   ; the value to put in KOYA_WEBHOOK_KEY
 ```
 
-In production the container does this itself: `docker/entrypoint.sh` runs `(website/koya:deploy-at-startup)`, a forced deploy of `src/schema.lisp`, before starting the server, so the schema on koya always matches the code that is running. Destructive changes are applied without a prompt, so review `plan` against production before deploying a schema change. If koya is unreachable at start, the deploy is logged and skipped.
+In production the container does this itself: `website:main` runs `(website/koya:deploy-at-startup)`, a forced deploy of `src/schema.lisp`, before starting the server, so the schema on koya always matches the code that is running. Destructive changes are applied without a prompt, so review `plan` against production before deploying a schema change. If koya is unreachable at start, the deploy is logged and skipped.

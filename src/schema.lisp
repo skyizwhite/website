@@ -1,12 +1,14 @@
 (defpackage #:website/schema
   (:use #:cl)
   (:import-from #:koya/config
+                #:clear-schema
                 #:defwebhooks
                 #:defmodel
                 #:webhook)
   (:import-from #:website/lib/env
                 #:website-url
-                #:koya-webhook-url))
+                #:koya-webhook-url)
+  (:export #:define-schema))
 (in-package #:website/schema)
 
 ;;; Content models of this site: the single source of truth for the koya schema
@@ -29,23 +31,25 @@
   "URL template for the admin UI's page links; {CONTENT_ID} and {DRAFT_KEY} are filled by koya."
   (format nil "~a~a~:[~;?draft-key={DRAFT_KEY}~]" (website-url) path draft))
 
-;; every model, every event; the handler ignores draft saves
-(defwebhooks (webhook "revalidate" (revalidate-url)))
+(defun define-schema ()
+  (clear-schema)
+  ;; every model, every event; the handler ignores draft saves
+  (defwebhooks (webhook "revalidate" (revalidate-url)))
 
-(defmodel blog (:kind :list
-                :label title
-                :public-url (page-url "/blog/{CONTENT_ID}")
-                :preview-url (page-url "/blog/{CONTENT_ID}" :draft t))
-  (title       :text :required t)
-  (description :textarea)
-  (content     :richtext))
+  (defmodel blog (:kind :list
+                  :label title
+                  :public-url (page-url "/blog/{CONTENT_ID}")
+                  :preview-url (page-url "/blog/{CONTENT_ID}" :draft t))
+    (title       :text :required t)
+    (description :textarea)
+    (content     :richtext))
 
-(defmodel about (:kind :object
-                 :public-url (page-url "/about")
-                 :preview-url (page-url "/about" :draft t))
-  (content :richtext))
+  (defmodel about (:kind :object
+                   :public-url (page-url "/about")
+                   :preview-url (page-url "/about" :draft t))
+    (content :richtext))
 
-(defmodel works (:kind :object
-                 :public-url (page-url "/works")
-                 :preview-url (page-url "/works" :draft t))
-  (content :richtext))
+  (defmodel works (:kind :object
+                   :public-url (page-url "/works")
+                   :preview-url (page-url "/works" :draft t))
+    (content :richtext)))

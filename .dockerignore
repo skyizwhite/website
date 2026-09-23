@@ -10,3 +10,7 @@ docker-compose.yaml
 devbox.d/
 devbox.json
 devbox.lock
+.env.*
+.claude/
+tests/
+justfile

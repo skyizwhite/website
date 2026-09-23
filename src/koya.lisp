@@ -1,7 +1,7 @@
 (defpackage #:website/koya
   (:use #:cl)
-  ;; loading the definitions is the point; no symbols are needed from them
-  (:import-from #:website/schema)
+  (:import-from #:website/schema
+                #:define-schema)
   (:import-from #:koya/client)
   (:import-from #:website/lib/env
                 #:koya-url
@@ -30,6 +30,7 @@
 ;;; admin UI, never from a deploy -- and a deploy to a missing one is a 404.
 
 (defun connect ()
+  (define-schema)
   (koya/client:configure :base-url (koya-url) :management-key (koya-management-key) :space "website"))
 
 (defun plan ()
@@ -54,7 +55,7 @@ or applied without asking with FORCE. Returns the applied changes."
   (koya/client:webhook-secret))
 
 (defun deploy-at-startup ()
-  "Force-deploy the schema and report; used by docker/entrypoint.sh before the site
+  "Force-deploy the schema and report; used by website:main before the site
 starts. Never signals: a koya that is down, a bad KOYA_MANAGEMENT_KEY or a space that
 was never made in koya's admin UI is printed, and the site starts anyway (its
 content calls will fail on their own)."
