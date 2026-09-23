@@ -41,7 +41,7 @@
 ("koya" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/koya.git")
-  :version "git-c5c48fbf95a8f1c518909f34ecbbbbeae08bd9fb"))
+  :version "git-9c6b9c5de4ae43e6978e775b68884fd94bf746ed"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
