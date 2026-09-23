@@ -33,6 +33,7 @@
 (defwebhooks (webhook "revalidate" (revalidate-url)))
 
 (defmodel blog (:kind :list
+                :label title
                 :public-url (page-url "/blog/{CONTENT_ID}")
                 :preview-url (page-url "/blog/{CONTENT_ID}" :draft t))
   (title       :text :required t)
