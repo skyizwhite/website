@@ -21,7 +21,7 @@
 ("ningle-fbr" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-fbr.git")
-  :version "git-f23f5897390e585a5eb8eef45806c84ab1269f0e"))
+  :version "git-efd0f07c5f843d5ac5abdf3d9dd6c6c526981cea"))
 ("ningle-actions" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/ningle-actions.git")
@@ -41,7 +41,7 @@
 ("koya" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/koya.git")
-  :version "git-9c6b9c5de4ae43e6978e775b68884fd94bf746ed"))
+  :version "git-ade45e923dd8e3993d956228065eadb1ee427249"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
