@@ -13,8 +13,7 @@
 (in-package #:website/api/revalidate)
 
 ;;; koya posts every content event here and the payload names which. It names
-;;; the space and the model the way the schema does -- "space" and "model"
-;;; (koya 0.4.0; it used to say "service" and "api").
+;;; the space and the model the way the schema does -- "space" and "model".
 
 (defun revalidate-targets (event model id)
   "What EVENT on MODEL invalidates, as (values TAGS PATHS STATUS). STATUS is

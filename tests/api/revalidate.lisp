@@ -14,9 +14,9 @@
                 #:fetch-recent-blog-list #:fetch-blog-detail))
 (in-package #:website-tests/api/revalidate)
 
-;;; The webhook koya sends is this site's only invalidation trigger, and the
-;;; payload it reads has changed twice. REVALIDATE-TARGETS is the whole
-;;; decision, kept free of the request so it can be read off a table here.
+;;; The webhook koya sends is this site's only invalidation trigger.
+;;; REVALIDATE-TARGETS is the whole decision, kept free of the request so it can
+;;; be read off a table here.
 
 (defun targets (event model &optional (id "01J0"))
   (multiple-value-bind (tags paths status) (revalidate-targets event model id)
