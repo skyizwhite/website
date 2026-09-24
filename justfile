@@ -38,6 +38,10 @@ fonts:
         || ({{ font_venv }}/bin/pip install -q -r ./fonts/requirements.txt && touch {{ font_venv }}/.installed)
     @{{ font_venv }}/bin/python ./fonts/slice.py
 
+# Build the CSS and start the server in development mode (Hunchentoot, localhost:3000)
+dev: build
+    @qlot exec ros -e '(ql:quickload :website :silent t)' -e '(website:start)' -e '(handler-case (loop (sleep 3600)) (sb-sys:interactive-interrupt () (website:stop) (uiop:quit 0)))'
+
 # Remove the bin directory and clean up generated files
 clean:
     @echo "Removing ./bin..."
