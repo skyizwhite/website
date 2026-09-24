@@ -37,7 +37,7 @@
          (~icon-email :class "size-5"))
    (list "Fediverse"
          "https://himagine.club/@skyizwhite"
-         (~icon-saturn :class "size-5"))
+         (~icon-fediverse :class "size-5"))
    (list "Matrix"
          "https://matrix.to/#/@paku:skyizwhite.dev"
          (~icon-chat :class "size-5"))))
