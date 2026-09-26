@@ -6,7 +6,6 @@ git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
 git ningle-actions https://github.com/skyizwhite/ningle-actions.git
 git lack-mw https://github.com/skyizwhite/lack-mw.git
 ql cl-dotenv
-ql clack-errors
 ql local-time
 ql function-cache
 ql access

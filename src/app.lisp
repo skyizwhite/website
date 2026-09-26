@@ -9,15 +9,12 @@
                 #:*actions-middleware*)
   (:import-from #:ningle-fbr
                 #:set-routes)
-  (:import-from #:lack/middleware/mount
-                #:*lack-middleware-mount*)
-  (:import-from #:lack/middleware/accesslog
-                #:*lack-middleware-accesslog*)
   (:import-from #:lack-mw
                 #:with-args
+                #:*accesslog*
+                #:*recovery*
+                #:*mount*
                 #:*trim-trailing-slash*)
-  (:import-from #:clack-errors
-                #:*clack-error-middleware*)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
   (:import-from #:website/lib/asset-cache
@@ -53,14 +50,14 @@
 (defparameter *app*
   (progn
     (clear-middlewares *page-app*)
-    (install-middleware *page-app* (with-args *clack-error-middleware* :debug (dev-mode-p)))
-    (install-middleware *page-app* *lack-middleware-accesslog*)
+    (install-middleware *page-app* *accesslog*)
+    (install-middleware *page-app* (with-args *recovery* :dev-mode (dev-mode-p)))
     (install-middleware *page-app* *trim-trailing-slash*)
     (install-middleware *page-app* *etag-middleware*)
     (install-middleware *page-app* *asset-cache-middleware*)
     (static-path *page-app* "/assets/" "assets/")
     (install-middleware *page-app* *actions-middleware*)
-    (install-middleware *page-app* (with-args *lack-middleware-mount* "/api" *api-app*))
+    (install-middleware *page-app* (with-args *mount* "/api" *api-app*))
     (configure *page-app*)))
 
 *app*

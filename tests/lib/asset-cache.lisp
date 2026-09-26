@@ -6,8 +6,7 @@
   (:import-from #:website/lib/asset-cache
                 #:*immutable-cache-control*
                 #:*asset-cache-middleware*
-                #:versioned-path-p
-                #:with-cache-control))
+                #:versioned-path-p))
 (in-package #:website-tests/lib/asset-cache)
 
 (defun make-env (path &optional query)
@@ -25,13 +24,6 @@
     (ok (not (versioned-path-p "/assets/style/dist.css" nil)))
     (ok (not (versioned-path-p "/assets/img/og.jpg" "")))
     (ok (not (versioned-path-p "/assets/img/og.jpg" "x=1")))))
-
-(deftest with-cache-control
-  (testing "replaces an existing directive and keeps the other headers"
-    (ok (equal '(:cache-control "b" :content-type "x")
-               (with-cache-control '(:content-type "x" :cache-control "a") "b"))))
-  (testing "accepts empty headers"
-    (ok (equal '(:cache-control "b") (with-cache-control nil "b")))))
 
 (deftest asset-cache-middleware
   (let* ((status 200)
