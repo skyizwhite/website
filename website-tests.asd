@@ -5,8 +5,6 @@
                "website-tests/api/revalidate"
                "website-tests/components/metadata"
                "website-tests/lib/asset-cache"
-               "website-tests/lib/cache"
-               "website-tests/lib/etag"
                "website-tests/lib/liked-posts"
                "website-tests/lib/likes"
                "website-tests/lib/string"

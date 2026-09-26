@@ -1,7 +1,7 @@
 (defpackage #:website-tests/lib/asset-cache
   (:use #:cl
         #:rove)
-  (:import-from #:website/lib/etag
+  (:import-from #:website/helper
                 #:*revalidate-cache-control*)
   (:import-from #:website/lib/asset-cache
                 #:*immutable-cache-control*

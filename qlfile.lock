@@ -30,6 +30,10 @@
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/lack-mw.git")
   :version "git-69944d36660924ea904f2f07bfb9629a02f8cc39"))
+("shun" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/skyizwhite/shun.git")
+  :version "git-e10cb27c62a53f6c3b7df9cf54574f21d22b469e"))
 ("cl-dotenv" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -38,10 +42,6 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2026-01-01"))
-("function-cache" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
 ("access" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)

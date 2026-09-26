@@ -11,16 +11,18 @@
                 #:set-routes)
   (:import-from #:lack-mw
                 #:with-args
+                #:mw-except
                 #:*accesslog*
                 #:*recovery*
                 #:*mount*
                 #:*trim-trailing-slash*)
+  (:import-from #:shun
+                #:*bypass*
+                #:*mw-shun*)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
   (:import-from #:website/lib/asset-cache
                 #:*asset-cache-middleware*)
-  (:import-from #:website/lib/etag
-                #:*etag-middleware*)
   (:import-from #:website/document
                 #:~document)
   (:import-from #:website/helper
@@ -31,6 +33,8 @@
 (defmethod jingle:process-response :around ((app (eql *actions-app*)) result)
   (set-response-header :content-type "text/html; charset=utf-8")
   (call-next-method app (and result (hsx:render-to-string (hsx result)))))
+
+(setf *bypass* (dev-mode-p))
 
 (defparameter *page-app* (make-app))
 (set-routes *page-app* :system :website :dir "pages")
@@ -53,7 +57,7 @@
     (install-middleware *page-app* *accesslog*)
     (install-middleware *page-app* (with-args *recovery* :dev-mode (dev-mode-p)))
     (install-middleware *page-app* *trim-trailing-slash*)
-    (install-middleware *page-app* *etag-middleware*)
+    (install-middleware *page-app* (mw-except '("/assets/*" "/actions/*" "/api/*") *mw-shun*))
     (install-middleware *page-app* *asset-cache-middleware*)
     (static-path *page-app* "/assets/" "assets/")
     (install-middleware *page-app* *actions-middleware*)

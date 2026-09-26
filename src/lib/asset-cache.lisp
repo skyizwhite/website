@@ -3,7 +3,7 @@
   (:import-from #:lack-mw
                 #:with-args
                 #:*cache-control*)
-  (:import-from #:website/lib/etag
+  (:import-from #:website/helper
                 #:*revalidate-cache-control*)
   (:export #:*immutable-cache-control*
            #:*asset-cache-middleware*))

@@ -3,7 +3,7 @@
   (:import-from #:koya-sdk/client
                 #:koya-error
                 #:koya-error-status)
-  (:import-from #:website/lib/cache
+  (:import-from #:shun
                 #:deffetcher)
   (:export #:with-cms-fallback
            #:fetch-about

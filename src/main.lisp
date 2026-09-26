@@ -4,7 +4,7 @@
   (:import-from #:clack)
   (:import-from #:website/app
                 #:*app*)
-  (:import-from #:website/lib/etag
+  (:import-from #:shun
                 #:renew-build-id)
   (:import-from #:website/koya
                 #:deploy-at-startup)

@@ -4,7 +4,7 @@
         #:access)
   (:import-from #:website/lib/env
                 #:koya-webhook-key)
-  (:import-from #:website/lib/cache
+  (:import-from #:shun
                 #:revalidate-tag
                 #:revalidate-path)
   (:export #:@post

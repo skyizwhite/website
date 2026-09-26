@@ -5,13 +5,13 @@
                 #:md5sum-file)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
-  (:import-from #:website/lib/etag
-                #:*swr-cache-control*
-                #:*revalidate-cache-control*)
+  (:import-from #:shun
+                #:*swr-cache-control*)
   (:import-from #:website/components/error-page
                 #:~error-page
                 #:error-metadata)
-  (:export #:set-metadata
+  (:export #:*revalidate-cache-control*
+           #:set-metadata
            #:set-draft-mode
            #:draft-mode-p
            #:set-cache
@@ -23,6 +23,8 @@
            #:error-action
            #:error-page))
 (in-package #:website/helper)
+
+(defparameter *revalidate-cache-control* "public, max-age=0, must-revalidate")
 
 (defparameter *asset-versions* (make-hash-table :test #'equal :synchronized t))
 

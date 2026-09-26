@@ -4,7 +4,7 @@
   (:import-from #:website/api/revalidate
                 #:payload-targets
                 #:revalidate-targets)
-  (:import-from #:website/lib/cache
+  (:import-from #:shun
                 #:revalidate-tag
                 #:revalidate-path
                 #:page-version)

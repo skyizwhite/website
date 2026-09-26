@@ -5,9 +5,9 @@ git hsx https://github.com/skyizwhite/hsx.git
 git ningle-fbr https://github.com/skyizwhite/ningle-fbr.git
 git ningle-actions https://github.com/skyizwhite/ningle-actions.git
 git lack-mw https://github.com/skyizwhite/lack-mw.git
+git shun https://github.com/skyizwhite/shun.git
 ql cl-dotenv
 ql local-time
-ql function-cache
 ql access
 git named-readtables https://github.com/melisgl/named-readtables
 git rove https://github.com/fukamachi/rove
