@@ -2,6 +2,8 @@
   (:use #:cl
         #:hsx
         #:website/components/icons)
+  (:import-from #:website/lib/string
+                #:squish)
   (:export #:~like-button
            #:~like-toast))
 (in-package #:website/components/like-button)
@@ -37,7 +39,7 @@
   (hsx
    (div
      :nm-data "{ phase: 'init' }"
-     :nm-bind "{
+     :nm-bind (squish "{
        oninit: () => {
          requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown'));
          setTimeout(() => phase = 'leaving', 3000);
@@ -45,7 +47,7 @@
        'class.translate-y-1': () => phase === 'init',
        'class.translate-y-0': () => phase !== 'init',
        'class.opacity-0': () => phase === 'leaving'
-     }"
+     }")
      :role "status"
      :aria-live "polite"
      :class (clsx "absolute bottom-full right-0 mb-3 z-50 w-max pointer-events-none"

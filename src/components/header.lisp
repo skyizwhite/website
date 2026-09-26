@@ -3,6 +3,8 @@
         #:hsx
         #:jingle
         #:website/components/icons)
+  (:import-from #:website/lib/string
+                #:squish)
   (:import-from #:website/helper
                 #:draft-mode-p)
   (:export #:~header))
@@ -50,21 +52,21 @@
   (hsx
    (div :class "md:hidden"
      (div
-       :nm-bind "{
+       :nm-bind (squish "{
                    onclick: () => close(),
                    'class.opacity-100': () => open,
                    'class.opacity-0': () => !open,
                    'class.pointer-events-none': () => !open
-                 }"
+                 }")
        :class (clsx "fixed inset-0 z-40 bg-ink-950/20"
                     "opacity-0 pointer-events-none transition-opacity duration-300"))
      (aside
-       :nm-bind "{
+       :nm-bind (squish "{
                    'class.translate-y-0': () => open,
                    'class.visible': () => open,
                    'class.-translate-y-full': () => !open,
                    'class.invisible': () => !open
-                 }"
+                 }")
        :class (clsx "fixed top-0 inset-x-0 z-50"
                     "bg-base border-b border-base shadow-pop"
                     "-translate-y-full invisible"
@@ -100,14 +102,14 @@
   (hsx
    (div
      :class "contents"
-     :nm-data "{
+     :nm-data (squish "{
                  open: false,
                  show() { this.open = true; document.body.style.overflow = 'hidden'; },
                  close() { this.open = false; document.body.style.overflow = ''; }
-               }"
-     :nm-bind "{
+               }")
+     :nm-bind (squish "{
                  'onkeydown.window': (e) => { if (e.key === 'Escape') close() }
-               }"
+               }")
      (header :class "sticky top-0 z-30 w-full bg-ink-0/85 backdrop-blur-xl"
        (div :class "shell h-14 sm:h-16 flex items-center justify-between border-b border-base"
          (div :class "flex items-center gap-4"

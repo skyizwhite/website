@@ -9,5 +9,6 @@
                "website-tests/lib/etag"
                "website-tests/lib/liked-posts"
                "website-tests/lib/likes"
+               "website-tests/lib/string"
                "website-tests/lib/time")
   :perform (test-op (o c) (symbol-call :rove :run c :style :dot)))

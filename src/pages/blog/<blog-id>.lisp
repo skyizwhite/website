@@ -5,6 +5,8 @@
         #:website/helper)
   (:import-from #:ningle-actions
                 #:defaction)
+  (:import-from #:website/lib/string
+                #:squish)
   (:import-from #:website/lib/cms
                 #:with-cms-fallback
                 #:fetch-blog-detail)
@@ -50,7 +52,7 @@
                      (div
                        :id "like-button" :nm-data t
                        :data-action (get-likes :blog-id blog-id)
-                       :nm-bind "{
+                       :nm-bind (squish "{
                                    oninit: (e) => {
                                      const action = $dataset().action;
                                      const io = new IntersectionObserver((es) => {
@@ -61,7 +63,7 @@
                                      });
                                      io.observe(e.target);
                                    }
-                                 }")))))))))))
+                                 }"))))))))))))
 
 (defun no-store ()
   (set-response-header :cache-control "private, no-store"))
@@ -85,11 +87,11 @@
                :nm-data t :data-action (add-like) :data-blog-id blog-id
                (~like-button
                  :likes (fetch-blog-likes blog-id)
-                 :nm-bind "{
+                 :nm-bind (squish "{
                              onclick: () => $post($dataset().action),
                              'class.is-fetching': () => _nmFetching,
                              disabled: () => _nmFetching
-                           }"))))))))
+                           }")))))))))
 
 (defaction add-like :post (params)
   (with-nm-request
