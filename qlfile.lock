@@ -38,10 +38,6 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2019-08-13"))
-("koya" .
- (:class qlot/source/git:source-git
-  :initargs (:remote-url "https://github.com/skyizwhite/koya.git")
-  :version "git-92953e8583c329f15bf617c39ded190277eeb2ce"))
 ("local-time" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -66,3 +62,7 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2025-06-22"))
+("koya-sdk" .
+ (:class qlot/source/git:source-git
+  :initargs (:remote-url "https://github.com/skyizwhite/koya")
+  :version "git-ddd1b46530077dfe2a10964b6b7763b424d94f18"))

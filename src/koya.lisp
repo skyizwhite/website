@@ -2,7 +2,7 @@
   (:use #:cl)
   (:import-from #:website/schema
                 #:define-schema)
-  (:import-from #:koya/client)
+  (:import-from #:koya-sdk/client)
   (:import-from #:website/lib/env
                 #:koya-url
                 #:koya-management-key)
@@ -31,28 +31,28 @@
 
 (defun connect ()
   (define-schema)
-  (koya/client:configure :base-url (koya-url) :management-key (koya-management-key) :space "website"))
+  (koya-sdk/client:configure :base-url (koya-url) :management-key (koya-management-key) :space "website"))
 
 (defun plan ()
   "Print the changes DEPLOY would make. Returns them."
   (connect)
-  (koya/client:plan))
+  (koya-sdk/client:plan))
 
 (defun deploy (&key force)
   "Apply the schema to the server. Destructive changes are confirmed interactively,
 or applied without asking with FORCE. Returns the applied changes."
   (connect)
-  (koya/client:deploy :force force))
+  (koya-sdk/client:deploy :force force))
 
 (defun pull ()
   "The schema currently on the server, as a koya schema object."
   (connect)
-  (koya/client:pull))
+  (koya-sdk/client:pull))
 
 (defun webhook-secret ()
   "The secret koya sends as X-KOYA-WEBHOOK-KEY."
   (connect)
-  (koya/client:webhook-secret))
+  (koya-sdk/client:webhook-secret))
 
 (defun deploy-at-startup ()
   "Force-deploy the schema and report; used by website:main before the site

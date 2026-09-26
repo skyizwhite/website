@@ -1,6 +1,6 @@
 (defpackage #:website/lib/cms
   (:use #:cl)
-  (:import-from #:koya/client
+  (:import-from #:koya-sdk/client
                 #:koya-error
                 #:koya-error-status)
   (:import-from #:website/lib/cache
@@ -18,7 +18,7 @@
 ;; Only the space is fixed here. The server URL and delivery key are read from
 ;; KOYA_URL / KOYA_DELIVERY_KEY by the client at call time, so loading this file
 ;; (and building the Docker image) needs no environment.
-(setf koya/client:*space* "website")
+(setf koya-sdk/client:*space* "website")
 
 (defmacro with-cms-fallback (clauses &body body)
   "Evaluate BODY. If koya signals a `koya-error', dispatch on its HTTP status
@@ -35,24 +35,24 @@ the default):
            ,@clauses)))))
 
 (deffetcher fetch-about (&key draft-key) ("about")
-  (koya/client:get-object 'about :query (list :draft-key draft-key)))
+  (koya-sdk/client:get-object 'about :query (list :draft-key draft-key)))
 
 (deffetcher fetch-works (&key draft-key) ("works")
-  (koya/client:get-object 'works :query (list :draft-key draft-key)))
+  (koya-sdk/client:get-object 'works :query (list :draft-key draft-key)))
 
 (deffetcher fetch-blog-list (&key page) ("blog")
   ;TODO: pagenation
   (declare (ignore page))
-  (getf (koya/client:get-list 'blog :query '(:fields "id,title,publishedAt"
+  (getf (koya-sdk/client:get-list 'blog :query '(:fields "id,title,publishedAt"
                                              :orders "-createdAt"
                                              :limit 100))
         :contents))
 
 (deffetcher fetch-recent-blog-list () ("blog")
-  (getf (koya/client:get-list 'blog :query '(:fields "id,title,publishedAt"
+  (getf (koya-sdk/client:get-list 'blog :query '(:fields "id,title,publishedAt"
                                              :orders "-createdAt"
                                              :limit 3))
         :contents))
 
 (deffetcher fetch-blog-detail (id &key draft-key) ("blog")
-  (koya/client:get-item 'blog id :query (list :draft-key draft-key)))
+  (koya-sdk/client:get-item 'blog id :query (list :draft-key draft-key)))

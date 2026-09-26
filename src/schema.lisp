@@ -1,6 +1,6 @@
 (defpackage #:website/schema
   (:use #:cl)
-  (:import-from #:koya/config
+  (:import-from #:koya-sdk/config
                 #:clear-schema
                 #:defwebhooks
                 #:defmodel

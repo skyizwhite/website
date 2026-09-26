@@ -7,10 +7,10 @@ git ningle-actions https://github.com/skyizwhite/ningle-actions.git
 git lack-mw https://github.com/skyizwhite/lack-mw.git
 ql cl-dotenv
 ql clack-errors
-git koya https://github.com/skyizwhite/koya.git
 ql local-time
 ql function-cache
 ql access
 git named-readtables https://github.com/melisgl/named-readtables
 git rove https://github.com/fukamachi/rove
 ql cl-redis
+git koya-sdk https://github.com/skyizwhite/koya
