@@ -18,7 +18,6 @@
         override)))
 
 (defun page-url (path &key draft)
-  "URL template for the admin UI's page links; {CONTENT_ID} and {DRAFT_KEY} are filled by koya."
   (format nil "~a~a~:[~;?draft-key={DRAFT_KEY}~]" (website-url) path draft))
 
 (defun define-schema ()

@@ -13,8 +13,7 @@
      :message "お探しのページは削除されたか、URL が間違っている可能性があります。")
     (500 :title "Something went wrong"
      :description "Something went wrong while loading this page. Please try again later."
-     :message "問題が発生しました。しばらくしてから再度お試しください。"))
-  "Per-status copy for the error page, keyed by HTTP status code.")
+     :message "問題が発生しました。しばらくしてから再度お試しください。")))
 
 (defun error-metadata (status)
   (let ((info (cdr (assoc status *error-info*))))

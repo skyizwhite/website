@@ -40,14 +40,11 @@
   (start))
 
 (defun main ()
-  "Entry point for a deployed process: deploy the schema to koya, then Woo on all
-interfaces, in this thread, until SIGTERM or SIGINT."
   (renew-build-id)
   (deploy-at-startup)
   (clack:clackup *app* :server :woo :address "0.0.0.0" :port 3000 :debug nil :use-thread nil)
   (uiop:quit 0))
 
 (defun save-executable (path)
-  "Save the loaded site as an executable at PATH that runs MAIN, and exit."
   (setf ironclad::*os-prng-stream* nil)
   (sb-ext:save-lisp-and-die path :executable t :toplevel #'main :save-runtime-options t))

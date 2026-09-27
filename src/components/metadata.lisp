@@ -24,8 +24,6 @@
                           (or value template)))))
 
 (defun default-metadata ()
-  "Computed per call rather than at load time: the OG image URL needs WEBSITE_URL,
-which is not set while the image is being built."
   (list :title (lambda (title) (format nil "~@[~a - ~]skyizwhite" title))
         :description "The personal website of Akira Tempaku (paku)"
         :canonical nil

@@ -16,13 +16,6 @@
 (setf koya-sdk/client:*space* "website")
 
 (defmacro with-cms-fallback (clauses &body body)
-  "Evaluate BODY. If koya signals a `koya-error', dispatch on its HTTP status
-using CLAUSES, which share CASE's shape keyed on the status code (use T for
-the default):
-
-  (with-cms-fallback ((404 (error-page 404))
-                      (t   (error-page 500)))
-    ...)"
   (let ((e (gensym "ERROR")))
     `(handler-case (progn ,@body)
        (koya-error (,e)

@@ -13,9 +13,6 @@
 (in-package #:website/api/revalidate)
 
 (defun revalidate-targets (event model id)
-  "What EVENT on MODEL invalidates, as (values TAGS PATHS STATUS). STATUS is
-:IGNORED for a draft save, which changes nothing that is published, and
-:UNKNOWN for a model this site does not serve."
   (cond ((equal event "draft")
          (values '() '() :ignored))
         ((equal model "about")
@@ -28,8 +25,6 @@
          (values '() '() :unknown))))
 
 (defun payload-targets (body)
-  "REVALIDATE-TARGETS for a decoded koya payload: the keys it is read by are
-here, and nowhere else. Returns (values TAGS PATHS STATUS EVENT MODEL ID)."
   (let ((event (accesses body "event"))
         (model (accesses body "model"))
         (id (accesses body "id")))

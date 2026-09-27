@@ -18,31 +18,22 @@
   (koya-sdk/client:configure :base-url (koya-url) :management-key (koya-management-key) :space "website"))
 
 (defun plan ()
-  "Print the changes DEPLOY would make. Returns them."
   (connect)
   (koya-sdk/client:plan))
 
 (defun deploy (&key force)
-  "Apply the schema to the server. Destructive changes are confirmed interactively,
-or applied without asking with FORCE. Returns the applied changes."
   (connect)
   (koya-sdk/client:deploy :force force))
 
 (defun pull ()
-  "The schema currently on the server, as a koya schema object."
   (connect)
   (koya-sdk/client:pull))
 
 (defun webhook-secret ()
-  "The secret koya sends as X-KOYA-WEBHOOK-KEY."
   (connect)
   (koya-sdk/client:webhook-secret))
 
 (defun deploy-at-startup ()
-  "Force-deploy the schema and report; used by website:main before the site
-starts. Never signals: a koya that is down, a bad KOYA_MANAGEMENT_KEY or a space that
-was never made in koya's admin UI is printed, and the site starts anyway (its
-content calls will fail on their own)."
   (handler-case
       (let ((applied (deploy :force t)))
         (format t "~&[website] schema deployed: ~a change~:p~%" (length applied)))
