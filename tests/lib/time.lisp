@@ -6,9 +6,6 @@
                 #:jp-datetime))
 (in-package #:website-tests/lib/time)
 
-;; The app pins local-time to Asia/Tokyo, so a UTC timestamp is rendered
-;; shifted by +9 hours.
-
 (deftest datetime
   (testing "formats an ISO timestamp as zero-padded JST"
     (ok (string= "2025-01-01 09:00"
