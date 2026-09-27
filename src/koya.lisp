@@ -13,22 +13,6 @@
            #:deploy-at-startup))
 (in-package #:website/koya)
 
-;;; Operating the koya server for this site, from the REPL:
-;;;
-;;;   (ql:quickload :website/koya)
-;;;   (website/koya:plan)             ; diff src/schema.lisp against the server
-;;;   (website/koya:deploy)           ; apply it, asking before destructive changes
-;;;   (website/koya:deploy :force t)  ; apply destructive changes without asking
-;;;   (website/koya:pull)             ; the schema currently on the server
-;;;   (website/koya:webhook-secret)   ; the value to put in KOYA_WEBHOOK_KEY
-;;;
-;;; The server is KOYA_URL, authenticated with KOYA_MANAGEMENT_KEY: a management
-;;; key made on the Keys page of the "website" space in koya's admin UI. The key
-;;; reaches that space and nothing else; the owner secret only logs into the UI.
-;;;
-;;; The space has to exist before any of this works -- koya makes spaces in its
-;;; admin UI, never from a deploy -- and a deploy to a missing one is a 404.
-
 (defun connect ()
   (define-schema)
   (koya-sdk/client:configure :base-url (koya-url) :management-key (koya-management-key) :space "website"))

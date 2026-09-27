@@ -94,6 +94,5 @@
                :for (name url icon) :in *links* :collect
                   (~link-row :label name :href url :icon icon :external t)))))))))
 
-; for health check
 (defun @head (params)
   (declare (ignore params)))

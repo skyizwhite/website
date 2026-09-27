@@ -13,10 +13,6 @@
   "Redis key holding the like count of BLOG-ID."
   (format nil "blog:~a:likes" blog-id))
 
-;;; Connection glue. Each call opens a short-lived connection, which
-;;; keeps the code thread-safe under Hunchentoot and trivially correct
-;;; under Woo; the Redis service sits on the same Docker network.
-
 (defun call-with-redis (thunk)
   (redis:with-connection (:host (redis-host)
                           :port (parse-integer (redis-port)))

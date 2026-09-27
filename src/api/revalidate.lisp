@@ -12,9 +12,6 @@
            #:revalidate-targets))
 (in-package #:website/api/revalidate)
 
-;;; koya posts every content event here and the payload names which. It names
-;;; the space and the model the way the schema does -- "space" and "model".
-
 (defun revalidate-targets (event model id)
   "What EVENT on MODEL invalidates, as (values TAGS PATHS STATUS). STATUS is
 :IGNORED for a draft save, which changes nothing that is published, and
@@ -26,7 +23,6 @@
         ((equal model "works")
          (values '("works") '("/works") :ok))
         ((equal model "blog")
-         ;; the post itself, the index it appears in, and the front page
          (values '("blog") (list (format nil "/blog/~a" id) "/blog" "/") :ok))
         (t
          (values '() '() :unknown))))
@@ -53,8 +49,6 @@ here, and nowhere else. Returns (values TAGS PATHS STATUS EVENT MODEL ID)."
        (list :|event| event :|message| "ignored"))
       (:unknown
        (set-response-status 400)
-       ;; koya keeps what this hook answered and shows it in its delivery
-       ;; log, so the body is worth naming what was unknown
        (list :|message| "Unknown model" :|model| model))
       (:ok
        (mapc #'revalidate-tag tags)

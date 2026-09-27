@@ -16,8 +16,6 @@
 (defparameter *cookie-name* "liked_blogs"
   "Name of the cookie tracking which blog posts this visitor has liked.")
 
-;;; Pure helpers — the cookie value is a comma-separated list of blog ids.
-
 (defun parse-liked-ids (value)
   "Parse a cookie VALUE into a list of blog ids. NIL or \"\" yields NIL."
   (when (and value (plusp (length value)))
@@ -36,8 +34,6 @@
   (if (liked-id-p id ids)
       ids
       (append ids (list id))))
-
-;;; Request/response glue.
 
 (defun liked-post-p (blog-id)
   "Has the current visitor already liked BLOG-ID, per their cookie?"

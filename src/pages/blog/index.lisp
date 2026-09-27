@@ -31,6 +31,4 @@
              :for item :in blogs :collect
                 (~post-row :id (getf item :id)
                            :title (getf item :title)
-                           :published-at (getf item :published-at))))
-         ;TODO: pagenation
-         )))))
+                           :published-at (getf item :published-at)))))))))
