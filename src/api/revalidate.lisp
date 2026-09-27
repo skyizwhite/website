@@ -12,8 +12,10 @@
            #:revalidate-targets))
 (in-package #:website/api/revalidate)
 
+(defparameter +acted-on+ '("publish" "unpublish" "delete"))
+
 (defun revalidate-targets (event model id)
-  (cond ((equal event "draft")
+  (cond ((not (member event +acted-on+ :test #'equal))
          (values '() '() :ignored))
         ((equal model "about")
          (values '("about") '("/about") :ok))

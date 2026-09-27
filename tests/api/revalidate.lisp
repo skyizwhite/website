@@ -22,10 +22,17 @@
   (multiple-value-bind (tags paths status) (revalidate-targets event model id)
     (list status tags paths)))
 
-(deftest draft-changes-nothing-published
-  (ok (equal (targets "draft" "blog") '(:ignored () ()))
-      "a draft save is ignored whatever it is a draft of")
-  (ok (equal (targets "draft" "about") '(:ignored () ()))))
+(deftest only-what-changes-the-published-site-acts
+  (testing "publish, unpublish and delete are the events that change what is served"
+    (dolist (event '("publish" "unpublish" "delete"))
+      (ok (eq (first (targets event "blog")) :ok) event)))
+  (testing "a draft save or a discarded draft is ignored whatever it is a draft of"
+    (dolist (event '("draft" "discard"))
+      (ok (equal (targets event "blog") '(:ignored () ())) event)
+      (ok (equal (targets event "about") '(:ignored () ())) event)))
+  (testing "an event this site does not know is ignored too, not revalidated"
+    (ok (equal (targets "rename" "blog") '(:ignored () ())))
+    (ok (equal (targets nil "blog") '(:ignored () ())))))
 
 (deftest each-model-invalidates-its-own-pages
   (ok (equal (targets "publish" "about") '(:ok ("about") ("/about"))))
@@ -33,7 +40,7 @@
   (testing "a post also invalidates the index it appears in and the front page"
     (ok (equal (targets "publish" "blog" "01ARZ3NDEKTSV4RRFFQ69G5FAV")
                '(:ok ("blog") ("/blog/01ARZ3NDEKTSV4RRFFQ69G5FAV" "/blog" "/")))))
-  (testing "every event but draft acts, so an unpublish clears the same pages"
+  (testing "an unpublish and a delete clear the same pages as a publish"
     (ok (equal (targets "unpublish" "blog" "x") '(:ok ("blog") ("/blog/x" "/blog" "/"))))
     (ok (equal (targets "delete" "blog" "x") '(:ok ("blog") ("/blog/x" "/blog" "/"))))))
 
@@ -84,8 +91,9 @@
     (ok (equal (from-payload)
                '(:ok ("blog") ("/blog/01ARZ3NDEKTSV4RRFFQ69G5FAV" "/blog" "/")
                  "publish" "blog" "01ARZ3NDEKTSV4RRFFQ69G5FAV"))))
-  (testing "a draft save is read as one"
-    (ok (equal (first (from-payload :event "draft")) :ignored)))
+  (testing "a draft save and a discard are read as such"
+    (ok (equal (first (from-payload :event "draft")) :ignored))
+    (ok (equal (first (from-payload :event "discard")) :ignored)))
   (testing "koya 0.3.0's payload, which named the model \"api\", no longer resolves"
     (let ((stale (list (cons "service" "website") (cons "api" "blog")
                        (cons "id" "x") (cons "event" "publish"))))
