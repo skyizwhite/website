@@ -42,4 +42,4 @@
         :contents))
 
 (deffetcher fetch-blog-detail (id &key draft-key) ("blog")
-  (koya-sdk/client:get-item 'blog id :query (list :draft-key draft-key)))
+  (koya-sdk/client:get-list-content 'blog id :query (list :draft-key draft-key)))
