@@ -40,7 +40,7 @@ fonts:
 
 # Build the CSS and start the server in development mode (Hunchentoot, localhost:3000)
 dev: build
-    @qlot exec ros -e '(ql:quickload :website :silent t)' -e '(website:start)' -e '(handler-case (loop (sleep 3600)) (sb-sys:interactive-interrupt () (website:stop) (uiop:quit 0)))'
+    @qlot exec sbcl --non-interactive --eval '(ql:quickload :website :silent t)' --eval '(website:start)' --eval '(handler-case (loop (sleep 3600)) (sb-sys:interactive-interrupt () (website:stop) (uiop:quit 0)))'
 
 # Remove the bin directory and clean up generated files
 clean:
