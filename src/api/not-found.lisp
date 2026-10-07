@@ -1,6 +1,5 @@
 (defpackage #:website/api/not-found
-  (:use #:cl
-        #:jingle)
+  (:use #:cl)
   (:export #:@not-found))
 (in-package #:website/api/not-found)
 

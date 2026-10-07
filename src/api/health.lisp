@@ -1,6 +1,6 @@
 (defpackage #:website/api/health
   (:use #:cl
-        #:jingle)
+        #:website/lib/http)
   (:export #:@get))
 (in-package #:website/api/health)
 

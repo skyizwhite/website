@@ -1,7 +1,11 @@
 (defpackage #:website/components/metadata
   (:use #:cl
-        #:hsx
-        #:jingle)
+        #:hsx)
+  (:import-from #:ningle
+                #:*request*
+                #:context)
+  (:import-from #:lack/request
+                #:request-uri)
   (:import-from #:website/lib/env
                 #:website-url)
   (:import-from #:website/helper

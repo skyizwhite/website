@@ -1,7 +1,7 @@
 (defpackage #:website/pages/blog/<blog-id>
   (:use #:cl
         #:hsx
-        #:jingle
+        #:website/lib/http
         #:website/helper)
   (:import-from #:ningle-actions
                 #:defaction)

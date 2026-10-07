@@ -1,9 +1,11 @@
 (defpackage #:website/lib/cookie
   (:use #:cl)
-  (:import-from #:jingle
+  (:import-from #:ningle
                 #:*request*
-                #:*response*
-                #:request-cookies
+                #:*response*)
+  (:import-from #:lack/request
+                #:request-cookies)
+  (:import-from #:lack/response
                 #:response-set-cookies)
   (:export #:get-cookie
            #:set-cookie))

@@ -1,6 +1,8 @@
 (uiop:define-package #:website/helper
   (:use #:cl
-        #:jingle)
+        #:website/lib/http)
+  (:import-from #:ningle
+                #:context)
   (:import-from #:md5
                 #:md5sum-file)
   (:import-from #:website/lib/env

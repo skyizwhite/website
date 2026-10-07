@@ -1,7 +1,8 @@
 (defpackage #:website/app
   (:use #:cl
-        #:jingle
         #:hsx)
+  (:import-from #:ningle
+                #:process-response)
   (:import-from #:lack
                 #:builder)
   (:import-from #:jonathan
@@ -22,6 +23,8 @@
   (:import-from #:shun
                 #:*bypass*
                 #:*mw-shun*)
+  (:import-from #:website/lib/http
+                #:set-response-header)
   (:import-from #:website/lib/env
                 #:dev-mode-p)
   (:import-from #:website/lib/asset-cache
@@ -33,24 +36,24 @@
   (:export #:*app*))
 (in-package #:website/app)
 
-(defmethod jingle:process-response :around ((app (eql *actions-app*)) result)
+(defmethod process-response :around ((app (eql *actions-app*)) result)
   (set-response-header :content-type "text/html; charset=utf-8")
   (call-next-method app (and result (hsx:render-to-string (hsx result)))))
 
 (setf *bypass* (dev-mode-p))
 
-(defparameter *page-app* (make-app))
+(defparameter *page-app* (make-instance 'ningle:app))
 (set-routes *page-app* :system :website :dir "pages")
 
-(defmethod jingle:process-response :around ((app (eql *page-app*)) result)
+(defmethod process-response :around ((app (eql *page-app*)) result)
   (set-response-header :content-type "text/html; charset=utf-8")
   (set-response-header :link (preload-link))
   (call-next-method app (hsx:render-to-string (hsx (~document result)))))
 
-(defparameter *api-app* (make-app))
+(defparameter *api-app* (make-instance 'ningle:app))
 (set-routes *api-app* :system :website :dir "api")
 
-(defmethod jingle:process-response :around ((app (eql *api-app*)) result)
+(defmethod process-response :around ((app (eql *api-app*)) result)
   (set-response-header :content-type "application/json; charset=utf-8")
   (call-next-method app (to-json result)))
 

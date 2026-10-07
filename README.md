@@ -13,7 +13,7 @@ The site is built to load fast and to pick up content edits quickly. Pages are s
 | Language | [Common Lisp](https://common-lisp.net/) ([SBCL](https://www.sbcl.org/)) |
 | Dependency manager | [Qlot](https://github.com/fukamachi/qlot) |
 | Web stack | [Clack](https://github.com/fukamachi/clack) / [Lack](https://github.com/fukamachi/lack) on [Woo](https://github.com/fukamachi/woo) |
-| Routing | [jingle](https://github.com/dnaeon/cl-jingle) with [ningle-fbr](https://github.com/skyizwhite/ningle-fbr) for file-based routing |
+| Routing | [ningle](https://github.com/fukamachi/ningle) with [ningle-fbr](https://github.com/skyizwhite/ningle-fbr) for file-based routing |
 | Fragment endpoints | [ningle-actions](https://github.com/skyizwhite/ningle-actions) |
 | Templating | [HSX](https://github.com/skyizwhite/hsx) |
 | Content | [koya](https://github.com/skyizwhite/koya) (self-hosted headless CMS) via its Lisp client |

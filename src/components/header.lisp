@@ -1,8 +1,11 @@
 (defpackage #:website/components/header
   (:use #:cl
         #:hsx
-        #:jingle
         #:website/components/icons)
+  (:import-from #:ningle
+                #:*request*)
+  (:import-from #:lack/request
+                #:request-uri)
   (:import-from #:website/lib/string
                 #:squish)
   (:import-from #:website/helper

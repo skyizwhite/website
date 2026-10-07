@@ -1,7 +1,6 @@
 (defpackage #:website/document
   (:use #:cl
-        #:hsx
-        #:jingle)
+        #:hsx)
   (:import-from #:website/components/metadata
                 #:~metadata)
   (:import-from #:website/components/header

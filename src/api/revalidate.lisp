@@ -1,7 +1,11 @@
 (defpackage #:website/api/revalidate
   (:use #:cl
-        #:jingle
+        #:website/lib/http
         #:access)
+  (:import-from #:ningle
+                #:*request*)
+  (:import-from #:lack/request
+                #:request-body-parameters)
   (:import-from #:website/lib/env
                 #:koya-webhook-key)
   (:import-from #:shun
@@ -35,7 +39,7 @@
 
 (defun @post (params)
   (declare (ignore params))
-  (unless (equal (car (get-request-header "X-KOYA-WEBHOOK-KEY"))
+  (unless (equal (get-request-header "X-KOYA-WEBHOOK-KEY")
                  (koya-webhook-key))
     (set-response-status 401)
     (return-from @post '(:|message| "Invalid token")))

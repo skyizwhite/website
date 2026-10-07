@@ -1,7 +1,7 @@
 (defpackage #:website/pages/about
   (:use #:cl
         #:hsx
-        #:jingle
+        #:website/lib/http
         #:website/helper)
   (:import-from #:website/lib/cms
                 #:with-cms-fallback
