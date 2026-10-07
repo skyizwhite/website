@@ -2,6 +2,8 @@
   (:use #:cl
         #:jingle
         #:hsx)
+  (:import-from #:lack
+                #:builder)
   (:import-from #:jonathan
                 #:to-json)
   (:import-from #:ningle-actions
@@ -15,6 +17,7 @@
                 #:*accesslog*
                 #:*recovery*
                 #:*mount*
+                #:*static*
                 #:*trim-trailing-slash*)
   (:import-from #:shun
                 #:*bypass*
@@ -52,16 +55,15 @@
   (call-next-method app (to-json result)))
 
 (defparameter *app*
-  (progn
-    (clear-middlewares *page-app*)
-    (install-middleware *page-app* *accesslog*)
-    (install-middleware *page-app* (with-args *recovery* :dev-mode (dev-mode-p)))
-    (install-middleware *page-app* *trim-trailing-slash*)
-    (install-middleware *page-app* (mw-except '("/assets/*" "/actions/*" "/api/*") *mw-shun*))
-    (install-middleware *page-app* *asset-cache-middleware*)
-    (static-path *page-app* "/assets/" "assets/")
-    (install-middleware *page-app* *actions-middleware*)
-    (install-middleware *page-app* (with-args *mount* "/api" *api-app*))
-    (configure *page-app*)))
+  (builder
+   *accesslog*
+   (with-args *recovery* :dev-mode (dev-mode-p))
+   *trim-trailing-slash*
+   (mw-except '("/assets/*" "/actions/*" "/api/*") *mw-shun*)
+   *asset-cache-middleware*
+   (with-args *static* :path "/assets/" :root "assets/")
+   *actions-middleware*
+   (with-args *mount* "/api" *api-app*)
+   *page-app*))
 
 *app*
