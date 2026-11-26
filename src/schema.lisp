@@ -27,7 +27,8 @@
   (defmodel blog (:kind :list
                   :label title
                   :public-url (page-url "/blog/{CONTENT_ID}")
-                  :preview-url (page-url "/blog/{CONTENT_ID}" :draft t))
+                  :preview-url (page-url "/blog/{CONTENT_ID}" :draft t)
+                  :history t)
     (title       :text :required t)
     (description :textarea)
     (content     :richtext))

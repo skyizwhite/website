@@ -61,4 +61,4 @@
 ("koya-sdk" .
  (:class qlot/source/git:source-git
   :initargs (:remote-url "https://github.com/skyizwhite/koya")
-  :version "git-7bbebafeadab1a2061e8d122b0162588e14e5ea5"))
+  :version "git-5930679920fedeb1397b1c2ea177c8c87252afe3"))
