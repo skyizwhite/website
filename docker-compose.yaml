@@ -2,10 +2,6 @@ services:
   app:
     build:
       context: .
-      # qlot install resolves a dozen hosts during the build; the default build
-      # network's DNS has failed on one of them (NS-HOST-NOT-FOUND) and taken the
-      # deploy down with it. The host's resolver does not.
-      network: host
     restart: unless-stopped
     expose:
       - "3000"

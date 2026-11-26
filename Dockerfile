@@ -19,7 +19,7 @@ RUN case "${TARGETARCH:-amd64}" in \
 WORKDIR /app
 
 COPY . /app
-RUN qlot install
+RUN for i in 1 2 3 4 5; do qlot install && exit 0; sleep $((i * 5)); done; exit 1
 
 RUN tailwindcss -i ./assets/style/global.css -o ./assets/style/dist.css --minify
 
