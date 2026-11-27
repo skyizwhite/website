@@ -11,14 +11,16 @@
 (defparameter *shape-class*
   "inline-flex items-center gap-3 h-12 rounded-full border pl-5 pr-6 tabular-nums")
 
-(defcomp ~like-button (&key likes disabled rest)
+(defcomp ~like-button (&key likes disabled class rest)
   (if disabled
       (hsx
-       (button :type "button"
-         :disabled t
-         :aria-label "You liked this post"
-         :class (clsx *shape-class*
-                      "cursor-not-allowed border-transparent bg-muted text-fg")
+       (button (append (list :type "button"
+                             :disabled t
+                             :aria-label "You liked this post"
+                             :class (clsx *shape-class*
+                                          "cursor-not-allowed border-transparent bg-muted text-fg"
+                                          class))
+                       rest)
          (~icon-heart :class "size-5")
          (span :class "text-base font-bold" likes)))
       (hsx
@@ -28,7 +30,8 @@
                                           "group relative cursor-pointer"
                                           "border-strong bg-base text-muted"
                                           "hover:bg-invert hover:border-ink-900 hover:text-invert"
-                                          "active:scale-95 animate-fade-rise"))
+                                          "active:scale-95 animate-fade-rise"
+                                          class))
                        rest)
          (span :class "like-content inline-flex items-center gap-3"
            (~icon-heart-outline :class "size-5 transition-transform group-hover:scale-115")
