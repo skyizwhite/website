@@ -1,6 +1,7 @@
 [tools]
-redis = "8.10.1"
+"conda:redis-server" = "8.10.1"
 
 [tasks.redis]
-description = "Start Redis for local development (localhost:6379)"
-run = "mkdir -p .redis && redis-server --bind 127.0.0.1 --port 6379 --dir .redis --save '60 1' --appendonly yes"
+description = "Start Redis for local development on REDIS_HOST:REDIS_PORT from .env"
+env = { _.file = ".env" }
+run = "mkdir -p .redis && redis-server --bind \"$REDIS_HOST\" --port \"$REDIS_PORT\" --dir .redis --save '60 1' --appendonly yes"
