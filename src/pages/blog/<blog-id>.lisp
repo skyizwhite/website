@@ -85,7 +85,9 @@
                :n-scope t :data-action (add-like) :data-blog-id blog-id
                (~like-button
                  :likes (fetch-blog-likes blog-id)
-                 :interactive t))))))))
+                 :n-on-click "const { action, blogId } = $dataset(); $post(action, { blogId })"
+                 :n-bind-class.is-fetching "$fetching"
+                 :n-bind-disabled "$fetching"))))))))
 
 (defaction add-like :post (params)
   (with-nagi-request

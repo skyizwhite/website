@@ -11,7 +11,7 @@
 (defparameter *shape-class*
   "inline-flex items-center gap-3 h-12 rounded-full border pl-5 pr-6 tabular-nums")
 
-(defcomp ~like-button (&key likes disabled interactive)
+(defcomp ~like-button (&key likes disabled rest)
   (if disabled
       (hsx
        (button :type "button"
@@ -22,17 +22,14 @@
          (~icon-heart :class "size-5")
          (span :class "text-base font-bold" likes)))
       (hsx
-       (button :type "button"
-         :aria-label "Like this post"
-         :n-on-click (and interactive
-                          "const { action, blogId } = $dataset(); $post(action, { blogId })")
-         :n-bind-class.is-fetching (and interactive "$fetching")
-         :n-bind-disabled (and interactive "$fetching")
-         :class (clsx *shape-class*
-                      "group relative cursor-pointer"
-                      "border-strong bg-base text-muted"
-                      "hover:bg-invert hover:border-ink-900 hover:text-invert"
-                      "active:scale-95 animate-fade-rise")
+       (button (append (list :type "button"
+                             :aria-label "Like this post"
+                             :class (clsx *shape-class*
+                                          "group relative cursor-pointer"
+                                          "border-strong bg-base text-muted"
+                                          "hover:bg-invert hover:border-ink-900 hover:text-invert"
+                                          "active:scale-95 animate-fade-rise"))
+                       rest)
          (span :class "like-content inline-flex items-center gap-3"
            (~icon-heart-outline :class "size-5 transition-transform group-hover:scale-115")
            (span :class "text-base font-bold" likes))
