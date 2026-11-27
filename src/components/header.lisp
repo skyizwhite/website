@@ -101,11 +101,9 @@
   (hsx
    (div
      :class "contents"
-     :n-scope (squish "{
-                 open: false,
-                 show() { this.open = true; document.body.style.overflow = 'hidden'; },
-                 close() { this.open = false; document.body.style.overflow = ''; }
-               }")
+     :n-let-open "false"
+     :n-let-show "() => { open = true; document.body.style.overflow = 'hidden' }"
+     :n-let-close "() => { open = false; document.body.style.overflow = '' }"
      :n-on-keydown.window "if (e.key === 'Escape') close()"
      (header :class "sticky top-0 z-30 w-full bg-ink-0/85 backdrop-blur-xl"
        (div :class "shell h-14 sm:h-16 flex items-center justify-between border-b border-base"
