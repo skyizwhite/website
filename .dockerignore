@@ -6,11 +6,9 @@ fonts/*.woff2
 assets/style/dist.css
 __pycache__/
 docker-compose.yaml
-.devbox/
-devbox.d/
-devbox.json
-devbox.lock
 .env.*
 .claude/
 tests/
 justfile
+.redis/
+mise.toml
