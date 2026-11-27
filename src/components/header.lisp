@@ -55,21 +55,17 @@
   (hsx
    (div :class "md:hidden"
      (div
-       :nm-bind (squish "{
-                   onclick: () => close(),
-                   'class.opacity-100': () => open,
-                   'class.opacity-0': () => !open,
-                   'class.pointer-events-none': () => !open
-                 }")
+       :n-on-click "close()"
+       :n-bind-class.opacity-100 "open"
+       :n-bind-class.opacity-0 "!open"
+       :n-bind-class.pointer-events-none "!open"
        :class (clsx "fixed inset-0 z-40 bg-ink-950/20"
                     "opacity-0 pointer-events-none transition-opacity duration-300"))
      (aside
-       :nm-bind (squish "{
-                   'class.translate-y-0': () => open,
-                   'class.visible': () => open,
-                   'class.-translate-y-full': () => !open,
-                   'class.invisible': () => !open
-                 }")
+       :n-bind-class.translate-y-0 "open"
+       :n-bind-class.visible "open"
+       :n-bind-class.-translate-y-full "!open"
+       :n-bind-class.invisible "!open"
        :class (clsx "fixed top-0 inset-x-0 z-50"
                     "bg-base border-b border-base shadow-pop"
                     "-translate-y-full invisible"
@@ -79,7 +75,7 @@
          (button
            :aria-label "Close menu"
            :type "button"
-           :nm-bind "{ onclick: () => close() }"
+           :n-on-click "close()"
            :class (clsx "-mr-2 inline-flex items-center justify-center size-10"
                         "text-subtle hover:text-fg cursor-pointer")
            (~icon-close :class "size-5")))
@@ -105,14 +101,12 @@
   (hsx
    (div
      :class "contents"
-     :nm-data (squish "{
+     :n-scope (squish "{
                  open: false,
                  show() { this.open = true; document.body.style.overflow = 'hidden'; },
                  close() { this.open = false; document.body.style.overflow = ''; }
                }")
-     :nm-bind (squish "{
-                 'onkeydown.window': (e) => { if (e.key === 'Escape') close() }
-               }")
+     :n-on-keydown.window "if (e.key === 'Escape') close()"
      (header :class "sticky top-0 z-30 w-full bg-ink-0/85 backdrop-blur-xl"
        (div :class "shell h-14 sm:h-16 flex items-center justify-between border-b border-base"
          (div :class "flex items-center gap-4"
@@ -123,7 +117,7 @@
            (button
              :aria-label "Open menu"
              :type "button"
-             :nm-bind "{ onclick: () => show() }"
+             :n-on-click "show()"
              :class (clsx "md:hidden -mr-2 inline-flex items-center justify-center size-10"
                           "text-subtle hover:text-fg cursor-pointer")
              (~icon-menu :class "size-5")))))

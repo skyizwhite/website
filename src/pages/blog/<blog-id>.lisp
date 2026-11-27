@@ -50,26 +50,24 @@
                   (hsx
                    (div :class "h-12"
                      (div
-                       :id "like-button" :nm-data t
+                       :id "like-button" :n-scope t
                        :data-action (get-likes :blog-id blog-id)
-                       :nm-bind (squish "{
-                                   oninit: (e) => {
-                                     const action = $dataset().action;
-                                     const io = new IntersectionObserver((es) => {
-                                       if (es[0].isIntersecting) {
-                                         io.disconnect();
-                                         $get(action);
-                                       }
-                                     });
-                                     io.observe(e.target);
-                                   }
-                                 }"))))))))))))
+                       :n-on-init (squish "
+                                    const { action } = $el.dataset;
+                                    const io = new IntersectionObserver((es) => {
+                                      if (es[0].isIntersecting) {
+                                        io.disconnect();
+                                        $get(action);
+                                      }
+                                    });
+                                    io.observe($el);
+                                  "))))))))))))
 
 (defun no-store ()
   (set-response-header :cache-control "private, no-store"))
 
 (defaction get-likes :get (params)
-  (with-nm-request
+  (with-nagi-request
     (with-request-params ((blog-id "blog-id" nil)) params
       (unless blog-id
         (return-from get-likes (error-action 400)))
@@ -84,17 +82,13 @@
             (hsx
              (div
                :id "like-button"
-               :nm-data t :data-action (add-like) :data-blog-id blog-id
+               :n-scope t :data-action (add-like) :data-blog-id blog-id
                (~like-button
                  :likes (fetch-blog-likes blog-id)
-                 :nm-bind (squish "{
-                             onclick: () => $post($dataset().action),
-                             'class.is-fetching': () => _nmFetching,
-                             disabled: () => _nmFetching
-                           }")))))))))
+                 :interactive t))))))))
 
 (defaction add-like :post (params)
-  (with-nm-request
+  (with-nagi-request
     (with-request-params ((blog-id "blogId" nil)) params
       (unless blog-id
         (return-from add-like (error-action 400)))

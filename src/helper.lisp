@@ -21,7 +21,7 @@
            #:*fonts-css*
            #:preloads
            #:preload-link
-           #:with-nm-request
+           #:with-nagi-request
            #:error-action
            #:error-page))
 (in-package #:website/helper)
@@ -90,8 +90,8 @@
         ((eq strategy :swr)
          (set-response-header :cache-control *swr-cache-control*))))
 
-(defmacro with-nm-request (&body body)
-  `(cond ((get-request-header "nm-request")
+(defmacro with-nagi-request (&body body)
+  `(cond ((get-request-header "n-request")
           ,@body)
          (t
           (set-response-status 400)

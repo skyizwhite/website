@@ -48,7 +48,7 @@
     (testing "matches the name case-insensitively"
       (ok (equal "secret, other" (get-request-header "X-KOYA-WEBHOOK-KEY"))))
     (testing "returns nil for a header that was not sent"
-      (ok (null (get-request-header "nm-request"))))))
+      (ok (null (get-request-header "n-request"))))))
 
 (deftest with-request-params
   (let ((params '((:blog-id . "abc") ("draft-key" . "k"))))

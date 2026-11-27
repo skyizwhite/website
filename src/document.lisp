@@ -25,7 +25,7 @@
        (link :rel "stylesheet" :href (asset-path "style/dist.css"))
        (and *fonts-css*
             (hsx (link :rel "stylesheet" :href (asset-path *fonts-css* :bust nil))))
-       (script :src (asset-path "js/nomini.min.js") :defer t)
+       (script :src (asset-path "js/nagi.js") :defer t)
        (~metadata))
      (body :class (clsx "min-h-[100svh] flex flex-col antialiased bg-base text-fg"
                         "selection:bg-ink-900 selection:text-invert")

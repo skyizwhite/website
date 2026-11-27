@@ -11,7 +11,7 @@
 (defparameter *shape-class*
   "inline-flex items-center gap-3 h-12 rounded-full border pl-5 pr-6 tabular-nums")
 
-(defcomp ~like-button (&key likes disabled nm-bind)
+(defcomp ~like-button (&key likes disabled interactive)
   (if disabled
       (hsx
        (button :type "button"
@@ -24,7 +24,10 @@
       (hsx
        (button :type "button"
          :aria-label "Like this post"
-         :nm-bind nm-bind
+         :n-on-click (and interactive
+                          "const { action, blogId } = $dataset(); $post(action, { blogId })")
+         :n-bind-class.is-fetching (and interactive "$fetching")
+         :n-bind-disabled (and interactive "$fetching")
          :class (clsx *shape-class*
                       "group relative cursor-pointer"
                       "border-strong bg-base text-muted"
@@ -38,16 +41,14 @@
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
    (div
-     :nm-data "{ phase: 'init' }"
-     :nm-bind (squish "{
-       oninit: () => {
-         requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown'));
-         setTimeout(() => phase = 'leaving', 3000);
-       },
-       'class.translate-y-1': () => phase === 'init',
-       'class.translate-y-0': () => phase !== 'init',
-       'class.opacity-0': () => phase === 'leaving'
-     }")
+     :n-let-phase "'init'"
+     :n-on-init (squish "
+       requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown'));
+       setTimeout(() => phase = 'leaving', 3000);
+     ")
+     :n-bind-class.translate-y-1 "phase === 'init'"
+     :n-bind-class.translate-y-0 "phase !== 'init'"
+     :n-bind-class.opacity-0 "phase === 'leaving'"
      :role "status"
      :aria-live "polite"
      :class (clsx "absolute bottom-full right-0 mb-3 z-50 w-max pointer-events-none"
