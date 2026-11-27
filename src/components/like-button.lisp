@@ -41,6 +41,7 @@
 (defcomp ~like-toast (&key (message "Thank you!"))
   (hsx
    (div
+     :n-scope t
      :n-let-phase "'init'"
      :n-on-init (squish "
        requestAnimationFrame(() => requestAnimationFrame(() => phase = 'shown'));

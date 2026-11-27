@@ -1,4 +1,4 @@
-// Nagi v0.4.0
+// Nagi v0.5.0
 // Forked from Nomini (https://github.com/nonnorm/nomini)
 // Inspired by aidenybai/dababy
 // Copyright (c) 2025 nonnorm
@@ -438,6 +438,8 @@
         return {};
     };
 
+    const announcers = new WeakMap();
+
     const reactive = (rawData, outer) => {
         const trackedDeps = new Map();
         const fromOuter = (obj, prop) => !(prop in obj) && !!outer && prop in outer;
@@ -446,22 +448,31 @@
             if (!bound.has(fn)) bound.set(fn, Object.assign(fn.bind(outer), { nagiSource: fn.nagiSource ?? String(fn) }));
             return bound.get(fn);
         };
+        const track = (prop) => {
+            if (!currentBind) return;
+            const deps = trackedDeps.get(prop) ?? trackedDeps.set(prop, new Set()).get(prop);
+            deps.add(currentBind);
+            currentBind.deps.add(deps);
+        };
+        const announce = (prop) => {
+            const deps = trackedDeps.get(prop);
+            deps && [...deps].forEach((run) => run());
+        };
 
-        return new Proxy(rawData, {
+        const proxy = new Proxy(rawData, {
             has(obj, prop) {
-                return prop !== "$el" && (prop in obj || (!!outer && prop in outer));
+                if (prop === "$el") return false;
+                if (prop in obj) return true;
+                track(prop);
+                return !!outer && prop in outer;
             },
             get(obj, prop, receiver) {
+                track(prop);
                 if (fromOuter(obj, prop)) {
                     const value = outer[prop];
                     return typeof value === "function" ? bindToOuter(value) : value;
                 }
-                if (currentBind) {
-                    if (outer && !(prop in obj)) outer[prop];
-                    const deps = trackedDeps.get(prop) ?? trackedDeps.set(prop, new Set()).get(prop);
-                    deps.add(currentBind);
-                    currentBind.deps.add(deps);
-                }
+                if (currentBind && outer && !(prop in obj)) outer[prop];
                 return Reflect.get(obj, prop, receiver);
             },
             set(obj, prop, val, receiver) {
@@ -469,17 +480,28 @@
                 const found = descriptorOf(obj, prop);
                 if (found && "value" in found && val !== Object(val) && Object.is(obj[prop], val)) return true;
                 if (!Reflect.set(obj, prop, val, receiver)) return false;
-                const deps = trackedDeps.get(prop);
-                deps && [...deps].forEach((run) => run());
+                announce(prop);
                 return true;
             },
         });
+        announcers.set(proxy, announce);
+        return proxy;
+    };
+
+    const announceName = (scopeEl, key) => announcers.get(scopeEl.nagiProxy)(key);
+
+    const giveName = (scopeEl, key, value) => {
+        define(scopeEl.nagiRaw, key, value);
+        announceName(scopeEl, key);
     };
 
     const makeScope = (dataEl) => {
         if (dataEl.nagiProxy) return;
         const attrs = [...dataEl.attributes];
-        if (!attrs.some(({ name }) => /^n-(scope$|let-)/.test(name))) return;
+        if (!dataEl.hasAttribute("n-scope")) {
+            if (attrs.some(({ name }) => name.startsWith("n-let-"))) console.error("[Nagi] n-let-* needs n-scope on its element:", dataEl);
+            return;
+        }
 
         const rawData = baseOf(dataEl);
         Object.entries({ ...helpers(), _nagiEl: dataEl }).forEach(([key, value]) => define(rawData, key, value));
@@ -495,7 +517,11 @@
             if (!key || reserved(key, dataEl)) return;
             const result = value.trim() ? runWithEl(dataEl, () => evaluate(value, proxyData, proxyData, dataEl)) : undefined;
             if (result === failed) return;
-            if (!(key in rawData) || !Reflect.set(proxyData, key, result)) define(rawData, key, result);
+            try {
+                if (!(key in rawData) || !Reflect.set(proxyData, key, result)) giveName(dataEl, key, result);
+            } catch (err) {
+                console.error("[Nagi] failed to set:", key, dataEl, "\n", err);
+            }
         });
     };
 
@@ -523,6 +549,7 @@
         const radio = type === "radio";
         const owned = (scopeEl.nagiFields ||= new Map());
         let group = owned.get(name);
+        const fresh = !group;
         group?.members.forEach((el) => el.isConnected || group.members.delete(el));
         if (group?.members.size && !(radio && group.radio && group.form === form))
             return console.error("[Nagi] another field of the form has this name:", name, inputEl);
@@ -548,6 +575,7 @@
         const field = { inputEl, setVal };
 
         setVal();
+        if (fresh && read() === undefined) announceName(scopeEl, name);
         inputEl.addEventListener("input", setVal);
         inputEl.addEventListener("change", setVal);
         formFields.add(field);

@@ -101,6 +101,7 @@
   (hsx
    (div
      :class "contents"
+     :n-scope t
      :n-let-open "false"
      :n-let-show "() => { open = true; document.body.style.overflow = 'hidden' }"
      :n-let-close "() => { open = false; document.body.style.overflow = '' }"
