@@ -8,6 +8,8 @@
                 #:renew-build-id)
   (:import-from #:website/koya
                 #:deploy-schema)
+  (:import-from #:website/lib/cms
+                #:use-koya-space)
   (:export #:start
            #:stop
            #:reload
@@ -23,6 +25,7 @@
       (restart-server ()
         :report "Restart the server"
         (stop))))
+  (use-koya-space)
   (setf *server* (clack:clackup *app*
                                 :server :hunchentoot
                                 :address "localhost"
@@ -41,6 +44,7 @@
 
 (defun serve ()
   (renew-build-id)
+  (use-koya-space)
   (clack:clackup *app* :server :woo :address "0.0.0.0" :port 3000 :debug nil :use-thread nil)
   0)
 

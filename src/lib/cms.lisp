@@ -7,7 +7,8 @@
                 #:deffetcher)
   (:import-from #:website/lib/env
                 #:koya-space)
-  (:export #:with-cms-fallback
+  (:export #:use-koya-space
+           #:with-cms-fallback
            #:fetch-about
            #:fetch-works
            #:fetch-blog-list
@@ -15,7 +16,8 @@
            #:fetch-blog-detail))
 (in-package #:website/lib/cms)
 
-(setf koya-sdk/client:*space* (koya-space))
+(defun use-koya-space ()
+  (setf koya-sdk/client:*space* (koya-space)))
 
 (defmacro with-cms-fallback (clauses &body body)
   (let ((e (gensym "ERROR")))
