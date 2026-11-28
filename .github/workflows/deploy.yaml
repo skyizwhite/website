@@ -30,6 +30,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install dependencies and compile
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64
+          target: build
+          outputs: type=cacheonly
+          cache-from: type=gha
+
       - name: Run tests
         uses: docker/build-push-action@v7
         with:
