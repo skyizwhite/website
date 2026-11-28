@@ -4,10 +4,10 @@
                 #:load-env)
   (:export #:website-url
            #:koya-url
+           #:koya-space
            #:koya-delivery-key
            #:koya-webhook-key
            #:koya-management-key
-           #:koya-webhook-url
            #:redis-host
            #:redis-port
            #:dev-mode-p))
@@ -27,10 +27,10 @@
 (env-var website-env "WEBSITE_ENV" :optional)
 (env-var website-url "WEBSITE_URL")
 (env-var koya-url "KOYA_URL")
+(env-var koya-space "KOYA_SPACE")
 (env-var koya-delivery-key "KOYA_DELIVERY_KEY")
 (env-var koya-webhook-key "KOYA_WEBHOOK_KEY")
 (env-var koya-management-key "KOYA_MANAGEMENT_KEY")
-(env-var koya-webhook-url "KOYA_WEBHOOK_URL" :optional)
 (env-var redis-host "REDIS_HOST")
 (env-var redis-port "REDIS_PORT")
 

@@ -62,10 +62,11 @@ jobs:
         env:
           WEBSITE_URL: ${{ vars.WEBSITE_URL }}
           KOYA_URL: ${{ secrets.KOYA_URL }}
+          KOYA_SPACE: website
           KOYA_MANAGEMENT_KEY: ${{ secrets.KOYA_MANAGEMENT_KEY }}
         run: |
           docker run --rm \
-            -e WEBSITE_URL -e KOYA_URL -e KOYA_MANAGEMENT_KEY \
+            -e WEBSITE_URL -e KOYA_URL -e KOYA_SPACE -e KOYA_MANAGEMENT_KEY \
             "$IMAGE:$GITHUB_SHA" deploy-schema
 
       - name: Tag image as latest

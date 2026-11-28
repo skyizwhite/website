@@ -5,6 +5,7 @@
   (:import-from #:koya-sdk/client)
   (:import-from #:website/lib/env
                 #:koya-url
+                #:koya-space
                 #:koya-management-key)
   (:export #:plan
            #:deploy
@@ -15,7 +16,7 @@
 
 (defun connect ()
   (define-schema)
-  (koya-sdk/client:configure :base-url (koya-url) :management-key (koya-management-key) :space "website"))
+  (koya-sdk/client:configure :base-url (koya-url) :management-key (koya-management-key) :space (koya-space)))
 
 (defun plan ()
   (connect)

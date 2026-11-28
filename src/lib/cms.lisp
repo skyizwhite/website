@@ -5,6 +5,8 @@
                 #:koya-error-status)
   (:import-from #:shun
                 #:deffetcher)
+  (:import-from #:website/lib/env
+                #:koya-space)
   (:export #:with-cms-fallback
            #:fetch-about
            #:fetch-works
@@ -13,7 +15,7 @@
            #:fetch-blog-detail))
 (in-package #:website/lib/cms)
 
-(setf koya-sdk/client:*space* "website")
+(setf koya-sdk/client:*space* (koya-space))
 
 (defmacro with-cms-fallback (clauses &body body)
   (let ((e (gensym "ERROR")))

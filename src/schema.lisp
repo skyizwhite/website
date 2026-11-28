@@ -7,22 +7,20 @@
                 #:webhook)
   (:import-from #:website/lib/env
                 #:website-url
-                #:koya-webhook-url)
+                #:dev-mode-p)
   (:export #:define-schema))
 (in-package #:website/schema)
 
 (defun revalidate-url ()
-  (let ((override (koya-webhook-url)))
-    (if (uiop:emptyp override)
-        (format nil "~a/api/revalidate" (website-url))
-        override)))
+  (format nil "~a/api/revalidate" (website-url)))
 
 (defun page-url (path &key draft)
   (format nil "~a~a~:[~;?draft-key={DRAFT_KEY}~]" (website-url) path draft))
 
 (defun define-schema ()
   (clear-schema)
-  (defwebhooks (webhook "revalidate" (revalidate-url)))
+  (unless (dev-mode-p)
+    (defwebhooks (webhook "revalidate" (revalidate-url))))
 
   (defmodel blog (:kind :list
                   :label title
