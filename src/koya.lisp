@@ -10,7 +10,7 @@
            #:deploy
            #:pull
            #:webhook-secret
-           #:deploy-at-startup))
+           #:deploy-schema))
 (in-package #:website/koya)
 
 (defun connect ()
@@ -33,11 +33,13 @@
   (connect)
   (koya-sdk/client:webhook-secret))
 
-(defun deploy-at-startup ()
+(defun deploy-schema ()
   (handler-case
       (let ((applied (deploy :force t)))
-        (format t "~&[website] schema deployed: ~a change~:p~%" (length applied)))
+        (format t "~&[website] schema deployed: ~a change~:p~%" (length applied))
+        (finish-output)
+        0)
     (error (e)
-      (format *error-output* "~&[website] schema deploy skipped: ~a~%" e)))
-  (finish-output)
-  (finish-output *error-output*))
+      (format *error-output* "~&[website] schema deploy failed: ~a~%" e)
+      (finish-output *error-output*)
+      1)))

@@ -1,0 +1,92 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+env:
+  IMAGE: ghcr.io/skyizwhite/website
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: fukamachi/qlot
+    permissions:
+      contents: read
+    env:
+      WEBSITE_URL: https://example.com
+    steps:
+      - name: Install system packages
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends build-essential libev-dev
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: .qlot
+          key: qlot-${{ hashFiles('qlfile.lock') }}
+
+      - name: Install dependencies
+        run: for i in 1 2 3 4 5; do qlot install && exit 0; sleep $((i * 5)); done; exit 1
+
+      - name: Run tests
+        run: |
+          qlot exec sbcl --non-interactive \
+            --eval '(ql:quickload :website-tests :silent t)' \
+            --eval '(uiop:quit (if (rove:run :website-tests :style :dot) 0 1))'
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ env.IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy koya schema
+        env:
+          WEBSITE_URL: ${{ vars.WEBSITE_URL }}
+          KOYA_URL: ${{ secrets.KOYA_URL }}
+          KOYA_MANAGEMENT_KEY: ${{ secrets.KOYA_MANAGEMENT_KEY }}
+        run: |
+          docker run --rm \
+            -e WEBSITE_URL -e KOYA_URL -e KOYA_MANAGEMENT_KEY \
+            "$IMAGE:$GITHUB_SHA" deploy-schema
+
+      - name: Tag image as latest
+        run: docker buildx imagetools create --tag "$IMAGE:latest" "$IMAGE:$GITHUB_SHA"
+
+      - name: Trigger Coolify deploy
+        env:
+          COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+        run: |
+          curl --fail-with-body --silent --show-error --request POST "$COOLIFY_WEBHOOK" \
+            --header "Authorization: Bearer $COOLIFY_TOKEN"

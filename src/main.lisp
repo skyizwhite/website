@@ -7,7 +7,7 @@
   (:import-from #:shun
                 #:renew-build-id)
   (:import-from #:website/koya
-                #:deploy-at-startup)
+                #:deploy-schema)
   (:export #:start
            #:stop
            #:reload
@@ -39,11 +39,18 @@
   (ql:quickload :website/app)
   (start))
 
-(defun main ()
+(defun serve ()
   (renew-build-id)
-  (deploy-at-startup)
   (clack:clackup *app* :server :woo :address "0.0.0.0" :port 3000 :debug nil :use-thread nil)
-  (uiop:quit 0))
+  0)
+
+(defun main ()
+  (let ((command (second sb-ext:*posix-argv*)))
+    (uiop:quit
+     (cond ((null command) (serve))
+           ((string= command "deploy-schema") (deploy-schema))
+           (t (format *error-output* "~&Unknown command: ~a~%" command)
+              2)))))
 
 (defun save-executable (path)
   (setf ironclad::*os-prng-stream* nil)
