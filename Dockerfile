@@ -27,6 +27,12 @@ RUN qlot exec sbcl --non-interactive \
       --eval '(ql:quickload "website")' \
       --eval '(website:save-executable "/app/website")'
 
+FROM build AS test
+
+RUN WEBSITE_URL=https://example.com qlot exec sbcl --non-interactive \
+      --eval '(ql:quickload :website-tests :silent t)' \
+      --eval '(uiop:quit (if (rove:run :website-tests :style :dot) 0 1))'
+
 FROM debian:bookworm-slim
 
 RUN apt-get update \

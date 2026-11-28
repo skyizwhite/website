@@ -13,37 +13,7 @@ env:
   IMAGE: ghcr.io/skyizwhite/website
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    container: fukamachi/qlot
-    permissions:
-      contents: read
-    env:
-      WEBSITE_URL: https://example.com
-    steps:
-      - name: Install system packages
-        run: |
-          apt-get update
-          apt-get install -y --no-install-recommends build-essential libev-dev
-
-      - uses: actions/checkout@v7
-
-      - uses: actions/cache@v6
-        with:
-          path: .qlot
-          key: qlot-${{ hashFiles('qlfile.lock') }}
-
-      - name: Install dependencies
-        run: for i in 1 2 3 4 5; do qlot install && exit 0; sleep $((i * 5)); done; exit 1
-
-      - name: Run tests
-        run: |
-          qlot exec sbcl --non-interactive \
-            --eval '(ql:quickload :website-tests :silent t)' \
-            --eval '(uiop:quit (if (rove:run :website-tests :style :dot) 0 1))'
-
   deploy:
-    needs: test
     runs-on: ubuntu-latest
     environment: production
     permissions:
@@ -59,6 +29,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64
+          target: test
+          outputs: type=cacheonly
+          cache-from: type=gha
 
       - name: Build and push image
         uses: docker/build-push-action@v7
