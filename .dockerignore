@@ -11,3 +11,6 @@ docker-compose.yaml
 justfile
 .redis/
 mise.toml
+.github/
+README.md
+.gitignore

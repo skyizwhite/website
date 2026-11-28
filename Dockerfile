@@ -1,4 +1,4 @@
-FROM fukamachi/qlot AS build
+FROM fukamachi/qlot:1.8.4@sha256:b33c9cfee247a120d4a77ce10d9df80d245a794ec4fc7c9f3db9bfb3c1b3a7cc AS build
 
 ARG TARGETARCH
 ARG TW_VERSION=4.3.0
